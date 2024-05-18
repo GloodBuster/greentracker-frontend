@@ -12,4 +12,7 @@ import { environment } from '../environments/environment';
 export class AppComponent {
   title = 'GreenTracker';
   BASE_URL = environment.BASE_URL;
+  constructor(){
+    console.log(this.BASE_URL)
+  }
 }
