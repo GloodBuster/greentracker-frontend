@@ -7,51 +7,10 @@
   overflow-x: hidden;
 
   .login-container {
-    background-color: lightgreen;
-    padding: 20px;
-    width: 300px;
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-    border-radius: 10px;
-
     form {
-      max-width: 300px;
-      width: 100%;
-
-      label {
-        margin: auto;
-      }
-      button {
-        margin-top: 20px;
-        padding: 10px;
-        border-radius: 10px;
-        border: none;
-        outline: none;
-        cursor: pointer;
-
-        &:hover {
-            background-color: lightblue;
-        }
-      }
-      input {
-        width: 70%;
-        padding: 10px;
-        border-radius: 10px;
-        border: none;
-        outline: none;
-        font-size: 14px;
-      }
-        .password-input-container {
-          display: flex;
-          align-items: center;
-          gap: 5px;
-          width: 100%;
-        }
-        img {
-          height: 25px;
-          cursor: pointer;
-        }
+      display: flex;
+      flex-direction: column;
+      gap: 25px;
     }
   }
 }

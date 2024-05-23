@@ -1,34 +1,24 @@
 <main class="login-page">
   <article class="login-container">
-    <h1>Login</h1>
-    <form [formGroup]="userLoginForm" (ngSubmit)="submitForm()">
-      <label>
-        <h2>Email</h2>
-      </label>
-      <input type="text" formControlName="email" />
-      <label class="password-label">
-        <h2>Contraseña</h2>
-      </label>
-      <div class="password-input-container">
-        <input
-          [type]="visiblePassword ? 'text' : 'password'"
+    <form [formGroup]="userLoginForm">
+      <p-floatLabel>
+        <input pInputText id="email" formControlName="email" />
+        <label for="email">Email</label>
+      </p-floatLabel>
+      <p-floatLabel>
+        <p-password
           formControlName="password"
+          [feedback]="false"
+          [toggleMask]="true"
         />
-        @if(visiblePassword){
-        <img
-          (click)="togglePasswordVisibility()"
-          src="/assets/login/eye.svg"
-          alt="eye"
-        />
-        } @else {
-        <img
-          (click)="togglePasswordVisibility()"
-          src="/assets/login/eye-close.svg"
-          alt="eye closed"
-        />
-        }
-      </div>
-      <button type="submit" [disabled]="!userLoginForm.valid" >Iniciar sesión</button>
+        <label for="password">Contraseña</label>
+      </p-floatLabel>
+      <p-button
+        [loading]="loading"
+        [disabled]="!userLoginForm.valid"
+        label="Iniciar Sesión"
+        (onClick)="submitForm()"
+      />
     </form>
   </article>
 </main>
