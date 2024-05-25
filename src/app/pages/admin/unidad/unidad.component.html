@@ -5,7 +5,7 @@
         <h1>Unidades</h1>
         <p-button icon=" pi pi-bell" [raised]="true" severity="secondary"/>
     </div>  
-    <p-button label="+ Crear" [raised]="true" class="unidad-button-add"/>  
+    <p-button label="+ Crear" [raised]="true" class="unidad-button-add" (click)="showDialog()"/>  
     <div class="table-container">
         <p-table styleClass="p-datatable-gridlines" [value]="unitsData" [tableStyle]="{'max-width': '90rem'}">
             <ng-template pTemplate="header">
@@ -32,11 +32,13 @@
                         severity="info" />
                         <p-button icon="pi pi-pencil" class="unidad-button-edit"  
                         [outlined]="true" 
-                        severity="success" />
+                        severity="success" (click)="showDialogEdit()"/>
                     </td>
                 </tr>
             </ng-template>
         </p-table>
     </div>
+    <app-dialog-create [visible]="visible" (hide)="hideDialog()"></app-dialog-create>
+    <app-dialog-edit [visible]="visibleEdit" (hide)="hideDialogEdit()"></app-dialog-edit>
 </div>
 </main>
