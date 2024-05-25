@@ -1,0 +1,50 @@
+[
+    {
+        "id": 1,
+        "nombre": "Nombre 1",
+        "correo": "correo1@example.com",
+        "categorias": ["Categoría 1", "Categoría 2", "Categoría 3", "Categoría 4"]
+    },
+    {
+        "id": 2,
+        "nombre": "Nombre 2",
+        "correo": "correo2@example.com",
+        "categorias": ["Categoría 1", "Categoría 2"]
+    },
+    {
+        "id": 3,
+        "nombre": "Nombre 3",
+        "correo": "correo3@example.com",
+        "categorias": ["Categoría 1", "Categoría 2"]
+    },
+    {
+        "id": 4,
+        "nombre": "Nombre 4",
+        "correo": "correo4@example.com",
+        "categorias": ["Categoría 1", "Categoría 2"]
+    },
+    {
+        "id": 5,
+        "nombre": "Nombre 5",
+        "correo": "correo5@example.com",
+        "categorias": ["Categoría 1", "Categoría 2"]
+    },
+    {
+        "id": 6,
+        "nombre": "Nombre 6",
+        "correo": "correo6@example.com",
+        "categorias": ["Categoría 1", "Categoría 2"]
+    },
+    {
+        "id": 7,
+        "nombre": "Nombre 7",
+        "correo": "correo7@example.com",
+        "categorias": ["Categoría 1", "Categoría 2"]
+    },
+    {
+        "id": 8,
+        "nombre": "Nombre 8",
+        "correo": "correo8@example.com",
+        "categorias": ["Categoría 1", "Categoría 2"]
+    }
+]

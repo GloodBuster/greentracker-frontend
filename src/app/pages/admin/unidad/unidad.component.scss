@@ -1,0 +1,60 @@
+.unidad-page {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: row;
+    overflow-x: hidden;
+    background-color: aquamarine;
+    padding: 30px;
+
+    .unidad-container{
+        padding-left: 20px;
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .unidad-header{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 45px;
+    }
+
+    .unidad-button-add{
+        align-self: flex-end;
+        margin-bottom: 20px;
+    }
+
+    .table-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+}
+
+
+.mr-2 {
+    margin-right: 0.5rem; 
+}
+
+.column-id {
+    width: 5rem;
+}
+
+.column-nombre {
+    width: 20rem;
+}
+
+.column-correo {
+    width: 20rem;
+}
+
+.column-categorias {
+    width: 22rem;
+}
+
+.column-buttons {
+    width: 12rem;
+}
+
