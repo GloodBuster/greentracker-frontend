@@ -29,7 +29,7 @@
                         </td>
                         <td>
                             <p-button icon="pi pi-eye" class="unidad-button-view mr-2" [outlined]="true"
-                                severity="info"/>
+                                severity="info" (click)="view(unit)"/>
                             <p-button icon="pi pi-pencil" class="unidad-button-edit" [outlined]="true"
                                 severity="success" (click)="showDialogEdit(unit)" />
                         </td>
@@ -39,6 +39,15 @@
         </div>
         <app-dialog-create [visible]="visible" (hide)="hideDialog()"></app-dialog-create>
         <app-dialog-edit [unit]="editingUnit" [visible]="visibleEdit" (hide)="hideDialogEdit()"
-            (update)="update($event)"></app-dialog-edit>
+            (update)="update($event)" (delete)="delete($event)"></app-dialog-edit>
+            <p-dialog header="Detalles de la unidad" [(visible)]="visibleView" [modal]="true" [style]="{width: '40vw'}" [baseZIndex]="10000">
+                <div *ngIf="viewingUnit">
+                    <p><strong>ID:</strong> {{viewingUnit.id}}</p>
+                    <p><strong>Nombre:</strong> {{viewingUnit.nombre}}</p>
+                    <p><strong>Correo:</strong> {{viewingUnit.correo}}</p>
+                    <p><strong>Categorías recomendadas:</strong></p>
+                    <p-tag *ngFor="let categoria of viewingUnit.categorias" severity="info" class="mr-2">{{categoria.name}}</p-tag>
+                </div>
+              </p-dialog>
     </div>
 </main>

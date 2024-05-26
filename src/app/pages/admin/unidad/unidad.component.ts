@@ -22,17 +22,15 @@ import { DialogEditComponent } from '../../../components/unidad/dialog-edit/dial
 })
 export class UnidadComponent implements OnInit {
   unitsData: any = (data as any).default;
-   /*unitsData: any = []*/
   visible: boolean = false;
   editingUnit: any;
+  viewingUnit: any;
+  visibleView: boolean = false;
 
   constructor() { }
 
   ngOnInit(): void {
     console.log(this.unitsData);
-    /*this.unitsData = data;
-    console.log("a",data)
-    console.log("e",this.unitsData);*/
   }
 
   showDialog() {
@@ -58,5 +56,19 @@ update(value: any) {
   const indexToUpdate = this.unitsData.findIndex((unit: any) => unit.id === value.id);
   this.unitsData[indexToUpdate] = value;
 
+}
+
+delete(unit: any) {
+  const index = this.unitsData.findIndex((u: any) => u.id === unit.id);
+  this.unitsData.splice(index, 1);
+}
+
+view(unit: any) {
+  this.viewingUnit = unit;
+  this.visibleView = true; 
+}
+
+hideDialogView() {
+  this.visibleView = false;
 }
 }
