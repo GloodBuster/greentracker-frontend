@@ -22,12 +22,17 @@ import { DialogEditComponent } from '../../../components/unidad/dialog-edit/dial
 })
 export class UnidadComponent implements OnInit {
   unitsData: any = (data as any).default;
+   /*unitsData: any = []*/
   visible: boolean = false;
-  visibleEdit: boolean = false;
+  editingUnit: any;
 
   constructor() { }
 
   ngOnInit(): void {
+    console.log(this.unitsData);
+    /*this.unitsData = data;
+    console.log("a",data)
+    console.log("e",this.unitsData);*/
   }
 
   showDialog() {
@@ -38,11 +43,20 @@ export class UnidadComponent implements OnInit {
     this.visible = false;
   }
 
-  showDialogEdit() {
-    this.visibleEdit = true;
-  }
-  
-  hideDialogEdit() {
-    this.visibleEdit = false;
-  }
+  visibleEdit: boolean = false;
+
+showDialogEdit(unit: any) {
+  this.editingUnit = unit;
+  this.visibleEdit = true;
+}
+
+hideDialogEdit() {
+  this.visibleEdit = false;
+}
+
+update(value: any) {
+  const indexToUpdate = this.unitsData.findIndex((unit: any) => unit.id === value.id);
+  this.unitsData[indexToUpdate] = value;
+
+}
 }

@@ -1,0 +1,24 @@
+<p-dialog header="Unidad" [modal]="true" [(visible)]="visible" [style]="{ width: '30rem'}" [closable]="false">
+    <span> Ingrese los datos para crear una nueva unidad</span>
+    <form [formGroup]="unitForm" class="unidad-form">
+        <div class="card flex justify-content-center mt-5 input-container">
+                <label for="nombre">Nombre</label>
+                <input pInputText class="unidad-input" formControlName="nombre" />
+        </div>
+        <div class="card flex justify-content-center mt-5 input-container">
+                <label for="correo">Correo</label>
+                <input pInputText class="unidad-input" formControlName="correo" />
+        </div>
+        <div class="card flex justify-content-center mt-5 input-container">
+        <label>
+          Categorías:
+          <p-multiSelect [options]="categoriesData" appendTo="body" formControlName="categorias" optionLabel="name"></p-multiSelect>
+        </label>
+        </div>
+        <div class="flex justify-content-end gap-2 buttons-container">
+            <p-button icon=" pi pi-trash" [raised]="true" severity="danger" [outlined]="true" class="button1" (click)="hideDialogEdit()"/>
+            <p-button label="Cancelar" severity="secondary" (click)="hideDialogEdit()" class="button1" />
+            <p-button label="Guardar" (click)="submitForm()" [disabled]="!unitForm.valid" />
+        </div>
+      </form>
+</p-dialog>
