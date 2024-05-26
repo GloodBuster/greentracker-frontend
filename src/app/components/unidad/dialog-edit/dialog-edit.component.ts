@@ -9,11 +9,12 @@ import { PanelModule } from 'primeng/panel';
 import { ToastrService } from 'ngx-toastr';
 import { MultiSelectModule } from 'primeng/multiselect';
 import categoriesData from '../../../../assets/categories.json';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-dialog-edit',
   standalone: true,
-  imports: [ReactiveFormsModule, DialogModule, ButtonModule, InputTextModule, FormsModule, FloatLabelModule, PanelModule, MultiSelectModule],
+  imports: [ReactiveFormsModule, DialogModule, ButtonModule, InputTextModule, FormsModule, FloatLabelModule, PanelModule, MultiSelectModule, CommonModule],
   templateUrl: './dialog-edit.component.html',
   styleUrl: './dialog-edit.component.scss'
 })
@@ -22,7 +23,10 @@ export class DialogEditComponent implements OnChanges {
   @Input() visible: boolean = false;
   @Output() hide: EventEmitter<any> = new EventEmitter();
   @Output() update: EventEmitter<any> = new EventEmitter<any>();
+  @Output() delete: EventEmitter<any> = new EventEmitter<any>();
+
   categoriesData = categoriesData;
+  showConfirmDialog = false;
 
   unitForm = new FormGroup({
     id: new FormControl(0),
@@ -62,6 +66,27 @@ export class DialogEditComponent implements OnChanges {
       this.toastService.error('Ha ocurrido un error');
       console.log('Formulario no válido');
     }
+  }
+
+
+  deleteUnit() {
+    if (this.unitForm.valid) {
+      this.showConfirmDialog = true;
+    } else {
+      this.toastService.error('Ha ocurrido un error');
+      console.log('Formulario no válido');
+    }
+  }
+
+  confirmDelete() {
+    this.delete.emit(this.unitForm.value);
+    this.hideDialogEdit();
+    this.toastService.success('Unidad eliminada con éxito');
+    this.showConfirmDialog = false;
+  }
+
+  cancelDelete() {
+    this.showConfirmDialog = false;
   }
 
 }
