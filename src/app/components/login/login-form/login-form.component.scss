@@ -1,0 +1,27 @@
+.user-login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  margin-top: 20px;
+  width: 100%;
+
+  .login-input {
+    width: 100%;
+
+    &:hover,
+    &:focus {
+      border-color: #3ba13f;
+      box-shadow: none;
+    }
+  }
+
+  button {
+    align-self: center;
+    width: 50%;
+    background-color: #3ba13f;
+    outline: none;
+    border: none;
+    display: flex;
+    justify-content: center;
+  }
+}

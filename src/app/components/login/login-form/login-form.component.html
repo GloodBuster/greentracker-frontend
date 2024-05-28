@@ -1,0 +1,25 @@
+<form [formGroup]="userLoginForm" class="user-login-form">
+  <p-floatLabel>
+    <input pInputText id="email" formControlName="email" class="login-input" />
+    <label for="email">Correo institucional</label>
+  </p-floatLabel>
+  <p-floatLabel>
+    <p-password
+      formControlName="password"
+      [feedback]="false"
+      [toggleMask]="true"
+      [style]="{ width: '100%' }"
+      [inputStyle]="{ width: '100%', 'box-shadow': 'none' }"
+      inputStyleClass="login-input"
+    />
+    <label for="password">Contraseña</label>
+  </p-floatLabel>
+  <button
+    pButton
+    [loading]="loading"
+    [raised]="true"
+    [disabled]="!userLoginForm.valid"
+  >
+    Iniciar Sesión
+  </button>
+</form>
