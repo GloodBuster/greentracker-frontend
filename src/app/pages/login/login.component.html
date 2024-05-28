@@ -1,24 +1,13 @@
 <main class="login-page">
   <article class="login-container">
-    <form [formGroup]="userLoginForm">
-      <p-floatLabel>
-        <input pInputText id="email" formControlName="email" />
-        <label for="email">Email</label>
-      </p-floatLabel>
-      <p-floatLabel>
-        <p-password
-          formControlName="password"
-          [feedback]="false"
-          [toggleMask]="true"
-        />
-        <label for="password">Contraseña</label>
-      </p-floatLabel>
-      <p-button
-        [loading]="loading"
-        [disabled]="!userLoginForm.valid"
-        label="Iniciar Sesión"
-        (onClick)="submitForm()"
-      />
-    </form>
+    <section class="login-form">
+      <p-image src="assets\login\sprout.svg" alt="sprout" width="80" />
+      <h1>Iniciar sesión</h1>
+      <p>Ingresa para empezar a registrar el cambio</p>
+      <login-form></login-form>
+    </section>
+    <section class="login-img-container">
+      <p-image src="assets\login\ucab.jpg" alt="sprout" height="100%" />
+    </section>
   </article>
 </main>

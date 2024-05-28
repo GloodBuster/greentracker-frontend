@@ -1,16 +1,35 @@
 .login-page {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  overflow-x: hidden;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  background-color: ie-hex-str($color: #f3f3f3);
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 
   .login-container {
-    form {
+    height: 100%;
+    width: 100%;
+    display: flex;
+
+    .login-form {
+      flex-grow: 1;
       display: flex;
       flex-direction: column;
-      gap: 25px;
+      justify-content: center;
+      padding: 6%;
+
+      h1 {
+        font-size: 30px;
+        font-weight: bold;
+        margin: 0;
+      }
+
+      p {
+        font-size: 15px;
+        color: #484848;
+        font-weight: bold;
+      }
     }
   }
 }
