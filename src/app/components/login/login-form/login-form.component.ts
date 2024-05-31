@@ -12,6 +12,11 @@ import { PanelModule } from 'primeng/panel';
 import { PasswordModule } from 'primeng/password';
 import { AuthService } from '../../../services/auth/auth.service';
 import { ToastrService } from 'ngx-toastr';
+import { LoginForm } from '../../../interfaces/login/login';
+import { CustomHttpErrorResponse } from '../../../interfaces/responses/error';
+import { Router } from '@angular/router';
+import { Role } from '../../../enums/role';
+import { routes } from '../../../routes';
 
 @Component({
   selector: 'login-form',
@@ -30,6 +35,7 @@ import { ToastrService } from 'ngx-toastr';
 export class LoginFormComponent {
   authService = inject(AuthService);
   toastService = inject(ToastrService);
+  router = inject(Router);
 
   loading = false;
 
@@ -39,9 +45,29 @@ export class LoginFormComponent {
   });
 
   submitForm() {
+    const formValues: LoginForm = this.userLoginForm.value as LoginForm;
     this.loading = true;
-    console.log(this.userLoginForm.value);
-    this.toastService.success('Login successful');
-    this.loading = false;
+    this.authService.login(formValues).subscribe({
+      next: (response) => {
+        const data = response.data;
+        localStorage.setItem('token', data.token);
+        this.toastService.success('Logeado con éxito');
+        if (data.user.role === Role.ADMIN) {
+          this.router.navigate([routes.adminHomePage]);
+        } else if (data.user.role === Role.UNIT) {
+          this.router.navigate([routes.unitHomePage]);
+        }
+        this.loading = false;
+      },
+      error: (error: CustomHttpErrorResponse) => {
+        const errorResponse = error.error;
+        if (errorResponse.statusCode === 401) {
+          this.toastService.error('Credenciales inválidas');
+        } else {
+          this.toastService.error('Ha ocurrido un error');
+        }
+        this.loading = false;
+      },
+    });
   }
 }
