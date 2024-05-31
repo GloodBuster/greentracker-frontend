@@ -64,7 +64,7 @@ export class LoginFormComponent {
         if (errorResponse.statusCode === 401) {
           this.toastService.error('Credenciales inválidas');
         } else {
-          this.toastService.error('Ha ocurrido un error');
+          this.toastService.error('Ha ocurrido un error inesperado');
         }
         this.loading = false;
       },
