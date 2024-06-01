@@ -24,11 +24,12 @@ import categoriasData from '../../../../assets/categories.json'
 export class DialogCreateComponent {
 @Input() visible: boolean = false;
 @Output() hide: EventEmitter<any> = new EventEmitter();
+@Output() create: EventEmitter<any> = new EventEmitter<any>();
 
 category: any[] | undefined;
 
     selectedCategory: string | undefined;
-    selectedCategories: any[] = [];
+    categorias: any[] = [];
     ngOnInit() {
       this.category = categoriasData;
     }
@@ -39,17 +40,18 @@ hideDialog() {
 toastService = inject(ToastrService);
 
 unitForm = new FormGroup({
+  id: new FormControl(9),
   nombre: new FormControl('', [Validators.required]),
   correo: new FormControl('', [Validators.required, Validators.email]),
-  selectedCategories: new FormControl([])
+  categorias: new FormControl([])
 });
 
 submitForm() {
   if (this.unitForm.valid) {
     console.log(this.unitForm.value);
+    this.create.emit(this.unitForm.value);
     this.hideDialog();
     this.toastService.success('Unidad creada con éxito');
-    this.unitForm.reset();
   } else {
     this.toastService.error('Ha ocurrido un error');
     console.log('Formulario no válido');

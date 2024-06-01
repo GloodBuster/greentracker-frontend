@@ -52,6 +52,10 @@ hideDialogEdit() {
   this.visibleEdit = false;
 }
 
+create(unit: any) {
+  this.unitsData.push(unit);
+}
+
 update(value: any) {
   const indexToUpdate = this.unitsData.findIndex((unit: any) => unit.id === value.id);
   this.unitsData[indexToUpdate] = value;

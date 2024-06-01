@@ -5,7 +5,7 @@
             <h1>Unidades</h1>
             <p-button icon=" pi pi-bell" [raised]="true" severity="secondary" />
         </div>
-        <p-button label="+ Crear" [raised]="true" class="unidad-button-add" (click)="showDialog()" />
+        <p-button label="+ Crear" [raised]="true" class="unidad-button-add" (click)="showDialog()"/>
         <div class="table-container">
             <p-table styleClass="p-datatable-gridlines" [value]="unitsData" [tableStyle]="{'max-width': '90rem'}">
                 <ng-template pTemplate="header">
@@ -23,9 +23,9 @@
                         <td>{{unit.nombre}}</td>
                         <td>{{unit.correo}}</td>
                         <td>
-                            <p-tag *ngFor="let categoria of unit.categorias.slice(0, 3)" severity="info"
+                            <p-tag *ngFor="let categoria of unit.categorias?.slice(0, 3)" severity="info"
                                 class="mr-2">{{categoria.name}}</p-tag>
-                            <span *ngIf="unit.categorias.length > 3">+{{unit.categorias.length - 3}}</span>
+                            <span *ngIf="unit.categorias?.length > 3">+{{unit.categorias.length - 3}}</span>
                         </td>
                         <td>
                             <p-button icon="pi pi-eye" class="unidad-button-view mr-2" [outlined]="true"
@@ -37,7 +37,7 @@
                 </ng-template>
             </p-table>
         </div>
-        <app-dialog-create [visible]="visible" (hide)="hideDialog()"></app-dialog-create>
+        <app-dialog-create [visible]="visible" (hide)="hideDialog()" (create)="create($event)"></app-dialog-create>
         <app-dialog-edit [unit]="editingUnit" [visible]="visibleEdit" (hide)="hideDialogEdit()"
             (update)="update($event)" (delete)="delete($event)"></app-dialog-edit>
             <p-dialog header="Detalles de la unidad" [(visible)]="visibleView" [modal]="true" [style]="{width: '40vw'}" [baseZIndex]="10000">
