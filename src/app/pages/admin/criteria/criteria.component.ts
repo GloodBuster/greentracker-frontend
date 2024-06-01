@@ -3,13 +3,15 @@ import { ButtonModule } from 'primeng/button';
 import { CriteriaService } from '../../../services/criteria/criteria.service';
 import {
   Criterion,
-  initialCriterion,
+  CriterionForm,
+  initialCriterionForm,
 } from '../../../interfaces/criteria/criteria';
 import { CustomHttpErrorResponse } from '../../../interfaces/responses/error';
 import { ToastrService } from 'ngx-toastr';
 import { TableModule } from 'primeng/table';
 import { DialogCreateComponent } from '../../../components/criteria/dialog-create/dialog-create.component';
 import { DialogEditComponent } from '../../../components/criteria/dialog-edit/dialog-edit.component';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-criteria',
@@ -28,10 +30,16 @@ export class CriteriaComponent {
   toastService = inject(ToastrService);
   visibleEdit = false;
   visibleCreate = false;
-  criterionToEdit: Criterion = initialCriterion;
+  criterionToEdit: CriterionForm = initialCriterionForm;
+  indicatorIndex = 0;
 
-  constructor(private readonly criteriaService: CriteriaService) {
-    this.criteriaService.getCriteriaByIndex(1).subscribe({
+  constructor(
+    private readonly criteriaService: CriteriaService,
+    private readonly route: ActivatedRoute
+  ) {
+    const indicatorIndex = this.route.snapshot.paramMap.get('indicatorIndex');
+    if (indicatorIndex) this.indicatorIndex = parseInt(indicatorIndex);
+    this.criteriaService.getCriteriaByIndex(this.indicatorIndex).subscribe({
       next: (response) => {
         this.criteria = response.data.items;
       },
@@ -48,38 +56,29 @@ export class CriteriaComponent {
 
   editCriterion({
     criterion,
-    indicatorIndex,
     subindex,
   }: {
-    criterion: Criterion;
-    indicatorIndex: number;
+    criterion: CriterionForm;
     subindex: number;
   }) {
     const indexToUpdate = this.criteria.findIndex(
-      (criterion) =>
-        criterion.indicatorIndex === indicatorIndex &&
-        criterion.subindex === subindex
+      (criterion) => criterion.subindex === subindex
     );
-    this.criteria[indexToUpdate] = criterion;
+    this.criteria[indexToUpdate] = {
+      indicatorIndex: this.indicatorIndex,
+      ...criterion,
+    };
   }
 
-  deleteCriterion({
-    indicatorIndex,
-    subindex,
-  }: {
-    indicatorIndex: number;
-    subindex: number;
-  }) {
+  deleteCriterion({ subindex }: { subindex: number }) {
     const index = this.criteria.findIndex(
-      (criterion) =>
-        criterion.indicatorIndex === indicatorIndex &&
-        criterion.subindex === subindex
+      (criterion) => criterion.subindex === subindex
     );
     this.criteria.splice(index, 1);
   }
 
-  addNewCriterion(criterion: Criterion) {
-    this.criteria.push(criterion);
+  addNewCriterion(criterion: CriterionForm) {
+    this.criteria.push({ indicatorIndex: this.indicatorIndex, ...criterion });
   }
 
   showEdit(criterion: Criterion) {
@@ -89,7 +88,7 @@ export class CriteriaComponent {
 
   hideEdit() {
     this.visibleEdit = false;
-    this.criterionToEdit = initialCriterion;
+    this.criterionToEdit = initialCriterionForm;
   }
 
   showCreate() {

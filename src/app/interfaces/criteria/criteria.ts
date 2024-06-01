@@ -6,8 +6,14 @@ export interface Criterion {
   categoryName: string;
 }
 
-export const initialCriterion = {
-  indicatorIndex: 0,
+export interface CriterionForm {
+  subindex: number;
+  englishName: string;
+  spanishAlias: string;
+  categoryName: string;
+}
+
+export const initialCriterionForm = {
   subindex: 0,
   englishName: '',
   spanishAlias: '',

@@ -19,7 +19,8 @@ import { InputNumberModule } from 'primeng/inputnumber';
 import { InputTextModule } from 'primeng/inputtext';
 import {
   Criterion,
-  initialCriterion,
+  CriterionForm,
+  initialCriterionForm,
 } from '../../../interfaces/criteria/criteria';
 
 @Component({
@@ -40,22 +41,17 @@ import {
 })
 export class DialogEditComponent {
   @Input() visible: boolean = false;
-  @Input() criterion: Criterion = initialCriterion;
+  @Input() criterion: CriterionForm = initialCriterionForm;
   @Output() hideDialog: EventEmitter<void> = new EventEmitter();
   @Output() editCriterion: EventEmitter<{
-    criterion: Criterion;
-    indicatorIndex: number;
+    criterion: CriterionForm;
     subindex: number;
   }> = new EventEmitter();
   @Output() deleteCriterion: EventEmitter<{
-    indicatorIndex: number;
     subindex: number;
   }> = new EventEmitter();
 
   criterionForm = new FormGroup({
-    indicatorIndex: new FormControl(this.criterion.indicatorIndex, [
-      Validators.required,
-    ]),
     subindex: new FormControl(this.criterion.subindex, [Validators.required]),
     englishName: new FormControl(this.criterion.englishName, [
       Validators.required,
@@ -71,7 +67,6 @@ export class DialogEditComponent {
   ngOnChanges(changes: SimpleChanges) {
     if (changes['criterion'] && changes['criterion'].currentValue) {
       this.criterionForm.setValue({
-        indicatorIndex: changes['criterion'].currentValue.indicatorIndex,
         subindex: changes['criterion'].currentValue.subindex,
         englishName: changes['criterion'].currentValue.englishName,
         spanishAlias: changes['criterion'].currentValue.spanishAlias,
@@ -83,20 +78,18 @@ export class DialogEditComponent {
   hide() {
     this.hideDialog.emit();
     this.criterionForm.reset();
-    this.criterion = initialCriterion;
+    this.criterion = initialCriterionForm;
   }
   updateCriterion() {
-    const criterion: Criterion = this.criterionForm.value as Criterion;
+    const criterion: CriterionForm = this.criterionForm.value as CriterionForm;
     this.editCriterion.emit({
       criterion,
-      indicatorIndex: this.criterion.indicatorIndex,
       subindex: this.criterion.subindex,
     });
     this.hide();
   }
   removeCriterion() {
     this.deleteCriterion.emit({
-      indicatorIndex: this.criterion.indicatorIndex,
       subindex: this.criterion.subindex,
     });
     this.hide();

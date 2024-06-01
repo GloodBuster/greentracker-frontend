@@ -12,7 +12,10 @@ import { InputNumberModule } from 'primeng/inputnumber';
 import { InputTextModule } from 'primeng/inputtext';
 import { DropdownModule } from 'primeng/dropdown';
 import { CriteriaService } from '../../../services/criteria/criteria.service';
-import { Criterion } from '../../../interfaces/criteria/criteria';
+import {
+  Criterion,
+  CriterionForm,
+} from '../../../interfaces/criteria/criteria';
 import { CustomHttpErrorResponse } from '../../../interfaces/responses/error';
 
 @Component({
@@ -34,11 +37,10 @@ import { CustomHttpErrorResponse } from '../../../interfaces/responses/error';
 export class DialogCreateComponent {
   @Input() visible: boolean = false;
   @Output() hideDialog: EventEmitter<void> = new EventEmitter();
-  @Output() addCriterion: EventEmitter<Criterion> = new EventEmitter();
+  @Output() addCriterion: EventEmitter<CriterionForm> = new EventEmitter();
   criteriaService = inject(CriteriaService);
 
   criterionForm = new FormGroup({
-    indicatorIndex: new FormControl(0, [Validators.required]),
     subindex: new FormControl(0, [Validators.required]),
     englishName: new FormControl('', [Validators.required]),
     spanishAlias: new FormControl('', [Validators.required]),
@@ -52,7 +54,7 @@ export class DialogCreateComponent {
 
   submitForm() {
     if (this.criterionForm.valid) {
-      const criterion = this.criterionForm.value as Criterion;
+      const criterion = this.criterionForm.value as CriterionForm;
       /*this.criteriaService.addNewCriterion(criterion).subscribe({
         next: (response) => {
           console.log(response);
