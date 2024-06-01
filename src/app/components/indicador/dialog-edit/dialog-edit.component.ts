@@ -55,4 +55,24 @@ export class DialogEditComponent {
       console.log('Formulario no válido');
     }
   }
+
+  deleteIndicador() {
+    if (this.indicadorForm.valid) {
+      this.showConfirmDialog = true;
+    } else {
+      this.toastService.error('Ha ocurrido un error');
+      console.log('Formulario no válido');
+    }
+  }
+
+  confirmDelete() {
+    this.delete.emit(this.indicadorForm.value);
+    this.hideDialogEdit();
+    this.toastService.success('Indicador eliminado con éxito');
+    this.showConfirmDialog = false;
+  }
+
+  cancelDelete() {
+    this.showConfirmDialog = false;
+  }
 }

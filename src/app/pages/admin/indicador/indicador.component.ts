@@ -27,7 +27,6 @@ export class IndicadorComponent implements OnInit{
   constructor() { }
 
   ngOnInit(): void {
-    console.log(this.indicatorsData);
   }
   showDialog() {
     this.visible = true;
@@ -51,5 +50,9 @@ export class IndicadorComponent implements OnInit{
   update(value: any) {
     const indexToUpdate = this.indicatorsData.findIndex((indicator: any) => indicator.id === value.id);
     this.indicatorsData[indexToUpdate] = value;
+  }
+  delete(indicador: any) {
+    const index = this.indicatorsData.findIndex((i: any) => i.id === indicador.id);
+    this.indicatorsData.splice(index, 1);
   }
 }

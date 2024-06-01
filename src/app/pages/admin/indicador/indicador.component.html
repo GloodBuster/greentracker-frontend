@@ -31,6 +31,6 @@
             </div>
             <app-dialog-create [visible]="visible" (hide)="hideDialog()" (create)="create($event)"></app-dialog-create>
             <app-dialog-edit [indicador]="editingIndicator" [visible]="visibleEdit" (hide)="hideDialogEdit()"
-            (update)="update($event)"></app-dialog-edit>
+            (update)="update($event)" (delete)="delete($event)"></app-dialog-edit>
     </div>    
 </main>
