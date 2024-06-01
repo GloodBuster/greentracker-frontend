@@ -22,13 +22,15 @@
                         <td>{{indicator.name}}</td>
                         <td>{{indicator.SpanishAlias}}</td>
                         <td>
-                            <p-button icon="pi pi-pencil" class="unidad-button-edit" [outlined]="true"
-                                severity="success" />
+                            <p-button icon="pi pi-pencil" class="indicador-button-edit" [outlined]="true"
+                                severity="success" (click)="showDialogEdit(indicator)"/>
                         </td>
                     </tr>
                 </ng-template>
             </p-table>
             </div>
             <app-dialog-create [visible]="visible" (hide)="hideDialog()" (create)="create($event)"></app-dialog-create>
+            <app-dialog-edit [indicador]="editingIndicator" [visible]="visibleEdit" (hide)="hideDialogEdit()"
+            (update)="update($event)"></app-dialog-edit>
     </div>    
 </main>

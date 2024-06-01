@@ -10,17 +10,19 @@ import { FormsModule } from '@angular/forms';
 import { FloatLabelModule } from 'primeng/floatlabel';
 import * as data from '../../../../assets/indicatorsData.json';
 import { DialogCreateComponent } from '../../../components/indicador/dialog-create/dialog-create.component';
+import { DialogEditComponent } from '../../../components/indicador/dialog-edit/dialog-edit.component';
 
 @Component({
   selector: 'app-indicador',
   standalone: true,
-  imports: [SidebarComponent, ButtonModule, TableModule, CommonModule, TagModule, DialogModule, InputTextModule, FormsModule, FloatLabelModule, DialogCreateComponent],
+  imports: [SidebarComponent, ButtonModule, TableModule, CommonModule, TagModule, DialogModule, InputTextModule, FormsModule, FloatLabelModule, DialogCreateComponent, DialogEditComponent],
   templateUrl: './indicador.component.html',
   styleUrl: './indicador.component.scss'
 })
 export class IndicadorComponent implements OnInit{
   indicatorsData: any = (data as any).default;
   visible: boolean = false;
+  editingIndicator: any;
 
   constructor() { }
 
@@ -35,5 +37,19 @@ export class IndicadorComponent implements OnInit{
   }
   create(indicator: any) {
     this.indicatorsData.push(indicator);
+  }
+  visibleEdit: boolean = false;
+
+  showDialogEdit(indicator: any) {
+    this.editingIndicator = indicator;
+    this.visibleEdit = true;
+  }
+  
+  hideDialogEdit() {
+    this.visibleEdit = false;
+  }
+  update(value: any) {
+    const indexToUpdate = this.indicatorsData.findIndex((indicator: any) => indicator.id === value.id);
+    this.indicatorsData[indexToUpdate] = value;
   }
 }
