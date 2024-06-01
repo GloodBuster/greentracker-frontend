@@ -7,16 +7,26 @@ import { CriteriaComponent } from './pages/admin/criteria/criteria.component';
 export const routes: Routes = [
   {
     path: '',
-    redirectTo: 'login',
-    pathMatch: 'full',
-  },
-  {
-    path: 'login',
     component: LoginComponent,
     canActivate: [hasRoleGuard],
     data: {
       role: Role.UNLOGGED,
     },
+    children: [
+      {
+        path: '',
+        redirectTo: 'login',
+        pathMatch: 'full',
+      },
+      {
+        path: 'login',
+        component: LoginComponent,
+        canActivate: [hasRoleGuard],
+        data: {
+          role: Role.UNLOGGED,
+        },
+      },
+    ],
   },
   {
     path: '',
@@ -26,7 +36,7 @@ export const routes: Routes = [
     },
     children: [
       {
-        path: 'criteria',
+        path: 'criteria/:indicatorIndex',
         component: CriteriaComponent,
       },
     ],
