@@ -5,7 +5,7 @@ import {
   PaginatedResponse,
   Response,
 } from '../../interfaces/responses/response';
-import { Criterion } from '../../interfaces/criteria/criteria';
+import { Criterion, CriterionForm } from '../../interfaces/criteria/criteria';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -23,10 +23,33 @@ export class CriteriaService {
     );
   }
 
-  addNewCriterion(criterion: Criterion): Observable<Response<Criterion>> {
+  addNewCriterion(
+    indicatorIndex: number,
+    criterion: CriterionForm
+  ): Observable<Response<Criterion>> {
     return this.http.post<Response<Criterion>>(
-      `${this.BASE_URL}/indicators/${criterion.indicatorIndex}/criteria`,
+      `${this.BASE_URL}/indicators/${indicatorIndex}/criteria`,
       criterion
+    );
+  }
+
+  updateCriterion(
+    indicatorIndex: number,
+    subindex: number,
+    criterion: CriterionForm
+  ): Observable<Response<Criterion>> {
+    return this.http.put<Response<Criterion>>(
+      `${this.BASE_URL}/indicators/${indicatorIndex}/criteria/${subindex}`,
+      criterion
+    );
+  }
+
+  deleteCriterion(
+    indicatorIndex: number,
+    subindex: number
+  ): Observable<Response<Criterion>> {
+    return this.http.delete<Response<Criterion>>(
+      `${this.BASE_URL}/indicators/${indicatorIndex}/criteria/${subindex}`
     );
   }
 }
