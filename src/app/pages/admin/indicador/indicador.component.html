@@ -1,0 +1,34 @@
+<main class="indicador-page">
+    <app-sidebar></app-sidebar>
+    <div class="indicador-container">
+        <div class="indicador-header">
+            <h1>Indicadores</h1>
+            <p-button icon=" pi pi-bell" [raised]="true" severity="secondary" />
+        </div>
+        <p-button label="+ Crear" [raised]="true" class="indicador-button-add" (click)="showDialog()"/>
+        <div class="table-container">
+            <p-table styleClass="p-datatable-gridlines" [value]="indicatorsData" [tableStyle]="{'min-width': '75rem'}" scrollable="true" scrollHeight="40rem">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th class="column-id">ID</th>
+                        <th class="column-nombre">Nombre</th>
+                        <th class="column-correo">Alias en español</th>
+                        <th class="column-buttons"></th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-indicator>
+                    <tr>
+                        <td>{{indicator.id}}</td>
+                        <td>{{indicator.name}}</td>
+                        <td>{{indicator.SpanishAlias}}</td>
+                        <td>
+                            <p-button icon="pi pi-pencil" class="unidad-button-edit" [outlined]="true"
+                                severity="success" />
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+            </div>
+            <app-dialog-create [visible]="visible" (hide)="hideDialog()" (create)="create($event)"></app-dialog-create>
+    </div>    
+</main>
