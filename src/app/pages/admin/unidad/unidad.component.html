@@ -7,7 +7,7 @@
         </div>
         <p-button label="+ Crear" [raised]="true" class="unidad-button-add" (click)="showDialog()"/>
         <div class="table-container">
-            <p-table styleClass="p-datatable-gridlines" [value]="unitsData" [tableStyle]="{'max-width': '90rem'}">
+            <p-table styleClass="p-datatable-gridlines" [value]="unitsData" [tableStyle]="{'max-width': '90rem'}" scrollable="true" scrollHeight="40rem">
                 <ng-template pTemplate="header">
                     <tr>
                         <th class="column-id">ID</th>
