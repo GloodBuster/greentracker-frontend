@@ -43,6 +43,7 @@ export class DialogCreateComponent {
   criteriaService = inject(CriteriaService);
   toastService = inject(ToastrService);
   indicatorIndex = 0;
+  loading = false;
 
   constructor(private readonly route: ActivatedRoute) {
     const indicatorIndex = this.route.snapshot.paramMap.get('indicatorIndex');
@@ -63,6 +64,7 @@ export class DialogCreateComponent {
 
   submitForm() {
     if (this.criterionForm.valid) {
+      this.loading = true;
       const criterion = this.criterionForm.value as CriterionForm;
       this.criteriaService
         .addNewCriterion(this.indicatorIndex, criterion)
@@ -70,10 +72,12 @@ export class DialogCreateComponent {
           next: (response) => {
             this.addCriterion.emit(response.data);
             this.toastService.success('Criterio agregado con éxito');
+            this.loading = false;
             this.hide();
           },
           error: (error: CustomHttpErrorResponse) => {
             this.toastService.error('Ha ocurrido un error inesperado');
+            this.loading = false;
           },
         });
     }
