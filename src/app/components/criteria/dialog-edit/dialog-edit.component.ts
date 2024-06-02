@@ -59,6 +59,8 @@ export class DialogEditComponent {
   criteriaService = inject(CriteriaService);
   toastService = inject(ToastrService);
   visibleDelete = false;
+  loading = false;
+  deleteLoading = false;
 
   constructor(private readonly route: ActivatedRoute) {
     const indicatorIndex = this.route.snapshot.paramMap.get('indicatorIndex');
@@ -96,6 +98,7 @@ export class DialogEditComponent {
   }
   updateCriterion() {
     if (this.criterionForm.valid) {
+      this.loading = true;
       const criterion: CriterionForm = this.criterionForm
         .value as CriterionForm;
       this.criteriaService
@@ -111,9 +114,11 @@ export class DialogEditComponent {
               subindex: this.criterion.subindex,
             });
             this.toastService.success('Criterio actualizado con éxito');
+            this.loading = false;
             this.hide();
           },
           error: (error: CustomHttpErrorResponse) => {
+            this.loading = false;
             this.toastService.error('Ha ocurrido un error inesperado');
           },
         });
@@ -125,6 +130,7 @@ export class DialogEditComponent {
   }
 
   confirmDelete() {
+    this.deleteLoading = true;
     this.criteriaService
       .deleteCriterion(this.indicatorIndex, this.criterion.subindex)
       .subscribe({
@@ -133,10 +139,12 @@ export class DialogEditComponent {
             subindex: response.data.subindex,
           });
           this.toastService.success('Se ha eliminado el criterio');
+          this.deleteLoading = false;
           this.hideDelete();
           this.hide();
         },
         error: (error: CustomHttpErrorResponse) => {
+          this.deleteLoading = false;
           this.toastService.error('Ha ocurrido un error inesperado');
         },
       });
