@@ -47,6 +47,12 @@
           </tr>
         </ng-template>
       </p-table>
+      <p-paginator
+        [first]="first"
+        [rows]="paginationRows"
+        [totalRecords]="totalRecords"
+        (onPageChange)="onPageChange($event)"
+      />
     </section>
     <app-dialog-create
       [visible]="visibleCreate"

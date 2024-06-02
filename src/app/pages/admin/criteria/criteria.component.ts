@@ -12,6 +12,14 @@ import { TableModule } from 'primeng/table';
 import { DialogCreateComponent } from '../../../components/criteria/dialog-create/dialog-create.component';
 import { DialogEditComponent } from '../../../components/criteria/dialog-edit/dialog-edit.component';
 import { ActivatedRoute } from '@angular/router';
+import { PaginatorModule } from 'primeng/paginator';
+
+interface PageEvent {
+  first?: number;
+  rows?: number;
+  page?: number;
+  pageCount?: number;
+}
 
 @Component({
   selector: 'app-criteria',
@@ -21,6 +29,7 @@ import { ActivatedRoute } from '@angular/router';
     TableModule,
     DialogCreateComponent,
     DialogEditComponent,
+    PaginatorModule,
   ],
   templateUrl: './criteria.component.html',
   styleUrl: './criteria.component.scss',
@@ -32,6 +41,9 @@ export class CriteriaComponent {
   visibleCreate = false;
   criterionToEdit: CriterionForm = initialCriterionForm;
   indicatorIndex = 0;
+  totalRecords = 0;
+  paginationRows = 10;
+  first = 0;
 
   constructor(
     private readonly criteriaService: CriteriaService,
@@ -42,6 +54,8 @@ export class CriteriaComponent {
     this.criteriaService.getCriteriaByIndex(this.indicatorIndex).subscribe({
       next: (response) => {
         this.criteria = response.data.items;
+        this.totalRecords = response.data.itemCount;
+        this.paginationRows = response.data.itemsPerPage;
       },
       error: (error: CustomHttpErrorResponse) => {
         const errorResponse = error.error;
@@ -97,5 +111,26 @@ export class CriteriaComponent {
 
   hideCreate() {
     this.visibleCreate = false;
+  }
+
+  onPageChange(event: PageEvent) {
+    this.criteriaService
+      .getCriteriaByIndex(this.indicatorIndex, event.page ? event.page + 1 : 1)
+      .subscribe({
+        next: (response) => {
+          this.criteria = response.data.items;
+          this.totalRecords = response.data.itemCount;
+          this.paginationRows = response.data.itemsPerPage;
+          if (event.first) this.first = event.first;
+        },
+        error: (error: CustomHttpErrorResponse) => {
+          const errorResponse = error.error;
+          if (errorResponse.statusCode === 401) {
+            this.toastService.error('Acceso denegado');
+          } else {
+            this.toastService.error('Ha ocurrido un error inesperado');
+          }
+        },
+      });
   }
 }
