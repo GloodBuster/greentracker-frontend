@@ -22,10 +22,6 @@ export const routes: Routes = [
       {
         path: 'login',
         component: LoginComponent,
-        canActivate: [hasRoleGuard],
-        data: {
-          role: Role.UNLOGGED,
-        },
       },
     ],
   },
