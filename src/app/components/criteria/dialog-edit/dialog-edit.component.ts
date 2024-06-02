@@ -1,6 +1,7 @@
 import {
   Component,
   EventEmitter,
+  inject,
   Input,
   Output,
   SimpleChanges,
@@ -22,6 +23,10 @@ import {
   CriterionForm,
   initialCriterionForm,
 } from '../../../interfaces/criteria/criteria';
+import { ActivatedRoute } from '@angular/router';
+import { CriteriaService } from '../../../services/criteria/criteria.service';
+import { CustomHttpErrorResponse } from '../../../interfaces/responses/error';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-dialog-edit',
@@ -50,6 +55,15 @@ export class DialogEditComponent {
   @Output() deleteCriterion: EventEmitter<{
     subindex: number;
   }> = new EventEmitter();
+  indicatorIndex = 0;
+  criteriaService = inject(CriteriaService);
+  toastService = inject(ToastrService);
+  visibleDelete = false;
+
+  constructor(private readonly route: ActivatedRoute) {
+    const indicatorIndex = this.route.snapshot.paramMap.get('indicatorIndex');
+    if (indicatorIndex) this.indicatorIndex = parseInt(indicatorIndex);
+  }
 
   criterionForm = new FormGroup({
     subindex: new FormControl(this.criterion.subindex, [Validators.required]),
@@ -81,17 +95,54 @@ export class DialogEditComponent {
     this.criterion = initialCriterionForm;
   }
   updateCriterion() {
-    const criterion: CriterionForm = this.criterionForm.value as CriterionForm;
-    this.editCriterion.emit({
-      criterion,
-      subindex: this.criterion.subindex,
-    });
-    this.hide();
+    if (this.criterionForm.valid) {
+      const criterion: CriterionForm = this.criterionForm
+        .value as CriterionForm;
+      this.criteriaService
+        .updateCriterion(
+          this.indicatorIndex,
+          this.criterion.subindex,
+          criterion
+        )
+        .subscribe({
+          next: (response) => {
+            this.editCriterion.emit({
+              criterion: response.data,
+              subindex: this.criterion.subindex,
+            });
+            this.toastService.success('Criterio actualizado con éxito');
+            this.hide();
+          },
+          error: (error: CustomHttpErrorResponse) => {
+            this.toastService.error('Ha ocurrido un error inesperado');
+          },
+        });
+    }
   }
-  removeCriterion() {
-    this.deleteCriterion.emit({
-      subindex: this.criterion.subindex,
-    });
-    this.hide();
+
+  hideDelete() {
+    this.visibleDelete = false;
+  }
+
+  confirmDelete() {
+    this.criteriaService
+      .deleteCriterion(this.indicatorIndex, this.criterion.subindex)
+      .subscribe({
+        next: (response) => {
+          this.deleteCriterion.emit({
+            subindex: response.data.subindex,
+          });
+          this.toastService.success('Se ha eliminado el criterio');
+          this.hideDelete();
+          this.hide();
+        },
+        error: (error: CustomHttpErrorResponse) => {
+          this.toastService.error('Ha ocurrido un error inesperado');
+        },
+      });
+  }
+
+  showDelete() {
+    this.visibleDelete = true;
   }
 }

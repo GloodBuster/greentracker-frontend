@@ -17,6 +17,8 @@ import {
   CriterionForm,
 } from '../../../interfaces/criteria/criteria';
 import { CustomHttpErrorResponse } from '../../../interfaces/responses/error';
+import { ActivatedRoute } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-dialog-create',
@@ -39,6 +41,13 @@ export class DialogCreateComponent {
   @Output() hideDialog: EventEmitter<void> = new EventEmitter();
   @Output() addCriterion: EventEmitter<CriterionForm> = new EventEmitter();
   criteriaService = inject(CriteriaService);
+  toastService = inject(ToastrService);
+  indicatorIndex = 0;
+
+  constructor(private readonly route: ActivatedRoute) {
+    const indicatorIndex = this.route.snapshot.paramMap.get('indicatorIndex');
+    if (indicatorIndex) this.indicatorIndex = parseInt(indicatorIndex);
+  }
 
   criterionForm = new FormGroup({
     subindex: new FormControl(0, [Validators.required]),
@@ -55,17 +64,18 @@ export class DialogCreateComponent {
   submitForm() {
     if (this.criterionForm.valid) {
       const criterion = this.criterionForm.value as CriterionForm;
-      /*this.criteriaService.addNewCriterion(criterion).subscribe({
-        next: (response) => {
-          console.log(response);
-          this.addCriterion.emit(response.data);
-        },
-        error: (error: CustomHttpErrorResponse) => {
-          console.log(error);
-        },
-      });*/
-      this.addCriterion.emit(criterion);
-      this.hide();
+      this.criteriaService
+        .addNewCriterion(this.indicatorIndex, criterion)
+        .subscribe({
+          next: (response) => {
+            this.addCriterion.emit(response.data);
+            this.toastService.success('Criterio agregado con éxito');
+            this.hide();
+          },
+          error: (error: CustomHttpErrorResponse) => {
+            this.toastService.error('Ha ocurrido un error inesperado');
+          },
+        });
     }
   }
 }

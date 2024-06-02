@@ -29,7 +29,7 @@ export class CriteriaService {
   ): Observable<Response<Criterion>> {
     return this.http.post<Response<Criterion>>(
       `${this.BASE_URL}/indicators/${indicatorIndex}/criteria`,
-      criterion
+      { indicatorIndex, ...criterion }
     );
   }
 
@@ -40,7 +40,7 @@ export class CriteriaService {
   ): Observable<Response<Criterion>> {
     return this.http.put<Response<Criterion>>(
       `${this.BASE_URL}/indicators/${indicatorIndex}/criteria/${subindex}`,
-      criterion
+      { indicatorIndex, ...criterion }
     );
   }
 
