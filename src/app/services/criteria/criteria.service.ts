@@ -16,10 +16,12 @@ export class CriteriaService {
   private readonly BASE_URL = environment.BASE_URL;
 
   getCriteriaByIndex(
-    indicatorIndex: number
+    indicatorIndex: number,
+    page: number = 1,
+    itemsPerPage: number = 10
   ): Observable<PaginatedResponse<Criterion>> {
     return this.http.get<PaginatedResponse<Criterion>>(
-      `${this.BASE_URL}/indicators/${indicatorIndex}/criteria`
+      `${this.BASE_URL}/indicators/${indicatorIndex}/criteria?pageIndex=${page}&itemsPerPage=${itemsPerPage}`
     );
   }
 
