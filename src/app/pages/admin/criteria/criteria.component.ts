@@ -11,7 +11,7 @@ import { ToastrService } from 'ngx-toastr';
 import { TableModule } from 'primeng/table';
 import { DialogCreateComponent } from '../../../components/criteria/dialog-create/dialog-create.component';
 import { DialogEditComponent } from '../../../components/criteria/dialog-edit/dialog-edit.component';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { PaginatorModule } from 'primeng/paginator';
 
 interface PageEvent {
@@ -47,24 +47,32 @@ export class CriteriaComponent {
 
   constructor(
     private readonly criteriaService: CriteriaService,
-    private readonly route: ActivatedRoute
+    private readonly route: ActivatedRoute,
+    private readonly router: Router
   ) {
     const indicatorIndex = this.route.snapshot.paramMap.get('indicatorIndex');
     if (indicatorIndex) this.indicatorIndex = parseInt(indicatorIndex);
-    this.criteriaService.getCriteriaByIndex(this.indicatorIndex).subscribe({
-      next: (response) => {
-        this.criteria = response.data.items;
-        this.totalRecords = response.data.itemCount;
-        this.paginationRows = response.data.itemsPerPage;
-      },
-      error: (error: CustomHttpErrorResponse) => {
-        const errorResponse = error.error;
-        if (errorResponse.statusCode === 401) {
-          this.toastService.error('Acceso denegado');
-        } else {
-          this.toastService.error('Ha ocurrido un error inesperado');
-        }
-      },
+
+    this.route.queryParams.subscribe((params) => {
+      const page = +params['page'] || 1;
+      this.first = (page - 1) * this.paginationRows;
+      this.criteriaService
+        .getCriteriaByIndex(this.indicatorIndex, page)
+        .subscribe({
+          next: (response) => {
+            this.criteria = response.data.items;
+            this.totalRecords = response.data.itemCount;
+            this.paginationRows = response.data.itemsPerPage;
+          },
+          error: (error: CustomHttpErrorResponse) => {
+            const errorResponse = error.error;
+            if (errorResponse.statusCode === 401) {
+              this.toastService.error('Acceso denegado');
+            } else {
+              this.toastService.error('Ha ocurrido un error inesperado');
+            }
+          },
+        });
     });
   }
 
@@ -120,8 +128,14 @@ export class CriteriaComponent {
         next: (response) => {
           this.criteria = response.data.items;
           this.totalRecords = response.data.itemCount;
-          this.paginationRows = response.data.itemsPerPage;
+          if (event.rows) this.paginationRows = event.rows;
           if (event.first) this.first = event.first;
+
+          this.router.navigate([], {
+            relativeTo: this.route,
+            queryParams: { page: event.page ? event.page + 1 : 1 },
+            queryParamsHandling: 'merge', // preserve the existing query params
+          });
         },
         error: (error: CustomHttpErrorResponse) => {
           const errorResponse = error.error;
