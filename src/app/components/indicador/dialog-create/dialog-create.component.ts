@@ -11,6 +11,9 @@ import { FloatLabelModule } from 'primeng/floatlabel';
 import { ButtonModule } from 'primeng/button';
 import { PanelModule } from 'primeng/panel';
 import { ToastrService } from 'ngx-toastr';
+import { IndicatorService } from '../../../services/indicator/indicator.service';
+import { Indicator } from '../../../interfaces/indicator/indicator';
+import { ErrorResponse } from '../../../interfaces/responses/error';
 
 @Component({
   selector: 'app-dialog-create',
@@ -24,22 +27,38 @@ export class DialogCreateComponent {
   @Output() hide: EventEmitter<any> = new EventEmitter();
   @Output() create: EventEmitter<any> = new EventEmitter<any>();
 
+  constructor(private indicatorService: IndicatorService) { }
+
   hideDialog() {
     this.hide.emit();
   }
   toastService = inject(ToastrService);
   indicatorForm = new FormGroup({
-    id: new FormControl(12),
-    name: new FormControl('', [Validators.required]),
-    SpanishAlias: new FormControl('', [Validators.required]),
+    index: new FormControl(0, [Validators.required]),
+    englishName: new FormControl('', [Validators.required]),
+    spanishAlias: new FormControl('', [Validators.required]),
   });
 
   submitForm() {
     if (this.indicatorForm.valid) {
-      console.log(this.indicatorForm.value);
-      this.create.emit(this.indicatorForm.value);
-      this.hideDialog();
-      this.toastService.success('Indicador creado con éxito');
+      const indicator: Indicator = {
+        index: this.indicatorForm.value.index ?? 0, 
+        englishName: this.indicatorForm.value.englishName ?? '', 
+        spanishAlias: this.indicatorForm.value.spanishAlias ?? '', 
+      };
+  
+      this.indicatorService.createIndicator(indicator).subscribe(
+        (response) => {
+          this.create.emit(this.indicatorForm.value);
+          this.hideDialog();
+          this.toastService.success('Indicador creado con éxito');
+          this.indicatorForm.reset();
+        },
+        (error: ErrorResponse) => {
+          this.toastService.error(error.message);
+          console.log('Error al crear el indicador:', error.message);
+        }
+      );
     } else {
       this.toastService.error('Ha ocurrido un error');
       console.log('Formulario no válido');
