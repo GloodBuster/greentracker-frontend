@@ -8,9 +8,11 @@ import { DialogModule } from 'primeng/dialog';
 import { InputTextModule } from 'primeng/inputtext';
 import { FormsModule } from '@angular/forms';
 import { FloatLabelModule } from 'primeng/floatlabel';
-import * as data from '../../../../assets/indicatorsData.json';
 import { DialogCreateComponent } from '../../../components/indicador/dialog-create/dialog-create.component';
 import { DialogEditComponent } from '../../../components/indicador/dialog-edit/dialog-edit.component';
+import { IndicatorService } from '../../../services/indicator/indicator.service';
+import { Indicator } from '../../../interfaces/indicator/indicator';
+import { CustomHttpErrorResponse } from '../../../interfaces/responses/error';
 
 @Component({
   selector: 'app-indicador',
@@ -19,15 +21,22 @@ import { DialogEditComponent } from '../../../components/indicador/dialog-edit/d
   templateUrl: './indicador.component.html',
   styleUrl: './indicador.component.scss'
 })
-export class IndicadorComponent implements OnInit{
-  indicatorsData: any = (data as any).default;
+export class IndicadorComponent {
+  indicatorsData: Indicator[] = [];
   visible: boolean = false;
   editingIndicator: any;
 
-  constructor() { }
-
-  ngOnInit(): void {
+  constructor(private readonly indicatorService: IndicatorService) { 
+    this.indicatorService.getIndicators().subscribe({
+      next: (response) => {
+        this.indicatorsData = response.data.items;
+      },
+      error: (error: CustomHttpErrorResponse) => {
+        console.error(error);
+      }
+    })
   }
+  
   showDialog() {
     this.visible = true;
   }
@@ -46,13 +55,15 @@ export class IndicadorComponent implements OnInit{
   
   hideDialogEdit() {
     this.visibleEdit = false;
+    this.editingIndicator = {index: 0, englishName: '', spanishAlias: ''};
   }
-  update(value: any) {
-    const indexToUpdate = this.indicatorsData.findIndex((indicator: any) => indicator.id === value.id);
+
+  update({value,index}: { value: Indicator, index: number }) {
+    const indexToUpdate = this.indicatorsData.findIndex((indicator) => indicator.index === index);
     this.indicatorsData[indexToUpdate] = value;
   }
-  delete(indicador: any) {
-    const index = this.indicatorsData.findIndex((i: any) => i.id === indicador.id);
-    this.indicatorsData.splice(index, 1);
+  delete(index: number) {
+    const indexDelete = this.indicatorsData.findIndex((i) => i.index === index);
+    this.indicatorsData.splice(indexDelete, 1);
   }
 }

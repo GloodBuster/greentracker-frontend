@@ -10,17 +10,17 @@
             <p-table styleClass="p-datatable-gridlines" [value]="indicatorsData" [tableStyle]="{'min-width': '75rem'}" scrollable="true" scrollHeight="40rem">
                 <ng-template pTemplate="header">
                     <tr>
-                        <th class="column-id">ID</th>
-                        <th class="column-nombre">Nombre</th>
+                        <th class="column-id">Índice</th>
+                        <th class="column-nombre">Nombre en inglés</th>
                         <th class="column-correo">Alias en español</th>
                         <th class="column-buttons"></th>
                     </tr>
                 </ng-template>
                 <ng-template pTemplate="body" let-indicator>
                     <tr>
-                        <td>{{indicator.id}}</td>
-                        <td>{{indicator.name}}</td>
-                        <td>{{indicator.SpanishAlias}}</td>
+                        <td>{{indicator.index}}</td>
+                        <td>{{indicator.englishName}}</td>
+                        <td>{{indicator.spanishAlias}}</td>
                         <td>
                             <p-button icon="pi pi-pencil" class="indicador-button-edit" [outlined]="true"
                                 severity="success" (click)="showDialogEdit(indicator)"/>
