@@ -1,27 +1,35 @@
 <p-dialog header="Indicador" [modal]="true" [(visible)]="visible" [style]="{ width: '30rem'}" [closable]="false">
-    <span> Ingrese los nuevos datos del indicador</span>
-    <form [formGroup]="indicadorForm" class="indicador-form">
-        <div class="card flex justify-content-center mt-5 input-container">
-                <label for="name">Nombre</label>
-                <input pInputText class="indicador-input" formControlName="name" />
-        </div>
-        <div class="card flex justify-content-center mt-5 input-container">
-                <label for="SpanishAlias">Correo</label>
-                <input pInputText class="indicador-input" formControlName="SpanishAlias" />
-        </div>
-        <div class="flex justify-content-end gap-2 buttons-container">
-            <p-button icon=" pi pi-trash" [raised]="true" severity="danger" [outlined]="true" class="button1" (click)="deleteIndicador()"/>
-            <p-button label="Cancelar" severity="secondary" (click)="hideDialogEdit()" class="button1" />
-            <p-button label="Guardar" (click)="submitForm()" [disabled]="!indicadorForm.valid" />
-        </div>
-      </form>
-      <div *ngIf="showConfirmDialog" class="modal">
-        <p-dialog header="Confirmar eliminación" [(visible)]="showConfirmDialog" [modal]="true" [style]="{width: '50vw'}" [baseZIndex]="10000">
-            <p>¿Estás seguro de que quieres eliminar esta unidad?</p>
-            <p-footer>
-              <p-button icon="pi pi-check" label="Eliminar" severity="danger" [outlined]="true" (click)="confirmDelete()"/>
-              <p-button icon="pi pi-times" label="Cancelar" (click)="cancelDelete()"/>
-            </p-footer>
-          </p-dialog>
-      </div>
+  <span> Ingrese los nuevos datos del indicador</span>
+  <form [formGroup]="indicadorForm" class="indicador-form">
+    <div class="card flex justify-content-center mt-5 input-container">
+      <label for="index">Index</label>
+      <input pInputText class="indicador-input" formControlName="index" />
+    </div>
+    <div class="card flex justify-content-center mt-5 input-container">
+      <label for="englishName">Nombre en inglés</label>
+      <input pInputText class="indicador-input" formControlName="englishName" />
+    </div>
+    <div class="card flex justify-content-center mt-5 input-container">
+      <label for="spanishAlias">Alias en español</label>
+      <input pInputText class="indicador-input" formControlName="spanishAlias" />
+    </div>
+    <div class="flex justify-content-end gap-2 buttons-container">
+      <div class="primaryButtons">
+        <p-button label="Cancelar" severity="secondary" (click)="hideDialogEdit()" class="button1" />
+        <p-button label="Guardar" (click)="submitForm()" [disabled]="!indicadorForm.valid" />
+      </div>  
+      <p-button icon=" pi pi-trash" [raised]="true" severity="danger" [outlined]="true" class="button1"
+        (click)="deleteIndicador()" />
+    </div>
+  </form>
+  <div *ngIf="showConfirmDialog" class="modal">
+    <p-dialog header="Confirmar eliminación" [(visible)]="showConfirmDialog" [modal]="true" [style]="{width: '50vw'}"
+      [baseZIndex]="10000">
+      <p>¿Estás seguro de que quieres eliminar esta unidad?</p>
+      <p-footer>
+        <p-button icon="pi pi-check" label="Eliminar" severity="danger" [outlined]="true" (click)="confirmDelete()" />
+        <p-button icon="pi pi-times" label="Cancelar" (click)="cancelDelete()" />
+      </p-footer>
+    </p-dialog>
+  </div>
 </p-dialog>
