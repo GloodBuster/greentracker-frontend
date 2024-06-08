@@ -2,26 +2,42 @@ import { Routes } from '@angular/router';
 import { LoginComponent } from './pages/login/login.component';
 import { hasRoleGuard } from './guards/role.guard';
 import { Role } from './enums/role';
+import { CriteriaComponent } from './pages/admin/criteria/criteria.component';
+import { NotFoundComponent } from './pages/not-found/not-found.component';
 
 export const routes: Routes = [
   {
     path: '',
-    redirectTo: 'login',
-    pathMatch: 'full',
-  },
-  {
-    path: 'login',
     component: LoginComponent,
+    canActivate: [hasRoleGuard],
+    data: {
+      role: Role.UNLOGGED,
+    },
+    children: [
+      {
+        path: '',
+        redirectTo: 'login',
+        pathMatch: 'full',
+      },
+      {
+        path: 'login',
+        component: LoginComponent,
+      },
+    ],
   },
   {
     path: '',
     canActivate: [hasRoleGuard],
     data: {
-      role: Role.ADMIN,
+      role: Role.SUPER_ADMIN,
     },
-    children: [],
+    children: [
+      {
+        path: 'criteria/:indicatorIndex',
+        component: CriteriaComponent,
+      },
+    ],
   },
-
   {
     path: '',
     canActivate: [hasRoleGuard],
@@ -29,5 +45,10 @@ export const routes: Routes = [
       role: Role.UNIT,
     },
     children: [],
+  },
+  {
+    path: '**',
+    pathMatch: 'full',
+    component: NotFoundComponent,
   },
 ];

@@ -1,0 +1,67 @@
+<p-dialog
+  header="Criterio"
+  [modal]="true"
+  [(visible)]="visible"
+  [closable]="false"
+>
+  <h3>Ingrese los datos para crear un nuego criterio</h3>
+  <form [formGroup]="criterionForm" class="edit-form">
+    <div class="input-container">
+      <label for="integeronly">Subíndice</label>
+      <p-inputNumber inputId="integeronly" formControlName="subindex" />
+    </div>
+    <div class="input-container">
+      <label>Nombre en inglés</label>
+      <input type="text" pInputText formControlName="englishName" />
+    </div>
+    <div class="input-container">
+      <label>Alias en español</label>
+      <input type="text" pInputText formControlName="spanishAlias" />
+    </div>
+    <div class="input-container">
+      <label>Categoría</label>
+      <input type="text" pInputText formControlName="categoryName" />
+      <!--<p-dropdown
+        formControlName="categoryName"
+        optionLabel="name"
+        placeholder="Selecciona una categoría"
+      />-->
+    </div>
+    <div class="buttons-container">
+      <p-button label="Cancelar" severity="secondary" (click)="hide()" />
+      <p-button
+        label="Guardar"
+        (click)="updateCriterion()"
+        [disabled]="!criterionForm.valid"
+        [loading]="loading"
+      />
+      <p-button
+        class="delete-button"
+        icon=" pi pi-trash"
+        [raised]="true"
+        severity="danger"
+        [outlined]="true"
+        (click)="showDelete()"
+      />
+    </div>
+  </form>
+  <p-dialog
+    header="Confirmar eliminación"
+    [(visible)]="visibleDelete"
+    [modal]="true"
+    [baseZIndex]="10000"
+  >
+    <p>¿Estás seguro de que quieres eliminar esta unidad?</p>
+    <p-footer>
+      <p-button
+        icon="pi pi-check"
+        label="Eliminar"
+        severity="danger"
+        [outlined]="true"
+        (click)="confirmDelete()"
+        [loading]="deleteLoading"
+      />
+      <p-button icon="pi pi-times" label="Cancelar" (click)="hideDelete()" />
+    </p-footer>
+  </p-dialog>
+</p-dialog>

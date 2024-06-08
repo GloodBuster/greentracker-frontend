@@ -1,0 +1,70 @@
+<main class="criteria-page">
+  <article>
+    <header class="criteria-page-header">
+      <div class="criteria-top-header">
+        <h1>Criterios</h1>
+        <p-button icon=" pi pi-bell" [raised]="true" severity="success" />
+      </div>
+      <p-button
+        label="+ Crear"
+        [raised]="true"
+        class="add-button"
+        (click)="showCreate()"
+      />
+    </header>
+
+    <section class="criteria-table-container">
+      <p-table [value]="criteria">
+        <ng-template pTemplate="header">
+          <tr>
+            <th>Indicador</th>
+            <th>Subíndice</th>
+            <th>Nombre</th>
+            <th>Alias</th>
+            <th>Categoría</th>
+            <th></th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-criterion>
+          <tr>
+            <td>{{ criterion.indicatorIndex }}</td>
+            <td>{{ criterion.subindex }}</td>
+            <td>{{ criterion.englishName }}</td>
+            <td>
+              {{ criterion.spanishAlias }}
+            </td>
+            <td>
+              {{ criterion.categoryName }}
+            </td>
+            <td>
+              <p-button
+                icon="pi pi-pencil"
+                [outlined]="true"
+                severity="success"
+                (click)="showEdit(criterion)"
+              />
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+      <p-paginator
+        [first]="first"
+        [rows]="paginationRows"
+        [totalRecords]="totalRecords"
+        (onPageChange)="onPageChange($event)"
+      />
+    </section>
+    <app-dialog-create
+      [visible]="visibleCreate"
+      (hideDialog)="hideCreate()"
+      (addCriterion)="addNewCriterion($event)"
+    ></app-dialog-create>
+    <app-dialog-edit
+      [visible]="visibleEdit"
+      (hideDialog)="hideEdit()"
+      [criterion]="criterionToEdit"
+      (editCriterion)="editCriterion($event)"
+      (deleteCriterion)="deleteCriterion($event)"
+    ></app-dialog-edit>
+  </article>
+</main>

@@ -26,8 +26,12 @@ export const hasRoleGuard: CanActivateFn = (route, state) => {
       }
     }),
     catchError((error: ErrorResponse) => {
-      router.navigate([routes.login]);
-      return of(false);
+      if (expectedRoles === Role.UNLOGGED) {
+        return of(true);
+      } else {
+        router.navigate([routes.login]);
+        return of(false);
+      }
     })
   );
 };
