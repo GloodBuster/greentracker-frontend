@@ -11,8 +11,8 @@ import { Indicator } from '../../interfaces/indicator/indicator';
 export class IndicatorService {
     readonly http = inject(HttpClient);
     private readonly BASE_URL = environment.BASE_URL;
-    getIndicators(page: number = 1): Observable<PaginatedResponse<Indicator>> {
-        return this.http.get<PaginatedResponse<Indicator>>(`${this.BASE_URL}/indicators?pageIndex=${page}`);
+    getIndicators(page: number = 1, itemsPerPage: number = 10): Observable<PaginatedResponse<Indicator>> {
+        return this.http.get<PaginatedResponse<Indicator>>(`${this.BASE_URL}/indicators?pageIndex=${page}&itemsPerPage=${itemsPerPage}`);
 
     };
     createIndicator(indicator: Indicator): Observable<Response<Indicator>> {

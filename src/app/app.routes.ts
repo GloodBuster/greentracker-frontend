@@ -4,6 +4,7 @@ import { hasRoleGuard } from './guards/role.guard';
 import { Role } from './enums/role';
 import { CriteriaComponent } from './pages/admin/criteria/criteria.component';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
+import { IndicadorComponent } from './pages/admin/indicador/indicador.component';
 
 export const routes: Routes = [
   {
@@ -36,6 +37,10 @@ export const routes: Routes = [
         path: 'criteria/:indicatorIndex',
         component: CriteriaComponent,
       },
+      { 
+        path: 'indicator',
+        component: IndicadorComponent,
+      }
     ],
   },
   {
