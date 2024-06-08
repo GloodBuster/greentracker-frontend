@@ -1,34 +1,13 @@
 <main class="login-page">
   <article class="login-container">
-    <h1>Login</h1>
-    <form [formGroup]="userLoginForm" (ngSubmit)="submitForm()">
-      <label>
-        <h2>Email</h2>
-      </label>
-      <input type="text" formControlName="email" />
-      <label class="password-label">
-        <h2>Contraseña</h2>
-      </label>
-      <div class="password-input-container">
-        <input
-          [type]="visiblePassword ? 'text' : 'password'"
-          formControlName="password"
-        />
-        @if(visiblePassword){
-        <img
-          (click)="togglePasswordVisibility()"
-          src="/assets/login/eye.svg"
-          alt="eye"
-        />
-        } @else {
-        <img
-          (click)="togglePasswordVisibility()"
-          src="/assets/login/eye-close.svg"
-          alt="eye closed"
-        />
-        }
-      </div>
-      <button type="submit" [disabled]="!userLoginForm.valid" >Iniciar sesión</button>
-    </form>
+    <section class="login-form">
+      <p-image src="assets\login\sprout.svg" alt="sprout" width="80" />
+      <h1>Iniciar sesión</h1>
+      <p>Ingresa para empezar a registrar el cambio</p>
+      <login-form></login-form>
+    </section>
+    <section class="login-img-container">
+      <p-image src="assets\login\ucab.jpg" alt="sprout" height="100%" />
+    </section>
   </article>
 </main>

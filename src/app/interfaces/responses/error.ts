@@ -9,4 +9,3 @@ export interface ErrorResponse {
 export interface CustomHttpErrorResponse extends Omit<HttpErrorResponse, 'error'> {
     error: ErrorResponse;
   }
-  

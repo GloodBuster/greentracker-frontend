@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router';
 import { LoginComponent } from './pages/login/login.component';
-import { UnidadComponent } from './pages/admin/unidad/unidad.component';
-import { IndicadorComponent } from './pages/admin/indicador/indicador.component';
+import { hasRoleGuard } from './guards/role.guard';
+import { Role } from './enums/role';
 
 export const routes: Routes = [
   {
@@ -14,12 +14,20 @@ export const routes: Routes = [
     component: LoginComponent,
   },
   {
-    path: 'unidad',
-    component: UnidadComponent,
+    path: '',
+    canActivate: [hasRoleGuard],
+    data: {
+      role: Role.ADMIN,
+    },
+    children: [],
   },
-  {
-    path: 'indicador',
-    component: IndicadorComponent,
 
-  }
+  {
+    path: '',
+    canActivate: [hasRoleGuard],
+    data: {
+      role: Role.UNIT,
+    },
+    children: [],
+  },
 ];
