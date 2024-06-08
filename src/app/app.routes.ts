@@ -5,6 +5,7 @@ import { Role } from './enums/role';
 import { CriteriaComponent } from './pages/admin/criteria/criteria.component';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
 import { IndicadorComponent } from './pages/admin/indicador/indicador.component';
+import { CategoriesComponent } from './pages/admin/categories/categories.component';
 
 export const routes: Routes = [
   {
@@ -40,6 +41,10 @@ export const routes: Routes = [
       { 
         path: 'indicator',
         component: IndicadorComponent,
+      },
+      {
+        path: 'category/:indicatorIndex',
+        component: CategoriesComponent,
       }
     ],
   },

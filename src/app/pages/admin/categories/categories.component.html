@@ -1,0 +1,40 @@
+<main class="category-page">
+    <app-sidebar></app-sidebar>
+    <div class="category-container">
+        <div class="category-header">
+            <h1>Categorías</h1>
+            <p-button icon=" pi pi-bell" [raised]="true" severity="secondary" />
+        </div>
+        <p-button label="+ Crear" [raised]="true" class="category-button-add" (click)="showCreate()"/>
+        <div class="table-container">
+            <p-table styleClass="p-datatable-gridlines" [value]="categories">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>Indicador</th>
+                        <th>Nombre</th>
+                        <th></th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-category>
+                    <tr>
+                        <td>{{ category.indicatorIndex }}</td>
+                        <td>{{ category.name }}</td>
+                        <td>
+                            <p-button icon="pi pi-pencil" [outlined]="true" severity="success" (click)="showEdit(category)"/>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+            <p-paginator [first]="first" [rows]="paginationRows" [totalRecords]="totalRecords"
+                (onPageChange)="onPageChange($event)" />
+            <app-dialog-create [visible]="visibleCreate" (hideDialog)="hideCreate()" (createCategory)="createCategory($event)"></app-dialog-create>    
+            <app-dialog-edit
+            [visible]="visibleEdit"
+            (hideDialog)="hideEdit()"
+            [category]="categoryToEdit"
+            (editCategory)="editCategory($event)"
+            (deleteCategory)="deleteCategory($event)"
+          ></app-dialog-edit>
+        </div>
+    </div>
+</main>
