@@ -4,11 +4,11 @@ import { hasRoleGuard } from './guards/role.guard';
 import { Role } from './enums/role';
 import { CriteriaComponent } from './pages/admin/criteria/criteria.component';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
+import { LandingPageComponent } from './pages/landing-page/landing-page.component';
 
 export const routes: Routes = [
   {
     path: '',
-    component: LoginComponent,
     canActivate: [hasRoleGuard],
     data: {
       role: Role.UNLOGGED,
@@ -16,8 +16,7 @@ export const routes: Routes = [
     children: [
       {
         path: '',
-        redirectTo: 'login',
-        pathMatch: 'full',
+        component: LandingPageComponent,
       },
       {
         path: 'login',
