@@ -1,0 +1,32 @@
+<p-dialog header="Editar Categoría" [modal]="true" [(visible)]="visible" [closable]="false">
+    <h3>Ingrese los datos para editar la categoría</h3>
+    <form [formGroup]="categoryForm" class="edit-form">
+        <div class="input-container">
+            <label>Nombre</label>
+            <input type="text" pInputText formControlName="name" />
+        </div>
+        <div class="buttons-container">
+            <p-button label="Cancelar" severity="secondary" (click)="hide()" />
+            <p-button label="Guardar" (click)="updateCategory()" [disabled]="!categoryForm.valid" [loading]="loading" />
+            <p-button
+            class="delete-button"
+            icon=" pi pi-trash"
+            [raised]="true"
+            severity="danger"
+            [outlined]="true"
+            (click)="showDelete()"
+          />
+        </div>
+    </form>
+</p-dialog>
+<p-dialog
+    header="Confirmar eliminación"
+    [(visible)]="visibleDelete"
+    [modal]="true"
+    [baseZIndex]="10000">
+<p>¿Estás seguro de que quieres eliminar esta categoría?</p>
+<p-footer>
+    <p-button icon="pi pi-check" label="Eliminar" severity="danger" [outlined]="true" (click)="confirmDelete()" [loading]="deleteLoading"></p-button>
+    <p-button icon="pi pi-times" label="Cancelar" (click)="hideDelete()"></p-button>
+</p-footer>
+</p-dialog>
