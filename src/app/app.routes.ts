@@ -28,7 +28,7 @@ export const routes: Routes = [
     path: '',
     canActivate: [hasRoleGuard],
     data: {
-      role: Role.SUPER_ADMIN,
+      role: Role.ADMIN,
     },
     children: [
       {
