@@ -1,0 +1,33 @@
+.landing-page {
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+
+  .landing-page-content {
+    width: 100%;
+    margin: 0;
+    background-image: url("/assets/landing-page/ucab.jpg");
+    height: 80%;
+    background-size: cover;
+    background-repeat: no-repeat;
+    position: relative;
+
+    .landing-page-text {
+      color: white;
+      width: 300px;
+      position: absolute;
+      bottom: 50px;
+      left: 50px;
+
+      h1 {
+        margin: 0;
+        font-size: 52px;
+      }
+
+      p {
+        font-size: 22px;
+      }
+    }
+  }
+}
