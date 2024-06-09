@@ -6,11 +6,12 @@ import { CriteriaComponent } from './pages/admin/criteria/criteria.component';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
 import { IndicadorComponent } from './pages/admin/indicador/indicador.component';
 import { CategoriesComponent } from './pages/admin/categories/categories.component';
+import { LandingPageComponent } from './pages/landing-page/landing-page.component';
+import { AdminLayoutComponent } from './components/admin/admin-layout/admin-layout.component';
 
 export const routes: Routes = [
   {
     path: '',
-    component: LoginComponent,
     canActivate: [hasRoleGuard],
     data: {
       role: Role.UNLOGGED,
@@ -18,8 +19,7 @@ export const routes: Routes = [
     children: [
       {
         path: '',
-        redirectTo: 'login',
-        pathMatch: 'full',
+        component: LandingPageComponent,
       },
       {
         path: 'login',
@@ -29,9 +29,10 @@ export const routes: Routes = [
   },
   {
     path: '',
+    component: AdminLayoutComponent,
     canActivate: [hasRoleGuard],
     data: {
-      role: Role.SUPER_ADMIN,
+      role: Role.ADMIN,
     },
     children: [
       {

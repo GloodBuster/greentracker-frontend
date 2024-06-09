@@ -1,0 +1,31 @@
+.landing-page-navbar {
+  background-color: #F3F3F3;
+  height: 70px;
+  display: flex;
+  overflow: hidden;
+  justify-content: space-between;
+  padding-right: 40px;
+  padding-left: 10px;
+  margin: 0;
+
+  .logo {
+    height: 100%;
+    display: flex;
+    align-items: center;
+  }
+
+  .login {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    
+    .login-button {
+      background-color: #3ba13f;
+      outline: none;
+      border: none;
+      text-decoration: none;
+      font-size: 14px;
+      padding: 12px;
+    }
+  }
+}

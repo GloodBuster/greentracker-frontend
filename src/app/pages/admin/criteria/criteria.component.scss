@@ -1,8 +1,6 @@
 .criteria-page {
   margin: 0;
   box-sizing: border-box;
-  padding-right: 50px;
-  padding-left: 50px;
 
   .criteria-page-header {
     display: flex;
@@ -13,6 +11,10 @@
       justify-content: space-between;
       align-items: center;
       margin-bottom: 20px;
+
+      h1 {
+        margin: 0;
+      }
     }
     .add-button {
       align-self: flex-end;

@@ -57,7 +57,6 @@ export class LoginFormComponent {
         } else if (data.user.role === Role.UNIT) {
           this.router.navigate([routes.unitHomePage]);
         }
-        this.loading = false;
       },
       error: (error: CustomHttpErrorResponse) => {
         const errorResponse = error.error;
