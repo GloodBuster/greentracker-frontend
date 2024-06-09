@@ -13,5 +13,9 @@ body {
 
 .p-password:hover .p-inputtext,
 .p-password .p-inputtext:focus {
-  border-color: #3ba13f;
+  border-color: var(--green);
+}
+
+:root {
+  --green: #3ba13f;
 }
