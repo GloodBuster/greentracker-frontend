@@ -75,9 +75,6 @@ export class DialogEditComponent {
     spanishAlias: new FormControl(this.criterion.spanishAlias, [
       Validators.required,
     ]),
-    categoryName: new FormControl(this.criterion.categoryName, [
-      Validators.required,
-    ]),
   });
 
   ngOnChanges(changes: SimpleChanges) {
@@ -86,7 +83,6 @@ export class DialogEditComponent {
         subindex: changes['criterion'].currentValue.subindex,
         englishName: changes['criterion'].currentValue.englishName,
         spanishAlias: changes['criterion'].currentValue.spanishAlias,
-        categoryName: changes['criterion'].currentValue.categoryName,
       });
     }
   }
