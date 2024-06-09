@@ -1,0 +1,78 @@
+.admin-sidebar {
+  background-color: #276137;
+  width: 250px;
+  min-height: 100vh;
+  margin: 0;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding-top: 10px;
+
+  header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+
+    h2 {
+      font-weight: 500;
+    }
+  }
+
+  ul {
+    width: 100%;
+    margin: 0;
+    list-style-type: none;
+    padding-left: 25px;
+    padding-right: 25px;
+
+    li {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      border-radius: 10px;
+
+      a {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        outline: none;
+        border: none;
+        text-decoration: none;
+        color: white;
+        border-radius: 10px;
+
+        &:hover {
+          background-image: linear-gradient(
+            90deg,
+            rgba(0, 0, 0, 0) 0%,
+            rgba(138, 208, 88, 0.22) 33%,
+            rgba(59, 161, 63, 0.29) 55%,
+            rgba(248, 253, 81, 0.95) 100%
+          );
+        }
+
+        h3 {
+          font-weight: 500;
+          font-size: 14px;
+        }
+      }
+
+      .active {
+        background-image: linear-gradient(
+          90deg,
+          rgba(0, 0, 0, 0) 0%,
+          rgba(138, 208, 88, 0.22) 33%,
+          rgba(59, 161, 63, 0.29) 55%,
+          rgba(248, 253, 81, 0.95) 100%
+        );
+      }
+    }
+  }
+
+  .divider {
+    width: 60%;
+  }
+}
