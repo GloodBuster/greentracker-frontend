@@ -1,19 +1,33 @@
 <main class="criteria-page">
   <article>
     <header class="criteria-page-header">
-      <div class="criteria-top-header">
+      <div class="criteria-left-header">
         <h1>Criterios</h1>
-        <p-button icon=" pi pi-bell" [raised]="true" severity="success" />
+        <p-dropdown
+          [options]="indicators"
+          [(ngModel)]="selectedIndicator"
+          optionLabel="englishName"
+          placeholder="Indicador"
+          (onChange)="onIndicatorChange($event)"
+          [style]="{ minWidth: '400px' }"
+        ></p-dropdown>
       </div>
-      <p-button
-        label="+ Crear"
-        [raised]="true"
-        class="add-button"
-        (click)="showCreate()"
-      />
+      <div class="criteria-right-header">
+        <button
+          class="p-button add-button"
+          [disabled]="!indicatorIndex"
+          (click)="showCreate()"
+        >
+          <i class="pi pi-plus-circle" style="font-size: 1.2rem"></i>
+          {{ " Crear" }}
+        </button>
+      </div>
     </header>
 
     <section class="criteria-table-container">
+      @if (!indicatorIndex) {
+      <h3>Seleccione un indicador para ver sus criterios</h3>
+      } @else {
       <p-table [value]="criteria">
         <ng-template pTemplate="header">
           <tr>
@@ -49,6 +63,7 @@
         [totalRecords]="totalRecords"
         (onPageChange)="onPageChange($event)"
       />
+      }
     </section>
     <app-dialog-create
       [visible]="visibleCreate"
