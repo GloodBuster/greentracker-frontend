@@ -7,6 +7,7 @@ import {
 } from '../../interfaces/responses/response';
 import { Criterion, CriterionForm } from '../../interfaces/criteria/criteria';
 import { Observable } from 'rxjs';
+import { Indicator } from '../../interfaces/indicator/indicator';
 
 @Injectable({
   providedIn: 'root',
@@ -14,6 +15,12 @@ import { Observable } from 'rxjs';
 export class CriteriaService {
   readonly http = inject(HttpClient);
   private readonly BASE_URL = environment.BASE_URL;
+
+  getAllIndicators(): Observable<PaginatedResponse<Indicator>> {
+    return this.http.get<PaginatedResponse<Indicator>>(
+      `${this.BASE_URL}/indicators`
+    );
+  }
 
   getCriteriaByIndex(
     indicatorIndex: number,
