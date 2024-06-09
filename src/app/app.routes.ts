@@ -5,6 +5,7 @@ import { Role } from './enums/role';
 import { CriteriaComponent } from './pages/admin/criteria/criteria.component';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
 import { LandingPageComponent } from './pages/landing-page/landing-page.component';
+import { AdminLayoutComponent } from './components/admin/admin-layout/admin-layout.component';
 
 export const routes: Routes = [
   {
@@ -26,6 +27,7 @@ export const routes: Routes = [
   },
   {
     path: '',
+    component: AdminLayoutComponent,
     canActivate: [hasRoleGuard],
     data: {
       role: Role.ADMIN,
