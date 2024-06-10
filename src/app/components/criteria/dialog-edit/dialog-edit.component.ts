@@ -63,8 +63,9 @@ export class DialogEditComponent {
   deleteLoading = false;
 
   constructor(private readonly route: ActivatedRoute) {
-    const indicatorIndex = this.route.snapshot.paramMap.get('indicatorIndex');
-    if (indicatorIndex) this.indicatorIndex = parseInt(indicatorIndex);
+    this.route.queryParams.subscribe((params) => {
+      this.indicatorIndex = +params['index'];
+    });
   }
 
   criterionForm = new FormGroup({
@@ -75,9 +76,6 @@ export class DialogEditComponent {
     spanishAlias: new FormControl(this.criterion.spanishAlias, [
       Validators.required,
     ]),
-    categoryName: new FormControl(this.criterion.categoryName, [
-      Validators.required,
-    ]),
   });
 
   ngOnChanges(changes: SimpleChanges) {
@@ -86,7 +84,6 @@ export class DialogEditComponent {
         subindex: changes['criterion'].currentValue.subindex,
         englishName: changes['criterion'].currentValue.englishName,
         spanishAlias: changes['criterion'].currentValue.spanishAlias,
-        categoryName: changes['criterion'].currentValue.categoryName,
       });
     }
   }

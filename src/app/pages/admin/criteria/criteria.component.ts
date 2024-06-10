@@ -13,12 +13,18 @@ import { DialogCreateComponent } from '../../../components/criteria/dialog-creat
 import { DialogEditComponent } from '../../../components/criteria/dialog-edit/dialog-edit.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PaginatorModule } from 'primeng/paginator';
+import { Indicator } from '../../../interfaces/indicator/indicator';
+import { DropdownChangeEvent, DropdownModule } from 'primeng/dropdown';
 
 interface PageEvent {
   first?: number;
   rows?: number;
   page?: number;
   pageCount?: number;
+}
+
+interface DropdownIndicatorChangeEvent extends DropdownChangeEvent {
+  value: Indicator;
 }
 
 @Component({
@@ -30,17 +36,20 @@ interface PageEvent {
     DialogCreateComponent,
     DialogEditComponent,
     PaginatorModule,
+    DropdownModule,
   ],
   templateUrl: './criteria.component.html',
   styleUrl: './criteria.component.scss',
 })
 export class CriteriaComponent {
   criteria: Criterion[] = [];
+  indicators: Indicator[] = [];
   toastService = inject(ToastrService);
   visibleEdit = false;
   visibleCreate = false;
   criterionToEdit: CriterionForm = initialCriterionForm;
   indicatorIndex = 0;
+  selectedIndicator: Indicator | undefined;
   totalRecords = 0;
   paginationRows = 10;
   first = 0;
@@ -50,12 +59,32 @@ export class CriteriaComponent {
     private readonly route: ActivatedRoute,
     private readonly router: Router
   ) {
-    const indicatorIndex = this.route.snapshot.paramMap.get('indicatorIndex');
-    if (indicatorIndex) this.indicatorIndex = parseInt(indicatorIndex);
-
     this.route.queryParams.subscribe((params) => {
       const page = +params['page'] || 1;
       this.first = (page - 1) * this.paginationRows;
+      this.indicatorIndex = +params['index'];
+
+      this.criteriaService.getAllIndicators().subscribe({
+        next: (response) => {
+          this.indicators = response.data.items;
+          this.selectedIndicator = this.indicators.find(
+            (indicator) => indicator.index === this.indicatorIndex
+          );
+        },
+        error: (error: CustomHttpErrorResponse) => {
+          const errorResponse = error.error;
+          if (errorResponse.statusCode === 401) {
+            this.toastService.error('Acceso denegado');
+          } else {
+            this.toastService.error(
+              'Ha ocurrido un error inesperado al cargar los indicadores'
+            );
+          }
+        },
+      });
+
+      if (!this.indicatorIndex) return;
+
       this.criteriaService
         .getCriteriaByIndex(this.indicatorIndex, page)
         .subscribe({
@@ -69,7 +98,9 @@ export class CriteriaComponent {
             if (errorResponse.statusCode === 401) {
               this.toastService.error('Acceso denegado');
             } else {
-              this.toastService.error('Ha ocurrido un error inesperado');
+              this.toastService.error(
+                'Ha ocurrido un error inesperado al cargar los criterios'
+              );
             }
           },
         });
@@ -134,7 +165,7 @@ export class CriteriaComponent {
           this.router.navigate([], {
             relativeTo: this.route,
             queryParams: { page: event.page ? event.page + 1 : 1 },
-            queryParamsHandling: 'merge', // preserve the existing query params
+            queryParamsHandling: 'merge',
           });
         },
         error: (error: CustomHttpErrorResponse) => {
@@ -146,5 +177,33 @@ export class CriteriaComponent {
           }
         },
       });
+  }
+
+  onIndicatorChange(event: DropdownIndicatorChangeEvent) {
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: { index: event.value.index },
+      queryParamsHandling: 'merge',
+    });
+    this.selectedIndicator = event.value;
+    this.indicatorIndex = event.value.index;
+
+    this.criteriaService.getCriteriaByIndex(this.indicatorIndex).subscribe({
+      next: (response) => {
+        this.criteria = response.data.items;
+        this.totalRecords = response.data.itemCount;
+        this.paginationRows = response.data.itemsPerPage;
+      },
+      error: (error: CustomHttpErrorResponse) => {
+        const errorResponse = error.error;
+        if (errorResponse.statusCode === 401) {
+          this.toastService.error('Acceso denegado');
+        } else {
+          this.toastService.error(
+            'Ha ocurrido un error inesperado al cargar los criterios'
+          );
+        }
+      },
+    });
   }
 }

@@ -34,7 +34,7 @@ export const routes: Routes = [
     },
     children: [
       {
-        path: 'criteria/:indicatorIndex',
+        path: 'criteria',
         component: CriteriaComponent,
       },
     ],

@@ -3,14 +3,12 @@ export interface Criterion {
   subindex: number;
   englishName: string;
   spanishAlias: string;
-  categoryName: string;
 }
 
 export interface CriterionForm {
   subindex: number;
   englishName: string;
   spanishAlias: string;
-  categoryName: string;
 }
 
 export const initialCriterionForm = {
