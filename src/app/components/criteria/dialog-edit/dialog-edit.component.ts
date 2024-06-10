@@ -63,8 +63,9 @@ export class DialogEditComponent {
   deleteLoading = false;
 
   constructor(private readonly route: ActivatedRoute) {
-    const indicatorIndex = this.route.snapshot.paramMap.get('indicatorIndex');
-    if (indicatorIndex) this.indicatorIndex = parseInt(indicatorIndex);
+    this.route.queryParams.subscribe((params) => {
+      this.indicatorIndex = +params['index'];
+    });
   }
 
   criterionForm = new FormGroup({
