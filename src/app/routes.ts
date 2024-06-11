@@ -1,6 +1,6 @@
 export const routes = {
   //admin
-  adminHomePage: '/admin-home-page',
+  adminHomePage: '/admin-dashboard',
   report: '/report',
   statistics: '/statistics',
   chargePeriod: '/charge-period',
