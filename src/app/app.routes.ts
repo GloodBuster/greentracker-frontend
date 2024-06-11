@@ -6,6 +6,7 @@ import { CriteriaComponent } from './pages/admin/criteria/criteria.component';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
 import { LandingPageComponent } from './pages/landing-page/landing-page.component';
 import { AdminLayoutComponent } from './components/admin/admin-layout/admin-layout.component';
+import { DashboardComponent } from './pages/admin/dashboard/dashboard.component';
 
 export const routes: Routes = [
   {
@@ -33,6 +34,10 @@ export const routes: Routes = [
       role: Role.ADMIN,
     },
     children: [
+      {
+        path: 'admin-dashboard',
+        component: DashboardComponent,
+      },
       {
         path: 'criteria',
         component: CriteriaComponent,
