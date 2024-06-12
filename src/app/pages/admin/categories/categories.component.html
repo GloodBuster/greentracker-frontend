@@ -1,13 +1,33 @@
 <main class="category-page">
     <article>
         <header class="category-page-header">
-            <div class="category-top-header">
+            <div class="criteria-left-header">
                 <h1>Categorías</h1>
+                <p-dropdown
+          [options]="indicators"
+          [(ngModel)]="selectedIndicator"
+          optionLabel="englishName"
+          placeholder="Indicador"
+          (onChange)="onIndicatorChange($event)"
+          [style]="{ minWidth: '400px' }"
+        ></p-dropdown>
             </div>
-            <p-button label="+ Crear" [raised]="true" class="add-button" (click)="showCreate()"/>
+            <div class="criteria-right-header">
+                <button
+                  class="p-button add-button"
+                  [disabled]="!indicatorIndex"
+                  (click)="showCreate()"
+                >
+                  <i class="pi pi-plus-circle" style="font-size: 1.2rem"></i>
+                  {{ " Crear" }}
+                </button>
+              </div>
         </header>
 
-        <div class="table-container">
+        <section class="criteria-table-container">
+            @if (!indicatorIndex) {
+            <h3>Seleccione un indicador para ver sus criterios</h3>
+            } @else {
             <p-table styleClass="p-datatable-gridlines" [value]="categories">
                 <ng-template pTemplate="header">
                     <tr>
@@ -27,7 +47,8 @@
                 </ng-template>
             </p-table>
             <p-paginator [first]="first" [rows]="paginationRows" [totalRecords]="totalRecords"
-                (onPageChange)="onPageChange($event)" />
+            (onPageChange)="onPageChange($event)" />}
+            </section>
             <app-dialog-create [visible]="visibleCreate" (hideDialog)="hideCreate()" (createCategory)="createCategory($event)"></app-dialog-create>    
             <app-dialog-edit
             [visible]="visibleEdit"
@@ -36,6 +57,5 @@
             (editCategory)="editCategory($event)"
             (deleteCategory)="deleteCategory($event)"
           ></app-dialog-edit>
-        </div>
     </article>
 </main>

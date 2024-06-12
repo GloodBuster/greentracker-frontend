@@ -11,6 +11,8 @@ import { CategoriesService } from '../../../services/categories/categories.servi
 import { CustomHttpErrorResponse } from '../../../interfaces/responses/error';
 import { DialogCreateComponent } from '../../../components/category/dialog-create/dialog-create.component';
 import { DialogEditComponent } from '../../../components/category/dialog-edit/dialog-edit.component';
+import { Indicator } from '../../../interfaces/indicator/indicator';
+import { DropdownChangeEvent, DropdownModule } from 'primeng/dropdown';
 
 interface PageEvent {
   first?: number;
@@ -19,17 +21,23 @@ interface PageEvent {
   pageCount?: number;
 }
 
+interface DropdownIndicatorChangeEvent extends DropdownChangeEvent {
+  value: Indicator;
+}
+
 @Component({
   selector: 'app-categories',
   standalone: true,
-  imports: [SidebarComponent, ButtonModule, TableModule, CommonModule, PaginatorModule, DialogCreateComponent, DialogEditComponent],
+  imports: [ ButtonModule, TableModule, CommonModule, PaginatorModule, DialogCreateComponent, DialogEditComponent, DropdownModule],
   templateUrl: './categories.component.html',
   styleUrl: './categories.component.scss'
 })
 export class CategoriesComponent {
  categories: Categories[] = [];
+ indicators: Indicator[] = [];
  toastService = inject(ToastrService);
  indicatorIndex = 0;
+  selectedIndicator: Indicator | undefined;
   totalRecords = 0;
   paginationRows = 10;
   first = 0;
@@ -48,11 +56,33 @@ export class CategoriesComponent {
     this.route.queryParams.subscribe((params) => {
       const page = +params['page'] || 1;
       this.first = (page - 1) * this.paginationRows;
+      this.indicatorIndex = +params['index'];
+
+      this.categoriesService.getAllIndicators().subscribe({
+        next: (response) => {
+          this.indicators = response.data.items;
+          this.selectedIndicator = this.indicators.find(
+            (indicator) => indicator.index === this.indicatorIndex
+          );
+        },
+        error: (error: CustomHttpErrorResponse) => {
+          const errorResponse = error.error;
+          if (errorResponse.statusCode === 401) {
+            this.toastService.error('Acceso denegado');
+          } else {
+            this.toastService.error(
+              'Ha ocurrido un error inesperado al cargar los indicadores'
+            );
+          }
+        },
+      });
+
+      if (!this.indicatorIndex) return;
+
       this.categoriesService
         .getCategoriesByIndex(this.indicatorIndex, page)
         .subscribe({
           next: (response) => {
-            console.log(response);
             this.categories = response.data.items;
             this.totalRecords = response.data.itemCount;
             this.paginationRows = response.data.itemsPerPage;
@@ -134,5 +164,33 @@ export class CategoriesComponent {
           }
         },
       });
+}
+
+onIndicatorChange(event: DropdownIndicatorChangeEvent) {
+  this.router.navigate([], {
+    relativeTo: this.route,
+    queryParams: { index: event.value.index },
+    queryParamsHandling: 'merge',
+  });
+  this.selectedIndicator = event.value;
+  this.indicatorIndex = event.value.index;
+
+  this.categoriesService.getCategoriesByIndex(this.indicatorIndex).subscribe({
+    next: (response) => {
+      this.categories = response.data.items;
+      this.totalRecords = response.data.itemCount;
+      this.paginationRows = response.data.itemsPerPage;
+    },
+    error: (error: CustomHttpErrorResponse) => {
+      const errorResponse = error.error;
+      if (errorResponse.statusCode === 401) {
+        this.toastService.error('Acceso denegado');
+      } else {
+        this.toastService.error(
+          'Ha ocurrido un error inesperado al cargar las categorías'
+        );
+      }
+    },
+  });
 }
 }

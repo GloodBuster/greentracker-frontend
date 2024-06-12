@@ -7,6 +7,7 @@ import {
 } from '../../interfaces/responses/response';
 import { Observable } from 'rxjs';
 import { Categories, CategoriesForm } from '../../interfaces/categories/categories';
+import { Indicator } from '../../interfaces/indicator/indicator';
 
 @Injectable({
     providedIn: 'root',
@@ -14,6 +15,12 @@ import { Categories, CategoriesForm } from '../../interfaces/categories/categori
 export class CategoriesService {
     readonly http = inject(HttpClient);
     private readonly BASE_URL = environment.BASE_URL;
+
+    getAllIndicators(): Observable<PaginatedResponse<Indicator>> {
+        return this.http.get<PaginatedResponse<Indicator>>(
+          `${this.BASE_URL}/indicators`
+        );
+      }
 
     getCategoriesByIndex(
         indicatorIndex: number,

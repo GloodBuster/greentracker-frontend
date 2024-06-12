@@ -49,7 +49,7 @@ export const routes: Routes = [
         component: IndicadorComponent,
       },
       {
-        path: 'category/:indicatorIndex',
+        path: 'category',
         component: CategoriesComponent,
       }
     ],
