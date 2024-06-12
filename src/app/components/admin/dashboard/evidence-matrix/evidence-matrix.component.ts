@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { TableModule } from 'primeng/table';
 import { IndicatorService } from '../../../../services/indicator/indicator.service';
 import { IndicatorDetails } from '../../../../interfaces/indicator/indicator';
@@ -14,6 +14,9 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class EvidenceMatrixComponent {
   indicators: IndicatorDetails[] = [];
+  @Output() editChargedEvidence: EventEmitter<number> = new EventEmitter();
+  @Output() editUnitsWithEvidencePercentage: EventEmitter<number> =
+    new EventEmitter();
 
   constructor(
     private readonly indicatorService: IndicatorService,

@@ -34,5 +34,8 @@
     </div>
   </section>
   <h2>Actividades por Unidad</h2>
-  <app-evidence-matrix></app-evidence-matrix>
+  <app-evidence-matrix
+    (editChargedEvidence)="editChargedEvidence($event)"
+    (editUnitsWithEvidencePercentage)="editUnitsWithEvidencePercentage($event)"
+  ></app-evidence-matrix>
 </main>

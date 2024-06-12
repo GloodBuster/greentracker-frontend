@@ -23,4 +23,11 @@ export class DashboardComponent {
         (1000 * 60 * 60 * 24)
     );
   }
+
+  editChargedEvidence(value: number) {
+    this.chargedEvidence = value;
+  }
+  editUnitsWithEvidencePercentage(value: number) {
+    this.unitsWithEvidencePercentage = value;
+  }
 }
