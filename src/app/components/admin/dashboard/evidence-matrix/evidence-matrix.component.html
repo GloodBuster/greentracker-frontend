@@ -20,6 +20,21 @@
       </tr>
       }
     </ng-template>
-    <ng-template pTemplate="body"> </ng-template>
+    <ng-template pTemplate="body">
+      @for (unit of units; track unit.id) {
+      <tr>
+        <th>
+          {{ unit.name }}
+        </th>
+        @for (indicator of indicators; track indicator.index) { @for (category
+        of indicator.categories; track category.name) { @if
+        (isRecommendedCategory(unit, category.name)){
+        <th class="recomended-category"></th>
+        } @else {
+        <th></th>
+        } } }
+      </tr>
+      }
+    </ng-template>
   </p-table>
 </section>
