@@ -37,6 +37,10 @@ export const routes: Routes = [
     },
     children: [
       {
+        path: 'units',
+        component: UnidadComponent,
+      },
+      {
         path: 'criteria',
         component: CriteriaComponent,
       },
