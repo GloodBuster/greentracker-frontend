@@ -8,6 +8,7 @@ import { IndicadorComponent } from './pages/admin/indicador/indicador.component'
 import { CategoriesComponent } from './pages/admin/categories/categories.component';
 import { LandingPageComponent } from './pages/landing-page/landing-page.component';
 import { AdminLayoutComponent } from './components/admin/admin-layout/admin-layout.component';
+import { UnidadComponent } from './pages/admin/unidad/unidad.component';
 
 export const routes: Routes = [
   {
@@ -35,6 +36,10 @@ export const routes: Routes = [
       role: Role.ADMIN,
     },
     children: [
+      {
+        path: 'units',
+        component: UnidadComponent,
+      },
       {
         path: 'criteria/:indicatorIndex',
         component: CriteriaComponent,
