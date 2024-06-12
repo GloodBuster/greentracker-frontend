@@ -5,9 +5,9 @@ export const routes = {
   statistics: '/statistics',
   chargePeriod: '/charge-period',
   units: '/units',
-  indicators: '/indicators',
+  indicators: '/indicator',
   criteria: '/criteria',
-  categories: '/categories',
+  categories: '/category',
   //units
   unitHomePage: '',
   //unlogged

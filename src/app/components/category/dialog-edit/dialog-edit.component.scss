@@ -1,0 +1,23 @@
+.edit-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-top: 20px;
+  
+    .input-container {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+  
+    .buttons-container {
+      display: flex;
+      gap: 10px;
+      width: 100%;
+  
+      .delete-button {
+        margin-left: auto;
+      }
+    }
+  }
+  
