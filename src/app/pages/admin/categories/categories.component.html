@@ -1,11 +1,12 @@
 <main class="category-page">
-    <app-sidebar></app-sidebar>
-    <div class="category-container">
-        <div class="category-header">
-            <h1>Categorías</h1>
-            <p-button icon=" pi pi-bell" [raised]="true" severity="secondary" />
-        </div>
-        <p-button label="+ Crear" [raised]="true" class="category-button-add" (click)="showCreate()"/>
+    <article>
+        <header class="category-page-header">
+            <div class="category-top-header">
+                <h1>Categorías</h1>
+            </div>
+            <p-button label="+ Crear" [raised]="true" class="add-button" (click)="showCreate()"/>
+        </header>
+
         <div class="table-container">
             <p-table styleClass="p-datatable-gridlines" [value]="categories">
                 <ng-template pTemplate="header">
@@ -36,5 +37,5 @@
             (deleteCategory)="deleteCategory($event)"
           ></app-dialog-edit>
         </div>
-    </div>
+    </article>
 </main>
