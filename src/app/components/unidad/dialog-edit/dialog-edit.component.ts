@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, inject } from '@angular/core';
-import { FormGroup, FormControl, ReactiveFormsModule } from '@angular/forms';
+import { FormGroup, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { DialogModule } from 'primeng/dialog';
 import { InputTextModule } from 'primeng/inputtext';
 import { FormsModule } from '@angular/forms';
@@ -10,6 +10,9 @@ import { ToastrService } from 'ngx-toastr';
 import { MultiSelectModule } from 'primeng/multiselect';
 import categoriesData from '../../../../assets/categories.json';
 import { CommonModule } from '@angular/common';
+import { Units, UnitsForm, UnitsGet } from '../../../interfaces/units/units';
+import { UnitsService } from '../../../services/units/units.service';
+import { CustomHttpErrorResponse } from '../../../interfaces/responses/error';
 
 @Component({
   selector: 'app-dialog-edit',
@@ -19,74 +22,95 @@ import { CommonModule } from '@angular/common';
   styleUrl: './dialog-edit.component.scss'
 })
 export class DialogEditComponent implements OnChanges {
-  @Input() unit: any;
+  @Input() unit: UnitsGet = { id: '', name: '', email: ''};
   @Input() visible: boolean = false;
   @Output() hide: EventEmitter<any> = new EventEmitter();
   @Output() update: EventEmitter<any> = new EventEmitter<any>();
   @Output() delete: EventEmitter<any> = new EventEmitter<any>();
+  loading = false;
+  deleteLoading = false;
 
   categoriesData = categoriesData;
+  
+
+  constructor(private unitsService: UnitsService) {
+
+  }
   showConfirmDialog = false;
 
-  unitForm = new FormGroup({
-    id: new FormControl(0),
-    nombre: new FormControl(''),
-    correo: new FormControl(''),
-    categorias: new FormControl([])
+  unitsForm = new FormGroup({
+    name: new FormControl(this.unit.name, [Validators.required]),
+    email: new FormControl(this.unit.email, [Validators.required, Validators.email]),
   });
 
   toastService = inject(ToastrService);
 
+  /*categorias: { id: number; name: string; }[] = [];*/
+
   hideDialogEdit() {
+    this.unitsForm.reset();
+    this.unit = { id: '', name: '', email: ''};
     this.hide.emit();
   }
 
-  categorias: { id: number; name: string; }[] = [];
-
   ngOnChanges(changes: SimpleChanges) {
     if (changes['unit'] && changes['unit'].currentValue) {
-      this.unitForm.setValue({
-        id: changes['unit'].currentValue.id,
-        nombre: changes['unit'].currentValue.nombre,
-        correo: changes['unit'].currentValue.correo,
-        categorias: changes['unit'].currentValue.categorias,
+      this.unitsForm.setValue({
+        name: changes['unit'].currentValue.name,
+        email: changes['unit'].currentValue.email,
       });
-      console.log(categoriesData)
-      console.log(changes['unit'].currentValue.categorias);
     }
   }
 
   submitForm() {
-    if (this.unitForm.valid) {
-      console.log(this.unitForm.value);
-      this.update.emit(this.unitForm.value);
-      this.hideDialogEdit();
-      this.toastService.success('Unidad editada con éxito');
-    } else {
-      this.toastService.error('Ha ocurrido un error');
-      console.log('Formulario no válido');
-    }
+    if(this.unitsForm.valid){
+      const unit: UnitsGet = {
+        id: this.unit.id ?? '',
+        name: this.unitsForm.value.name ?? '',
+        email: this.unitsForm.value.email ?? '',
+      };
+
+      this.unitsService.updateUnit(this.unit.id, unit).subscribe(
+        {
+          next:(response) => {
+          this.update.emit({value: unit, id: this.unit.id});
+          this.toastService.success('Unidad actualizada con éxito');
+          this.hideDialogEdit();
+        },
+        error: (error: CustomHttpErrorResponse) => {
+          this.toastService.error('Error al actualizar la unidad');
+          console.error('Error al actualizar la unidad:', error);
+        }
+      });
+      }
   }
 
-
-  deleteUnit() {
-    if (this.unitForm.valid) {
+  deleteUnit(){
+    if(this.unitsForm.valid){
       this.showConfirmDialog = true;
-    } else {
+    } else{
       this.toastService.error('Ha ocurrido un error');
       console.log('Formulario no válido');
     }
   }
 
   confirmDelete() {
-    this.delete.emit(this.unitForm.value);
+const id = this.unit.id;
+this.unitsService.deleteUnit(id).subscribe({
+  next: (response) => {
+    this.delete.emit(id);
     this.hideDialogEdit();
     this.toastService.success('Unidad eliminada con éxito');
     this.showConfirmDialog = false;
+  },
+  error: (error: CustomHttpErrorResponse) => {
+    this.toastService.error('Ha ocurrido un error inesperado');
+    console.error('Error al eliminar la unidad:', error);
+  }}
+);
   }
 
   cancelDelete() {
     this.showConfirmDialog = false;
   }
-
 }
