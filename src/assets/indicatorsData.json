@@ -1,0 +1,57 @@
+[
+    {
+        "id": 1,
+        "name": "Energy",
+        "SpanishAlias": "Energía"
+    },
+    {
+        "id": 2,
+        "name": "Water",
+        "SpanishAlias": "Agua"
+    },
+    {
+        "id": 3,
+        "name": "Waste",
+        "SpanishAlias": "Residuos"
+    },
+    {
+        "id": 4,
+        "name": "Transport",
+        "SpanishAlias": "Transporte"
+    },
+    {
+        "id": 5,
+        "name": "Procurement",
+        "SpanishAlias": "Adquisiciones"
+    },
+    {
+        "id": 6,
+        "name": "Buildings",
+        "SpanishAlias": "Edificios"
+    },
+    {
+        "id": 7,
+        "name": "Land Use",
+        "SpanishAlias": "Uso de la tierra"
+    },
+    {
+        "id": 8,
+        "name": "Biodiversity",
+        "SpanishAlias": "Biodiversidad"
+    },
+    {
+        "id": 9,
+        "name": "Social",
+        "SpanishAlias": "Social"
+    },
+    {
+        "id": 10,
+        "name": "Economic",
+        "SpanishAlias": "Económico"
+    },
+    {
+        "id": 11,
+        "name": "Governance",
+        "SpanishAlias": "Gobernanza"
+    }
+]

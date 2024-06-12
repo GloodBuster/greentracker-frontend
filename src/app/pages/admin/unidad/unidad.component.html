@@ -1,0 +1,57 @@
+<main class="units-page">
+    <article>
+        <header class="units-page-header">
+            <div class="units-top-header">
+                <h1>Unidades</h1>
+            </div>
+            <p-button label="+ Crear" [raised]="true" class="add-button" (click)="showDialog()"/>
+        </header>
+        <div class="table-container">
+            <p-table styleClass="p-datatable-gridlines" [value]="unitsData" [tableStyle]="{'max-width': '90rem'}" scrollable="true" scrollHeight="40rem">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th class="column-nombre">Nombre</th>
+                        <th class="column-correo">Correo</th>
+                        <th class="column-categorias">Categorías recomendadas</th>
+                        <th class="column-buttons"></th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-unit>
+                    <tr>
+                        <td>{{unit.name}}</td>
+                        <td>{{unit.email}}</td>
+                        <td>
+                            <p-tag *ngFor="let categoria of unit.categorias?.slice(0, 3)" severity="info"
+                                class="mr-2">{{categoria.name}}</p-tag>
+                            <span *ngIf="unit.categorias?.length > 3">+{{unit.categorias.length - 3}}</span>
+                        </td>
+                        <td>
+                            <p-button icon="pi pi-eye" class="unidad-button-view mr-2" [outlined]="true"
+                                severity="info" (click)="view(unit)"/>
+                            <p-button icon="pi pi-pencil" class="unidad-button-edit" [outlined]="true"
+                                severity="success" (click)="showDialogEdit(unit)" />
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+            <p-paginator
+        [first]="first"
+        [rows]="paginationRows"
+        [totalRecords]="totalRecords"
+        (onPageChange)="onPageChange($event)"
+      />
+        </div>
+        <app-dialog-create [visible]="visible" (hide)="hideDialog()" (create)="create($event)"></app-dialog-create>
+        <app-dialog-edit [unit]="editingUnit" [visible]="visibleEdit" (hide)="hideDialogEdit()"
+            (update)="update($event)" (delete)="delete($event)"></app-dialog-edit>
+            <p-dialog header="Detalles de la unidad" [(visible)]="visibleView" [modal]="true" [style]="{width: '40vw'}" [baseZIndex]="10000">
+                <div *ngIf="viewingUnit">
+                    <p><strong>ID:</strong> {{viewingUnit.id}}</p>
+                    <p><strong>Nombre:</strong> {{viewingUnit.nombre}}</p>
+                    <p><strong>Correo:</strong> {{viewingUnit.correo}}</p>
+                    <p><strong>Categorías recomendadas:</strong></p>
+                    <p-tag *ngFor="let categoria of viewingUnit.categorias" severity="info" class="mr-2">{{categoria.name}}</p-tag>
+                </div>
+              </p-dialog>
+            </article>
+</main>

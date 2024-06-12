@@ -1,0 +1,28 @@
+<p-dialog
+  header="Categoría"
+  [modal]="true"
+  [(visible)]="visible"
+  [closable]="false"
+>
+  <h3>Ingrese los datos para crear una nueva categoría</h3>
+  <form [formGroup]="categoryForm" class="create-form">
+    <div class="input-container">
+      <label>Nombre</label>
+      <input type="text" pInputText formControlName="name" />
+    </div>
+      <!--<p-dropdown
+        formControlName="indicatorIndex"
+        optionLabel="index"
+        placeholder="Selecciona un indicador"
+      />-->
+    <div class="buttons-container">
+      <p-button label="Cancelar" severity="secondary" (click)="hide()" />
+      <p-button
+        label="Guardar"
+        (click)="submitForm()"
+        [disabled]="!categoryForm.valid"
+        [loading]="loading"
+      />
+    </div>
+    </form>
+</p-dialog>

@@ -1,0 +1,27 @@
+<p-dialog header="Indicador" [modal]="true" [(visible)]="visible" [style]="{ width: '30rem'}" [closable]="false">
+    <span> Ingrese los datos para crear un nuevo indicador</span>
+    <form [formGroup]="indicatorForm" class="indicador-form">
+        <div class="card flex justify-content-center mt-5 input-container">
+            <p-floatLabel>
+                <input pInputText id="index" class="indicador-input" formControlName="index" />
+                <label for="name">Índice</label>
+            </p-floatLabel>
+        </div>
+        <div class="card flex justify-content-center mt-5 input-container">
+            <p-floatLabel>
+                <input pInputText id="englishName" class="indicador-input" formControlName="englishName" />
+                <label for="name">Nombre en inglés</label>
+            </p-floatLabel>
+        </div>
+        <div class="card flex justify-content-center mt-5 input-container">
+            <p-floatLabel>
+                <input pInputText id="spanishAlias" class="indicador-input" formControlName="spanishAlias" />
+                <label for="SpanishAlias">Alias en español</label>
+            </p-floatLabel>
+        </div>
+        <div class="flex justify-content-end gap-2 buttons-container">
+            <p-button label="Cancel" severity="secondary" (click)="hideDialog()" class="button1" />
+            <p-button label="Guardar" (click)="submitForm()" [disabled]="!indicatorForm.valid" />
+        </div>
+    </form>
+</p-dialog>
