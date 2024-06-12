@@ -4,6 +4,7 @@ import { IndicatorService } from '../../../../services/indicator/indicator.servi
 import { IndicatorDetails } from '../../../../interfaces/indicator/indicator';
 import { CustomHttpErrorResponse } from '../../../../interfaces/responses/error';
 import { ToastrService } from 'ngx-toastr';
+import { UnitDetails } from '../../../../interfaces/units/units';
 
 @Component({
   selector: 'app-evidence-matrix',
@@ -14,6 +15,7 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class EvidenceMatrixComponent {
   indicators: IndicatorDetails[] = [];
+  units: UnitDetails[] = [];
   @Output() editChargedEvidence: EventEmitter<number> = new EventEmitter();
   @Output() editUnitsWithEvidencePercentage: EventEmitter<number> =
     new EventEmitter();
@@ -34,5 +36,11 @@ export class EvidenceMatrixComponent {
         }
       },
     });
+  }
+
+  isRecommendedCategory(unit: UnitDetails, categoryName: string): boolean {
+    return unit.recommendedCategories.some(
+      (recommendedCategory) => recommendedCategory.name === categoryName
+    );
   }
 }
