@@ -1,11 +1,12 @@
-<main class="indicador-page">
-    <app-sidebar></app-sidebar>
-    <div class="indicador-container">
-        <div class="indicador-header">
-            <h1>Indicadores</h1>
-            <p-button icon=" pi pi-bell" [raised]="true" severity="secondary" />
-        </div>
-        <p-button label="+ Crear" [raised]="true" class="indicador-button-add" (click)="showDialog()"/>
+<main class="indicator-page">
+    <article>
+        <header class="indicator-page-header">
+            <div class="indicator-top-header">
+                <h1>Indicadores</h1>
+            </div>
+            <p-button label="+ Crear" [raised]="true" class="add-button" (click)="showDialog()"/>
+        </header>
+
         <div class="table-container">
             <p-table styleClass="p-datatable-gridlines" [value]="indicatorsData" [tableStyle]="{'min-width': '75rem'}" scrollable="true" scrollHeight="40rem">
                 <ng-template pTemplate="header">
@@ -38,5 +39,5 @@
             <app-dialog-create [visible]="visible" (hide)="hideDialog()" (create)="create($event)"></app-dialog-create>
             <app-dialog-edit [indicador]="editingIndicator" [visible]="visibleEdit" (hide)="hideDialogEdit()"
             (update)="update($event)" (delete)="delete($event)"></app-dialog-edit>
-    </div>    
+    </article>    
 </main>
