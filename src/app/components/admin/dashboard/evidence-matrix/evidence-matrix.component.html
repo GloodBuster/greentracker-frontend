@@ -1,27 +1,25 @@
 <section>
-  <p-table [value]="[1, 2, 3]" [style]="{'max-width': '70vw'}">
+  <p-table [value]="[1, 2, 3]" [style]="{ 'max-width': '70vw' }">
     <ng-template pTemplate="header">
+      @for (indicator of indicators; track indicator.index) {
       <tr>
+        @if ($index === 0) {
         <th [colSpan]="1"></th>
-        <th [colSpan]="2">Indicador 1</th>
-        <th [colSpan]="2">Indicador 2</th>
-        <th [colSpan]="2">Indicador 3</th>
-        <th [colSpan]="2">Indicador 4</th>
+        }
+        <th [colSpan]="indicator.categories.length">
+          {{ indicator.spanishAlias }}
+        </th>
       </tr>
       <tr>
         <th [colSpan]="1">Unidades</th>
-        <th [colSpan]="1">Categoría 1</th>
-        <th [colSpan]="1">Categoría 2</th>
-        <th [colSpan]="1">Categoría 2</th>
-        <th [colSpan]="1">Categoría 2</th>
-        <th [colSpan]="1">Categoría 2</th>
-        <th [colSpan]="1">Categoría 2</th>
-        <th [colSpan]="1">Categoría 2</th>
-        <th [colSpan]="1">Categoría 2</th>
+        @for (category of indicator.categories; track category.name) {
+        <th [colSpan]="1">
+          {{ category.name }}
+        </th>
+        }
       </tr>
+      }
     </ng-template>
-    <ng-template pTemplate="body">
- 
-    </ng-template>
+    <ng-template pTemplate="body"> </ng-template>
   </p-table>
 </section>
