@@ -1,22 +1,84 @@
+header {
+  h3 {
+    color: black;
+    font-size: x-large;
+    margin: 0;
+  }
+
+  p {
+    color: #3f3f3f;
+    font-weight: 500;
+  }
+}
+
+h4 {
+  color: black;
+  font-size: large;
+}
+
 .edit-form {
   display: flex;
   flex-direction: column;
   gap: 20px;
-  margin-top: 20px;
 
   .input-container {
     display: flex;
     flex-direction: column;
     gap: 5px;
+
+    input {
+      outline: none;
+      box-shadow: none;
+
+      &:hover,
+      &:focus {
+        border: 1px solid #2d7b30;
+      }
+    }
   }
 
   .buttons-container {
     display: flex;
-    gap: 10px;
+    gap: 20px;
     width: 100%;
+    justify-content: flex-end;
 
     .delete-button {
-      margin-left: auto;
+      color: #3ba13f;
+    }
+
+    .cancel {
+      color: #515050;
+      width: 130px;
+      border-radius: 4px;
+      font-weight: 400;
+      display: flex;
+      justify-content: center;
+
+      &:hover {
+        color: #000;
+      }
+    }
+
+    .save {
+      background-color: #3ba13f;
+      border: none;
+      width: 130px;
+      border-radius: 4px;
+      font-weight: 400;
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      outline: none;
+
+      &:hover {
+        background-color: #268729;
+      }
     }
   }
+}
+
+::ng-deep .p-confirm-popup .p-confirm-popup-content {
+  display: none;
+  
 }

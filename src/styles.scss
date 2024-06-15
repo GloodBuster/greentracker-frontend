@@ -19,3 +19,13 @@ body {
 :root {
   --green: #3ba13f;
 }
+
+.no-outline {
+  outline: none;
+  box-shadow: none;
+}
+
+.button-separation {
+  display: flex;
+  gap: 6px;
+}
