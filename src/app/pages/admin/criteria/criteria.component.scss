@@ -49,3 +49,11 @@
     }
   }
 }
+
+:host ::ng-deep .criteria-dropdown:hover {
+  border-color: #3ba13f;
+}
+
+:host ::ng-deep .criteria-dropdown {
+  border-color: #c2c2c2;
+}
