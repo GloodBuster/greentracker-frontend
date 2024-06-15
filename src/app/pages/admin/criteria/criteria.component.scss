@@ -26,6 +26,10 @@
       background-color: transparent;
       border: 1px solid var(--green);
     }
+
+    .button-disabled {
+      opacity: 0.5;
+    }
   }
 
   .criteria-table-container {
@@ -34,6 +38,14 @@
       font-weight: 400;
       text-align: center;
       font-size: 16px;
+    }
+
+    .edit-button {
+      border-radius: 999999px;
+      padding: 5px;
+      border: none;
+      background-color: transparent;
+      box-shadow: none;
     }
   }
 }
