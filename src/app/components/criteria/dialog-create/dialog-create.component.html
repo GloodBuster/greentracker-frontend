@@ -1,31 +1,64 @@
 <p-dialog
-  header="Criterio"
+  header="Header"
   [modal]="true"
   [(visible)]="visible"
   [closable]="false"
+  [style]="{ width: '50vw' }"
+  [draggable]="false"
 >
-  <h3>Ingrese los datos para crear un nuevo criterio</h3>
+  <ng-template pTemplate="header">
+    <header>
+      <h3>Criterio</h3>
+      <p>
+        Medida específica utilizada para evaluar y cuantificar el desempeño de
+        la universidad dentro de un Indicador determinado. Por ejemplo, “1.1
+        Tipo de Institución de Educación Superior”.
+      </p>
+    </header>
+  </ng-template>
+  <h4>Información</h4>
   <form [formGroup]="criterionForm" class="create-form">
     <div class="input-container">
       <label for="integeronly">Subíndice</label>
-      <p-inputNumber inputId="integeronly" formControlName="subindex" />
+      <p-inputNumber
+        inputId="integeronly"
+        formControlName="subindex"
+        [style]="{ width: '100%' }"
+        placeholder="Ejemplo: 1"
+        [autofocus]="false"
+      />
     </div>
     <div class="input-container">
       <label>Nombre en inglés</label>
-      <input type="text" pInputText formControlName="englishName" />
+      <input
+        type="text"
+        pInputText
+        formControlName="englishName"
+        placeholder="Criterion 1"
+      />
     </div>
     <div class="input-container">
       <label>Alias en español</label>
-      <input type="text" pInputText formControlName="spanishAlias" />
+      <input
+        type="text"
+        pInputText
+        formControlName="spanishAlias"
+        placeholder="Criterio 1"
+      />
     </div>
     <div class="buttons-container">
-      <p-button label="Cancelar" severity="secondary" (click)="hide()" />
-      <p-button
-        label="Guardar"
+      <button pButton (click)="hide()" [outlined]="true" class="cancel">
+        Cancelar
+      </button>
+      <button
+        pButton
         (click)="submitForm()"
         [disabled]="!criterionForm.valid"
         [loading]="loading"
-      />
+        class="save"
+      >
+        Guardar
+      </button>
     </div>
   </form>
 </p-dialog>

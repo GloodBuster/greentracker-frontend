@@ -12,10 +12,7 @@ import { InputNumberModule } from 'primeng/inputnumber';
 import { InputTextModule } from 'primeng/inputtext';
 import { DropdownModule } from 'primeng/dropdown';
 import { CriteriaService } from '../../../services/criteria/criteria.service';
-import {
-  Criterion,
-  CriterionForm,
-} from '../../../interfaces/criteria/criteria';
+import { CriterionForm } from '../../../interfaces/criteria/criteria';
 import { CustomHttpErrorResponse } from '../../../interfaces/responses/error';
 import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
@@ -52,7 +49,10 @@ export class DialogCreateComponent {
   }
 
   criterionForm = new FormGroup({
-    subindex: new FormControl(0, [Validators.required]),
+    subindex: new FormControl<number | null>(null, [
+      Validators.required,
+      Validators.min(1),
+    ]),
     englishName: new FormControl('', [Validators.required]),
     spanishAlias: new FormControl('', [Validators.required]),
   });

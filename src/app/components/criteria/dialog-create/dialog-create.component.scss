@@ -1,17 +1,92 @@
+header {
+  h3 {
+    color: black;
+    font-size: x-large;
+    margin: 0;
+  }
+
+  p {
+    color: #3f3f3f;
+    font-weight: 500;
+  }
+}
+
+h4 {
+  color: black;
+  font-size: large;
+}
+
 .create-form {
   display: flex;
   flex-direction: column;
   gap: 20px;
-  margin-top: 20px;
 
   .input-container {
     display: flex;
     flex-direction: column;
     gap: 5px;
+
+    input {
+      outline: none;
+      box-shadow: none;
+
+      &:hover, &:focus {
+        border: 1px solid #2d7b30;
+      }
+    }
   }
 
   .buttons-container {
     display: flex;
-    gap: 10px;
+    justify-content: flex-end;
+    gap: 20px;
+
+    .cancel {
+      color: #515050;
+      width: 130px;
+      border-radius: 4px;
+      font-weight: 400;
+      display: flex;
+      justify-content: center;
+
+      &:hover {
+        color: #000;
+      }
+    }
+
+    .save {
+      background-color: #3ba13f;
+      border: none;
+      width: 130px;
+      border-radius: 4px;
+      font-weight: 400;
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      outline: none;
+
+      &:hover {
+        background-color: #268729;
+      }
+    }
   }
+}
+
+::ng-deep .p-inputnumber .p-inputnumber-input {
+  box-shadow: none;
+  outline: none;
+
+  &:hover, &:focus {
+    border: 1px solid #2d7b30;
+  }
+}
+
+::ng-deep .p-dialog .p-dialog-header {
+  padding-left: 6%;
+  padding-right: 6%;
+}
+
+::ng-deep .p-dialog .p-dialog-content {
+  padding-left: 6%;
+  padding-right: 6%;
 }
