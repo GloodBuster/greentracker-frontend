@@ -9,6 +9,7 @@ import { CategoriesComponent } from './pages/admin/categories/categories.compone
 import { LandingPageComponent } from './pages/landing-page/landing-page.component';
 import { AdminLayoutComponent } from './components/admin/admin-layout/admin-layout.component';
 import { UnidadComponent } from './pages/admin/unidad/unidad.component';
+import { ActivitiesComponent } from './pages/activities/activities.component';
 
 export const routes: Routes = [
   {
@@ -51,6 +52,10 @@ export const routes: Routes = [
       {
         path: 'category',
         component: CategoriesComponent,
+      },
+      {
+        path: 'activities',
+        component: ActivitiesComponent
       }
     ],
   },

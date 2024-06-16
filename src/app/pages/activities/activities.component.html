@@ -1,0 +1,28 @@
+<main class="activities-page">
+    <article>
+        <header class="activities-page-header">
+            <div class="activities-left-header">
+                <h1>Actividades</h1>
+                <p-dropdown [options]="units" [(ngModel)]="selectedUnit" optionLabel="name"
+                    placeholder="Unidades" (onChange)="onUnitChange($event)"
+                    [style]="{ minWidth: '400px' }"></p-dropdown>
+            </div>
+        </header>
+        <section class="activities-content-container">
+            @if (!unitIndex) {
+            <h3>Seleccione una unidad para ver sus actividades</h3>
+            } @else {
+                <div class="activities-container" >
+                    <p-card *ngFor="let activity of activities" header="{{ activity.name }}" [style]="{ width: '360px'}">
+                        <ng-template pTemplate="header">
+                            <img alt="Card" src="https://primefaces.org/cdn/primeng/images/card-ng.jpg" />
+                        </ng-template>
+                        <p style="margin-top: -10px; margin-bottom: -10px;">
+                            {{ activity.summary }}
+                        </p>
+                    </p-card>
+                </div>
+            }
+          </section>  
+    </article>
+</main>

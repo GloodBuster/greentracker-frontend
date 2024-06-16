@@ -27,7 +27,7 @@ interface PageEvent {
 @Component({
   selector: 'app-unidad',
   standalone: true,
-  imports: [SidebarComponent, ButtonModule, TableModule, CommonModule, TagModule, DialogModule, InputTextModule, FormsModule, FloatLabelModule, DialogCreateComponent, DialogEditComponent, PaginatorModule],
+  imports: [ButtonModule, TableModule, CommonModule, TagModule, DialogModule, InputTextModule, FormsModule, FloatLabelModule, DialogCreateComponent, DialogEditComponent, PaginatorModule],
   templateUrl: './unidad.component.html',
   styleUrl: './unidad.component.scss'
 })

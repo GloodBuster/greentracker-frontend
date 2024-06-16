@@ -8,6 +8,7 @@ export const routes = {
   indicators: '/indicator',
   criteria: '/criteria',
   categories: '/category',
+  activities: '/activities',
   //units
   unitHomePage: '',
   //unlogged

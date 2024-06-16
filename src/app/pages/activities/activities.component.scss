@@ -1,0 +1,39 @@
+.activities-page {
+    margin: 0;
+    box-sizing: border-box;
+  
+    .activities-page-header {
+      display: flex;
+      margin-bottom: 40px;
+      align-items: center;
+      justify-content: space-between;
+  
+      .activities-left-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 30px;
+  
+        h1 {
+          margin: 0;
+        }
+      }
+    }
+    .activities-content-container {
+        h3 {
+          margin: 0;
+          font-weight: 400;
+          text-align: center;
+          font-size: 16px;
+        }
+        .activities-container{
+            width: 100%; 
+            height: 90%; 
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+      }
+  }
+  
