@@ -10,6 +10,7 @@ import { CardModule } from 'primeng/card';
 import { activitiesData } from '../../components/activities/activitiesData';
 import { CommonModule } from '@angular/common';
 
+
 interface PageEvent {
   first?: number;
   rows?: number;
