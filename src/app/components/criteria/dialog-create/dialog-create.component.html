@@ -5,6 +5,7 @@
   [closable]="false"
   [style]="{ width: '50vw' }"
   [draggable]="false"
+  styleClass="criteria-dialog"
 >
   <ng-template pTemplate="header">
     <header>
@@ -19,9 +20,10 @@
   <h4>Información</h4>
   <form [formGroup]="criterionForm" class="create-form">
     <div class="input-container">
-      <label for="integeronly">Subíndice</label>
+      <label for="create-dialog-subindex">Subíndice</label>
       <p-inputNumber
-        inputId="integeronly"
+        styleClass="criteria-number-input"
+        inputId="create-dialog-subindex"
         formControlName="subindex"
         [style]="{ width: '100%' }"
         placeholder="Ejemplo: 1"

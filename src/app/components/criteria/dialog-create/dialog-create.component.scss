@@ -30,7 +30,8 @@ h4 {
       outline: none;
       box-shadow: none;
 
-      &:hover, &:focus {
+      &:hover,
+      &:focus {
         border: 1px solid #2d7b30;
       }
     }
@@ -72,21 +73,22 @@ h4 {
   }
 }
 
-::ng-deep .p-inputnumber .p-inputnumber-input {
+::ng-deep .criteria-number-input .p-inputnumber-input {
   box-shadow: none;
   outline: none;
 
-  &:hover, &:focus {
+  &:hover,
+  &:focus {
     border: 1px solid #2d7b30;
   }
 }
 
-::ng-deep .p-dialog .p-dialog-header {
+::ng-deep .criteria-dialog .p-dialog-header {
   padding-left: 6%;
   padding-right: 6%;
 }
 
-::ng-deep .p-dialog .p-dialog-content {
+::ng-deep .criteria-dialog .p-dialog-content {
   padding-left: 6%;
   padding-right: 6%;
 }
