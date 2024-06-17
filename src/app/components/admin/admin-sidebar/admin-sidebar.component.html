@@ -13,6 +13,7 @@
         [routerLink]="adminHomePage"
         routerLinkActive="active"
         [routerLinkActiveOptions]="{ exact: false }"
+        class="sidebar-item"
       >
         <i class="pi pi-home"></i>
         <h3>Panel Principal</h3>
@@ -28,6 +29,7 @@
         [routerLink]="report"
         routerLinkActive="active"
         [routerLinkActiveOptions]="{ exact: false }"
+        class="sidebar-item"
       >
         <i class="pi pi-file"></i>
         <h3>Generar Reporte</h3>
@@ -38,20 +40,21 @@
         [routerLink]="statistics"
         routerLinkActive="active"
         [routerLinkActiveOptions]="{ exact: false }"
+        class="sidebar-item"
       >
         <i class="pi pi-chart-pie"></i>
         <h3>Estadísticas</h3>
       </a>
     </li>
     <li>
-      <a
-        [routerLink]="chargePeriod"
-        routerLinkActive="active"
-        [routerLinkActiveOptions]="{ exact: false }"
-      >
+      <button class="sidebar-item" (click)="showChargePeriod()">
         <i class="pi pi-calendar"></i>
-        <h3>Periodo de carga</h3>
-      </a>
+        <h3 class="button-h3">Periodo de carga</h3>
+      </button>
+      <app-change-period
+        [visible]="visiblePeriodModal"
+        (hideDialog)="hideChargePeriod()"
+      />
     </li>
   </ul>
   <div class="divider">
@@ -63,6 +66,7 @@
         [routerLink]="units"
         routerLinkActive="active"
         [routerLinkActiveOptions]="{ exact: false }"
+        class="sidebar-item"
       >
         <i class="pi pi-users"></i>
         <h3>Unidades</h3>
@@ -73,6 +77,7 @@
         [routerLink]="indicators"
         routerLinkActive="active"
         [routerLinkActiveOptions]="{ exact: false }"
+        class="sidebar-item"
       >
         <i class="pi pi-chart-bar"></i>
         <h3>Indicadores</h3>
@@ -83,6 +88,7 @@
         [routerLink]="criteria"
         routerLinkActive="active"
         [routerLinkActiveOptions]="{ exact: false }"
+        class="sidebar-item"
       >
         <i class="pi pi-check-square"></i>
         <h3>Criterios</h3>
@@ -93,6 +99,7 @@
         [routerLink]="categories"
         routerLinkActive="active"
         [routerLinkActiveOptions]="{ exact: false }"
+        class="sidebar-item"
       >
         <i class="pi pi-tags"></i>
         <h3>Categorías</h3>

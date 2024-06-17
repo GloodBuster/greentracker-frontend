@@ -33,7 +33,7 @@
       align-items: center;
       border-radius: 10px;
 
-      a {
+      .sidebar-item {
         width: 100%;
         display: flex;
         align-items: center;
@@ -44,14 +44,17 @@
         color: white;
         border-radius: 10px;
         padding-left: 10px;
+        background-color: transparent;
 
         &:hover {
           background-color: #7ae37e;
+          cursor: pointer;
         }
 
         h3 {
           font-weight: 500;
           font-size: 14px;
+          font-family: "Inter var", sans-serif;
         }
       }
 
