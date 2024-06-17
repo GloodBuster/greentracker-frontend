@@ -1,0 +1,59 @@
+<p-dialog
+  header="Header"
+  [modal]="true"
+  [(visible)]="visible"
+  [closable]="false"
+  [draggable]="false"
+  styleClass="change-period-dialog"
+>
+  <ng-template pTemplate="header">
+    <header>
+      <h3>Periodo de Carga</h3>
+      <p>
+        Rango de fechas en el que las unidades pueden subir y modificar las
+        evidencias de sus actividades.
+      </p>
+    </header>
+  </ng-template>
+  <h4>Información</h4>
+  <form [formGroup]="chargePeriodFormGroup">
+    <div class="calendars-container">
+      <div class="input-container">
+        <label for="startPeriodDate">Fecha de inicio</label>
+        <p-calendar
+          formControlName="startDate"
+          [iconDisplay]="'input'"
+          [showIcon]="true"
+          inputId="startPeriodDate"
+          styleClass="change-period-calendar-input"
+          dateFormat="dd/mm/yy"
+        />
+      </div>
+      <div class="input-container">
+        <label for="endPeriodDate">Fecha final</label>
+        <p-calendar
+          formControlName="endDate"
+          [iconDisplay]="'input'"
+          [showIcon]="true"
+          inputId="endPeriodDate"
+          styleClass="change-period-calendar-input"
+          dateFormat="dd/mm/yy"
+        />
+      </div>
+    </div>
+    <div class="buttons-container">
+      <button pButton (click)="hide()" [outlined]="true" class="cancel">
+        Cancelar
+      </button>
+      <button
+        pButton
+        (click)="submitForm()"
+        [disabled]="!chargePeriodFormGroup.valid"
+        [loading]="loading"
+        class="save"
+      >
+        Guardar
+      </button>
+    </div>
+  </form>
+</p-dialog>
