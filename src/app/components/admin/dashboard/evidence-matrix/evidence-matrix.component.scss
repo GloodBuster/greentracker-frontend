@@ -6,3 +6,12 @@ p-table td {
 .recomended-category {
   background-color: #cbe2ff;
 }
+
+::ng-deep .evidence-matrix {
+  max-width: 70vw;
+  max-height: 70vh;
+}
+
+::ng-deep .evidence-matrix tr {
+  height: 60px;
+}

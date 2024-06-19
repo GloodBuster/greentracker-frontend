@@ -1,27 +1,45 @@
 <section>
-  <p-table [value]="[1, 2, 3]" [style]="{ 'max-width': '70vw' }">
+  @if (loading) {
+  <p-table [value]="[1]" styleClass="evidence-matrix">
     <ng-template pTemplate="header">
-      @for (indicator of indicators; track indicator.index) {
       <tr>
-        @if ($index === 0) {
+        <th>
+          <p-skeleton height="60px" />
+        </th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body">
+      <tr>
+        <td>
+          <p-skeleton height="50vh" />
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+  } @else {
+  <p-table [value]="units" styleClass="evidence-matrix">
+    <ng-template pTemplate="header">
+      <tr>
+        @for (indicator of indicators; track indicator.index) { @if ($index ===
+        0) {
         <th [colSpan]="1"></th>
         }
         <th [colSpan]="indicator.categories.length">
           {{ indicator.spanishAlias }}
         </th>
+        }
       </tr>
       <tr>
         <th [colSpan]="1">Unidades</th>
-        @for (category of indicator.categories; track category.name) {
+        @for (indicator of indicators; track indicator.index) { @for (category
+        of indicator.categories; track category.name) {
         <th [colSpan]="1">
           {{ category.name }}
         </th>
-        }
+        }}
       </tr>
-      }
     </ng-template>
-    <ng-template pTemplate="body">
-      @for (unit of units; track unit.id) {
+    <ng-template pTemplate="body" let-unit>
       <tr>
         <th>
           {{ unit.name }}
@@ -29,12 +47,20 @@
         @for (indicator of indicators; track indicator.index) { @for (category
         of indicator.categories; track category.name) { @if
         (isRecommendedCategory(unit, category.name)){
-        <th class="recomended-category"></th>
+        <th class="recomended-category">
+          @if (hasActivity(unit.id, category.name)) {
+          <i class="pi pi-check"></i>
+          }
+        </th>
         } @else {
-        <th></th>
+        <th>
+          @if (hasActivity(unit.id, category.name)) {
+          <i class="pi pi-check"></i>
+          }
+        </th>
         } } }
       </tr>
-      }
     </ng-template>
   </p-table>
+  }
 </section>
