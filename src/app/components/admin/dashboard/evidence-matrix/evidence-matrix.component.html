@@ -1,0 +1,40 @@
+<section>
+  <p-table [value]="[1, 2, 3]" [style]="{ 'max-width': '70vw' }">
+    <ng-template pTemplate="header">
+      @for (indicator of indicators; track indicator.index) {
+      <tr>
+        @if ($index === 0) {
+        <th [colSpan]="1"></th>
+        }
+        <th [colSpan]="indicator.categories.length">
+          {{ indicator.spanishAlias }}
+        </th>
+      </tr>
+      <tr>
+        <th [colSpan]="1">Unidades</th>
+        @for (category of indicator.categories; track category.name) {
+        <th [colSpan]="1">
+          {{ category.name }}
+        </th>
+        }
+      </tr>
+      }
+    </ng-template>
+    <ng-template pTemplate="body">
+      @for (unit of units; track unit.id) {
+      <tr>
+        <th>
+          {{ unit.name }}
+        </th>
+        @for (indicator of indicators; track indicator.index) { @for (category
+        of indicator.categories; track category.name) { @if
+        (isRecommendedCategory(unit, category.name)){
+        <th class="recomended-category"></th>
+        } @else {
+        <th></th>
+        } } }
+      </tr>
+      }
+    </ng-template>
+  </p-table>
+</section>

@@ -66,7 +66,7 @@ export class CriteriaComponent {
 
       this.criteriaService.getAllIndicators().subscribe({
         next: (response) => {
-          this.indicators = response.data.items;
+          this.indicators = response.data;
           this.selectedIndicator = this.indicators.find(
             (indicator) => indicator.index === this.indicatorIndex
           );

@@ -8,6 +8,7 @@ import { IndicadorComponent } from './pages/admin/indicador/indicador.component'
 import { CategoriesComponent } from './pages/admin/categories/categories.component';
 import { LandingPageComponent } from './pages/landing-page/landing-page.component';
 import { AdminLayoutComponent } from './components/admin/admin-layout/admin-layout.component';
+import { DashboardComponent } from './pages/admin/dashboard/dashboard.component';
 import { UnidadComponent } from './pages/admin/unidad/unidad.component';
 import { ActivitiesComponent } from './pages/activities/activities.component';
 import { ActivityComponent } from './components/activities/activity/activity.component';
@@ -39,6 +40,10 @@ export const routes: Routes = [
     },
     children: [
       {
+        path: 'admin-dashboard',
+        component: DashboardComponent,
+      },
+      {
         path: 'units',
         component: UnidadComponent,
       },
@@ -46,7 +51,7 @@ export const routes: Routes = [
         path: 'criteria',
         component: CriteriaComponent,
       },
-      { 
+      {
         path: 'indicator',
         component: IndicadorComponent,
       },

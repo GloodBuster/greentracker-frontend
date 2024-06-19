@@ -16,9 +16,9 @@ export class CriteriaService {
   readonly http = inject(HttpClient);
   private readonly BASE_URL = environment.BASE_URL;
 
-  getAllIndicators(): Observable<PaginatedResponse<Indicator>> {
-    return this.http.get<PaginatedResponse<Indicator>>(
-      `${this.BASE_URL}/indicators`
+  getAllIndicators(): Observable<Response<Indicator[]>> {
+    return this.http.get<Response<Indicator[]>>(
+      `${this.BASE_URL}/indicators/all`
     );
   }
 

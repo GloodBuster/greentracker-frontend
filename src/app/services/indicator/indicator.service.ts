@@ -3,7 +3,7 @@ import { Injectable, inject } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { Observable } from 'rxjs';
 import { PaginatedResponse, Response } from '../../interfaces/responses/response';
-import { Indicator } from '../../interfaces/indicator/indicator';
+import { Indicator, IndicatorDetails } from '../../interfaces/indicator/indicator';
 
 @Injectable({
   providedIn: 'root'
@@ -24,4 +24,7 @@ export class IndicatorService {
     deleteIndicator(index: number): Observable<Response<Indicator>> {
         return this.http.delete<Response<Indicator>>(`${this.BASE_URL}/indicators/${index}`);
     };
+    getAllIndicators(): Observable<Response<IndicatorDetails[]>> {
+        return this.http.get<Response<IndicatorDetails[]>>(`${this.BASE_URL}/indicators/all`);
+    }
 }

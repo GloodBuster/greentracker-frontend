@@ -1,0 +1,69 @@
+.admin-dashboard-page {
+  h1 {
+    margin: 0;
+    font-size: 22px;
+  }
+
+  h2 {
+    margin: 0;
+    font-size: 22px;
+    margin-bottom: 40px;
+  }
+
+  .statistics-section {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-top: 16px;
+    margin-bottom: 40px;
+    flex-wrap: wrap;
+
+    .card {
+      box-sizing: border-box;
+      padding: 10px 24px;
+      background-color: white;
+      height: 120px;
+      max-width: 300px;
+      border-radius: 4px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+
+      h2 {
+        font-size: 36px;
+        margin: 0;
+      }
+
+      p {
+        margin: 0;
+        font-weight: 600;
+      }
+
+      .top-side {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        text-wrap: wrap;
+      }
+    }
+
+    .card-1 {
+      width: 300px;
+
+      .period {
+        color: #555555;
+        font-style: italic;
+        font-weight: 400;
+      }
+    }
+
+    .card-2 {
+      width: 270px;
+    }
+
+    .card-3 {
+      width: 220px;
+    }
+  }
+}
