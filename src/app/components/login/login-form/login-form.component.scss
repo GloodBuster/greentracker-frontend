@@ -23,5 +23,12 @@
     border: none;
     display: flex;
     justify-content: center;
+    display: flex;
+    gap: 6px;
   }
+}
+
+:host ::ng-deep .login-password-input:hover .p-inputtext,
+:host ::ng-deep .login-password-input .p-inputtext:focus {
+  border-color: var(--green);
 }

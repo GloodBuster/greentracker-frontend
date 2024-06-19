@@ -19,7 +19,6 @@ import { FloatLabelModule } from 'primeng/floatlabel';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { InputTextModule } from 'primeng/inputtext';
 import {
-  Criterion,
   CriterionForm,
   initialCriterionForm,
 } from '../../../interfaces/criteria/criteria';
@@ -27,6 +26,9 @@ import { ActivatedRoute } from '@angular/router';
 import { CriteriaService } from '../../../services/criteria/criteria.service';
 import { CustomHttpErrorResponse } from '../../../interfaces/responses/error';
 import { ToastrService } from 'ngx-toastr';
+import { ConfirmPopupModule } from 'primeng/confirmpopup';
+import { ToastModule } from 'primeng/toast';
+import { ConfirmationService, MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-dialog-edit',
@@ -40,9 +42,12 @@ import { ToastrService } from 'ngx-toastr';
     InputNumberModule,
     InputTextModule,
     DropdownModule,
+    ConfirmPopupModule,
+    ToastModule,
   ],
   templateUrl: './dialog-edit.component.html',
   styleUrl: './dialog-edit.component.scss',
+  providers: [ConfirmationService, MessageService],
 })
 export class DialogEditComponent {
   @Input() visible: boolean = false;
@@ -62,7 +67,11 @@ export class DialogEditComponent {
   loading = false;
   deleteLoading = false;
 
-  constructor(private readonly route: ActivatedRoute) {
+  constructor(
+    private readonly route: ActivatedRoute,
+    private confirmationService: ConfirmationService,
+    private messageService: MessageService
+  ) {
     this.route.queryParams.subscribe((params) => {
       this.indicatorIndex = +params['index'];
     });
@@ -149,5 +158,19 @@ export class DialogEditComponent {
 
   showDelete() {
     this.visibleDelete = true;
+  }
+
+  confirm(event: Event) {
+    this.confirmationService.confirm({
+      target: event.target as EventTarget,
+      acceptIcon: 'pi pi-trash mr-5',
+      acceptLabel: 'Eliminar',
+      acceptButtonStyleClass:
+        'p-button-sm p-button-danger no-outline button-separation',
+      rejectVisible: false, // hide reject button
+      accept: () => {
+        this.showDelete();
+      },
+    });
   }
 }
