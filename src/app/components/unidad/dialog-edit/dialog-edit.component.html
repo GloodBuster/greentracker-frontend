@@ -1,34 +1,118 @@
-<p-dialog header="Unidad" [modal]="true" [(visible)]="visible" [style]="{ width: '30rem'}" [closable]="false">
-    <span> Ingrese los nuevos datos de la unidad</span>
-    <form [formGroup]="unitsForm" class="unidad-form">
-        <div class="card flex justify-content-center mt-5 input-container">
-                <label for="name">Nombre</label>
-                <input pInputText class="unidad-input" formControlName="name" />
-        </div>
-        <div class="card flex justify-content-center mt-5 input-container">
-                <label for="email">Correo Institucional</label>
-                <input pInputText class="unidad-input" formControlName="email" />
-        </div>
-        <!--<div class="card flex justify-content-center mt-5 input-container">
-        <label>
-          Categorías:
-          <p-multiSelect [options]="categoriesData" appendTo="body" formControlName="categorias" optionLabel="name"></p-multiSelect>
-        </label>
-        </div>-->
-        <div class="flex justify-content-end gap-2 buttons-container">
-            <p-button icon=" pi pi-trash" [raised]="true" severity="danger" [outlined]="true" class="button1" (click)="deleteUnit()"/>
-            <p-button label="Cancelar" severity="secondary" (click)="hideDialogEdit()" class="button1" />
-            <p-button label="Guardar" (click)="submitForm()" [disabled]="!unitsForm.valid" />
-        </div>
-      </form>
-      <div *ngIf="showConfirmDialog" class="modal">
-        <p-dialog header="Confirmar eliminación" [(visible)]="showConfirmDialog" [modal]="true" [style]="{width: '50vw'}"
-          [baseZIndex]="10000">
-          <p>¿Estás seguro de que quieres eliminar esta unidad?</p>
-          <p-footer>
-            <p-button icon="pi pi-check" label="Eliminar" severity="danger" [outlined]="true" (click)="confirmDelete()" />
-            <p-button icon="pi pi-times" label="Cancelar" (click)="cancelDelete()" />
-          </p-footer>
-        </p-dialog>
-      </div>
+<p-dialog
+  [modal]="true"
+  [(visible)]="visible"
+  [style]="{ width: '60vw' }"
+  [closable]="false"
+  [draggable]="false"
+  styleClass="unit-dialog"
+>
+<form [formGroup]="unitsForm" class="modal">
+  <div class="modal-content">
+    <header>
+      <h3>Unidad</h3>
+      <p>
+        Departamento de la universidad que reportará las distintas actividades
+        y evidencias relevantes.
+      </p>
+    </header>
+    <h4>Información</h4>
+    <div class="input-info">
+      <label>Nombre</label>
+      <input
+        type="text"
+        pInputText
+        formControlName="name"
+        placeholder="Nombre de la unidad"
+      />
+    </div>
+    <div class="input-info">
+      <label>Correo institucional</label>
+      <input
+        type="text"
+        pInputText
+        formControlName="email"
+        placeholder="Correo de la unidad"
+      />
+    </div>
+  </div>
+  <div class="modal-content">
+    <h4>Categorías recomendadas</h4>
+    
+    <p-multiSelect
+      formControlName="recommendedCategories"
+      [group]="true"
+      [options]="indicators"
+      display="chip"
+      optionLabel="name"
+      optionGroupLabel="spanishAlias"
+      optionGroupChildren="categories"
+      placeholder="Seleccione las categorias"
+    ></p-multiSelect>
+    
+  </div>
+</form>
+<div class="buttons-container">
+  <button pButton (click)="hideDialogEdit()" [outlined]="true" class="cancel">
+    Cancelar
+  </button>
+  <button
+    pButton
+    (click)="submitForm()"
+    [disabled]="!unitsForm.valid"
+    [loading]="loading"
+    class="save"
+  >
+    Guardar
+  </button>
+</div>
+<!--
+
+    <div class="flex justify-content-end gap-2 buttons-container">
+      <p-button
+        icon=" pi pi-trash"
+        [raised]="true"
+        severity="danger"
+        [outlined]="true"
+        class="button1"
+        (click)="deleteUnit()"
+      />
+      <p-button
+        label="Cancelar"
+        severity="secondary"
+        (click)="hideDialogEdit()"
+        class="button1"
+      />
+      <p-button
+        label="Guardar"
+        (click)="submitForm()"
+        [disabled]="!unitsForm.valid"
+      />
+    </div>
+  </form>
+  <div *ngIf="showConfirmDialog" class="modal">
+    <p-dialog
+      header="Confirmar eliminación"
+      [(visible)]="showConfirmDialog"
+      [modal]="true"
+      [style]="{ width: '50vw' }"
+      [baseZIndex]="10000"
+    >
+      <p>¿Estás seguro de que quieres eliminar esta unidad?</p>
+      <p-footer>
+        <p-button
+          icon="pi pi-check"
+          label="Eliminar"
+          severity="danger"
+          [outlined]="true"
+          (click)="confirmDelete()"
+        />
+        <p-button
+          icon="pi pi-times"
+          label="Cancelar"
+          (click)="cancelDelete()"
+        />
+      </p-footer>
+    </p-dialog>
+  </div>
+  -->
 </p-dialog>
