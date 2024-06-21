@@ -41,7 +41,7 @@
     </ng-template>
     <ng-template pTemplate="body" let-unit>
       <tr>
-        <th>
+        <th pFrozenColumn>
           {{ unit.name }}
         </th>
         @for (indicator of indicators; track indicator.index) { @for (category
