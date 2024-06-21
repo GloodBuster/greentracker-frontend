@@ -27,9 +27,9 @@
                         <td>{{unit.name}}</td>
                         <td>{{unit.email}}</td>
                         <td>
-                            <p-tag *ngFor="let categoria of unit.categorias?.slice(0, 3)" severity="info"
-                                class="mr-2">{{categoria.name}}</p-tag>
-                            <span *ngIf="unit.categorias?.length > 3">+{{unit.categorias.length - 3}}</span>
+                            <p-tag *ngFor="let categoria of unit.recommendedCategories.slice(0, 3)" severity="info"
+                                class="mr-2">{{categoria.categoryName}}</p-tag>
+                            <span *ngIf="unit.recommendedCategories.length > 3">+{{unit.recommendedCategories.length - 3}}</span>
                         </td>
                         <td>
                             <p-button icon="pi pi-eye" class="unidad-button-view mr-2" [outlined]="true"

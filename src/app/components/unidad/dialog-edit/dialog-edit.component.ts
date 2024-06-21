@@ -22,7 +22,7 @@ import { CustomHttpErrorResponse } from '../../../interfaces/responses/error';
   styleUrl: './dialog-edit.component.scss'
 })
 export class DialogEditComponent implements OnChanges {
-  @Input() unit: UnitsGet = { id: '', name: '', email: ''};
+  @Input() unit: UnitsGet = { id: '', name: '', email: '', recommendedCategories: []};
   @Input() visible: boolean = false;
   @Output() hide: EventEmitter<any> = new EventEmitter();
   @Output() update: EventEmitter<any> = new EventEmitter<any>();
@@ -49,7 +49,7 @@ export class DialogEditComponent implements OnChanges {
 
   hideDialogEdit() {
     this.unitsForm.reset();
-    this.unit = { id: '', name: '', email: ''};
+    this.unit = { id: '', name: '', email: '', recommendedCategories: []};
     this.hide.emit();
   }
 
@@ -68,6 +68,7 @@ export class DialogEditComponent implements OnChanges {
         id: this.unit.id ?? '',
         name: this.unitsForm.value.name ?? '',
         email: this.unitsForm.value.email ?? '',
+        recommendedCategories: this.unit.recommendedCategories
       };
 
       this.unitsService.updateUnit(this.unit.id, unit).subscribe(

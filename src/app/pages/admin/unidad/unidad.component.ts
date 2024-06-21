@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { SidebarComponent } from '../../../components/sidebar/sidebar.component';
 import { ButtonModule } from 'primeng/button';
 import { TableModule } from 'primeng/table';
-import * as data from '../../../../assets/unitsData.json';
 import { CommonModule } from '@angular/common';
 import { TagModule } from 'primeng/tag';
 import { DialogModule } from 'primeng/dialog';
@@ -27,9 +25,21 @@ interface PageEvent {
 @Component({
   selector: 'app-unidad',
   standalone: true,
-  imports: [ButtonModule, TableModule, CommonModule, TagModule, DialogModule, InputTextModule, FormsModule, FloatLabelModule, DialogCreateComponent, DialogEditComponent, PaginatorModule],
+  imports: [
+    ButtonModule,
+    TableModule,
+    CommonModule,
+    TagModule,
+    DialogModule,
+    InputTextModule,
+    FormsModule,
+    FloatLabelModule,
+    DialogCreateComponent,
+    DialogEditComponent,
+    PaginatorModule,
+  ],
   templateUrl: './unidad.component.html',
-  styleUrl: './unidad.component.scss'
+  styleUrl: './unidad.component.scss',
 })
 export class UnidadComponent implements OnInit {
   unitsData: UnitsGet[] = [];
@@ -45,27 +55,29 @@ export class UnidadComponent implements OnInit {
     private readonly unitsService: UnitsService,
     private readonly route: ActivatedRoute,
     private readonly router: Router
-  ) { 
+  ) {
     this.route.queryParams.subscribe((params) => {
       const page = +params['page'] || 1;
       this.first = (page - 1) * this.paginationRows;
       this.unitsService.getUnits(page, this.paginationRows).subscribe({
         next: (response) => {
+          console.log(response);
           this.unitsData = response.data.items;
+          console.log(this.unitsData);
           this.totalRecords = response.data.itemCount;
           this.paginationRows = response.data.itemsPerPage;
         },
         error: (error: CustomHttpErrorResponse) => {
           console.error(error);
-        }
-      })
+        },
+      });
     });
   }
 
   showDialog() {
     this.visible = true;
   }
-  
+
   hideDialog() {
     this.visible = false;
   }
@@ -74,20 +86,19 @@ export class UnidadComponent implements OnInit {
     this.unitsData.push(unit);
   }
 
-
   visibleEdit: boolean = false;
 
-showDialogEdit(unit: any) {
-  this.editingUnit = unit;
-  this.visibleEdit = true;
-}
+  showDialogEdit(unit: any) {
+    this.editingUnit = unit;
+    this.visibleEdit = true;
+  }
 
-hideDialogEdit() {
-  this.visibleEdit = false;
-  this.editingUnit = {id: '', name: '', email: ''};
-}
+  hideDialogEdit() {
+    this.visibleEdit = false;
+    this.editingUnit = { id: '', name: '', email: '' };
+  }
 
-  update({value, id}: { value: UnitsGet, id: string }) {
+  update({ value, id }: { value: UnitsGet; id: string }) {
     console.log(value, id);
     const indexToUpdate = this.unitsData.findIndex((unit) => unit.id === id);
     this.unitsData[indexToUpdate] = value;
@@ -95,43 +106,42 @@ hideDialogEdit() {
 
   onPageChange(event: PageEvent) {
     this.unitsService
-    .getUnits(event.page ? event.page + 1 : 1, event.rows ? event.rows : this.paginationRows)
-    .subscribe({
-      next: (response) => {
-        this.unitsData = response.data.items;
-        this.totalRecords = response.data.itemCount;
-        if (event.rows) this.paginationRows = event.rows;
-        if (event.first) this.first = event.first;
+      .getUnits(
+        event.page ? event.page + 1 : 1,
+        event.rows ? event.rows : this.paginationRows
+      )
+      .subscribe({
+        next: (response) => {
+          this.unitsData = response.data.items;
+          this.totalRecords = response.data.itemCount;
+          if (event.rows) this.paginationRows = event.rows;
+          if (event.first) this.first = event.first;
 
-        this.router.navigate([], {
-          relativeTo: this.route,
-          queryParams: { page: event.page ? event.page + 1 : 1 },
-          queryParamsHandling: 'merge', // preserve the existing query params
-        });
-      },
-      error: (error: CustomHttpErrorResponse) => {
-        console.error(error);
-      }
-    });
+          this.router.navigate([], {
+            relativeTo: this.route,
+            queryParams: { page: event.page ? event.page + 1 : 1 },
+            queryParamsHandling: 'merge', // preserve the existing query params
+          });
+        },
+        error: (error: CustomHttpErrorResponse) => {
+          console.error(error);
+        },
+      });
   }
 
-  ngOnInit(): void {
+  ngOnInit(): void {}
+
+  delete(id: string) {
+    const idDelete = this.unitsData.findIndex((i) => i.id === id);
+    this.unitsData.splice(idDelete, 1);
   }
 
+  view(unit: any) {
+    this.viewingUnit = unit;
+    this.visibleView = true;
+  }
 
-
-
-delete(id: string) {
-  const idDelete = this.unitsData.findIndex((i) => i.id === id);
-  this.unitsData.splice(idDelete, 1);
-}
-
-view(unit: any) {
-  this.viewingUnit = unit;
-  this.visibleView = true; 
-}
-
-hideDialogView() {
-  this.visibleView = false;
-}
+  hideDialogView() {
+    this.visibleView = false;
+  }
 }

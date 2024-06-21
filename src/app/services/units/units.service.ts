@@ -6,7 +6,7 @@ import {
   Response,
 } from '../../interfaces/responses/response';
 import { Observable } from 'rxjs';
-import { UnitsForm, UnitsGet } from '../../interfaces/units/units';
+import { Indicators, UnitsForm, UnitsGet } from '../../interfaces/units/units';
 
 @Injectable({
     providedIn: 'root',
@@ -48,6 +48,12 @@ export class UnitsService{
     ): Observable<Response<UnitsForm>> {
         return this.http.delete<Response<UnitsForm>>(
             `${this.BASE_URL}/units/${id}`
+        );
+    }
+
+    getAllIndicators(): Observable<Response<Indicators[]>> {
+        return this.http.get<Response<Indicators[]>>(
+          `${this.BASE_URL}/indicators/all`
         );
     }
 
