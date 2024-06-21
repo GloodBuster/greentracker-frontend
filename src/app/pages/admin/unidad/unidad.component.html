@@ -47,9 +47,9 @@
         (onPageChange)="onPageChange($event)"
       />
         </div>
-        <app-dialog-create [visible]="visible" (hide)="hideDialog()" (create)="create($event)"></app-dialog-create>
+        <app-dialog-create [visible]="visible" (hide)="hideDialog()" (create)="create($event)" [indicators]="indicators"></app-dialog-create>
         <app-dialog-edit [unit]="editingUnit" [visible]="visibleEdit" (hide)="hideDialogEdit()"
-            (update)="update($event)" (delete)="delete($event)"></app-dialog-edit>
+            (update)="update($event)" (delete)="delete($event)" [indicators]="indicators"></app-dialog-edit>
             <p-dialog header="Detalles de la unidad" [(visible)]="visibleView" [modal]="true" [style]="{width: '40vw'}" [baseZIndex]="10000">
                 <div *ngIf="viewingUnit">
                     <p><strong>ID:</strong> {{viewingUnit.id}}</p>

@@ -1,66 +1,75 @@
-<p-dialog [modal]="true" [(visible)]="visible" [style]="{ width: '60vw' }" [closable]="false" [draggable]="false" styleClass="unit-dialog">
-    <form [formGroup]="unitsForm" class="modal">
-        <div class="modal-content">
-                <header>
-                  <h3>Unidad</h3>
-                  <p>
-                    Departamento de la universidad que reportará las distintas actividades y evidencias relevantes.
-                  </p>
-                </header>
-                <h4>Información</h4>
-                <div class="input-info">
-                    <label>Nombre</label>
-                    <input
-                      type="text"
-                      pInputText
-                      formControlName="name"
-                      placeholder="Nombre de la unidad"
-                    />
-                </div>
-                <div class="input-info">
-                    <label>Correo institucional</label>
-                    <input
-                      type="text"
-                      pInputText
-                      formControlName="email"
-                      placeholder="Correo de la unidad"
-                    />
-                </div>
-                <div class="input-info">
-                    <label>Contraseña</label>
-                    <input
-                      type="text"
-                      pInputText
-                      formControlName="password"
-                      placeholder="Contraseña de la unidad"
-                    />
-                </div>
-        </div>
-        <div class="modal-content">
-            <h4>Categorías recomendadas</h4>
-            <p-multiSelect
-            formControlName="recommendedCategories" 
-            [group]="true" 
-            [options]="indicators"
-            display="chip"
-            optionLabel="name"
-            optionGroupLabel="spanishAlias"
-            optionGroupChildren="categories"
-            placeholder="Seleccione las categorias"></p-multiSelect>
-        </div>
-    </form>
-    <div class="buttons-container">
-        <button pButton (click)="hideDialog()" [outlined]="true" class="cancel">
-          Cancelar
-        </button>
-        <button
-          pButton
-          (click)="submitForm()"
-          [disabled]="!unitsForm.valid"
-          [loading]="loading"
-          class="save"
-        >
-          Guardar
-        </button>
+<p-dialog
+  [modal]="true"
+  [(visible)]="visible"
+  [style]="{ width: '60vw' }"
+  [closable]="false"
+  [draggable]="false"
+  styleClass="unit-dialog"
+>
+  <form [formGroup]="unitsForm" class="modal">
+    <div class="modal-content">
+      <header>
+        <h3>Unidad</h3>
+        <p>
+          Departamento de la universidad que reportará las distintas actividades
+          y evidencias relevantes.
+        </p>
+      </header>
+      <h4>Información</h4>
+      <div class="input-info">
+        <label>Nombre</label>
+        <input
+          type="text"
+          pInputText
+          formControlName="name"
+          placeholder="Nombre de la unidad"
+        />
       </div>
+      <div class="input-info">
+        <label>Correo institucional</label>
+        <input
+          type="text"
+          pInputText
+          formControlName="email"
+          placeholder="Correo de la unidad"
+        />
+      </div>
+      <div class="input-info">
+        <label>Contraseña</label>
+        <input
+          type="text"
+          pInputText
+          formControlName="password"
+          placeholder="Contraseña de la unidad"
+        />
+      </div>
+    </div>
+    <div class="modal-content">
+      <h4>Categorías recomendadas</h4>
+      <p-multiSelect
+        formControlName="recommendedCategories"
+        [group]="true"
+        [options]="indicators"
+        display="chip"
+        optionLabel="name"
+        optionGroupLabel="spanishAlias"
+        optionGroupChildren="categories"
+        placeholder="Seleccione las categorias"
+      ></p-multiSelect>
+    </div>
+  </form>
+  <div class="buttons-container">
+    <button pButton (click)="hideDialog()" [outlined]="true" class="cancel">
+      Cancelar
+    </button>
+    <button
+      pButton
+      (click)="submitForm()"
+      [disabled]="!unitsForm.valid"
+      [loading]="loading"
+      class="save"
+    >
+      Guardar
+    </button>
+  </div>
 </p-dialog>

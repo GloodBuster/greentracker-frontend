@@ -15,6 +15,7 @@ import { MultiSelectModule } from 'primeng/multiselect';
 import { UnitsService } from '../../../services/units/units.service';
 import { CategoriesData, CategoriesForm, Indicators, UnitsForm } from '../../../interfaces/units/units';
 import { CustomHttpErrorResponse } from '../../../interfaces/responses/error';
+import { CategoriesDataToForm } from '../../../pages/admin/unidad/unidad.component';
 
 @Component({
   selector: 'app-dialog-create',
@@ -36,21 +37,13 @@ export class DialogCreateComponent {
   @Input() visible: boolean = false;
   @Output() hide: EventEmitter<any> = new EventEmitter();
   @Output() create: EventEmitter<any> = new EventEmitter<any>();
+  @Input() indicators: Indicators[] = [];
   loading = false;
-  indicators: Indicators[] = [];
   selectedCategories: CategoriesData[] = [];
   selectedIndicator: Indicators | undefined;
   indicatorIndex = 0;
 
   constructor(private unitsService: UnitsService) {
-    this.unitsService.getAllIndicators().subscribe({
-      next: (response) => {
-        this.indicators = response.data;
-      },
-      error: (error: CustomHttpErrorResponse) => {
-        console.error('Error al obtener los indicadores:', error);
-      },
-    });
   }
 
   hideDialog() {
@@ -73,17 +66,7 @@ export class DialogCreateComponent {
       this.loading = true;
       const categories = this.unitsForm.value
         .recommendedCategories as CategoriesData[];
-      this.unitsForm.value.recommendedCategories = categories?.map(
-        (category) => {
-          const indicatorIndex = this.indicators.find((indicator) =>
-            indicator.categories.includes(category)
-          );
-          return {
-            categoryName: category.name,
-            indicatorIndex: indicatorIndex?.index ?? 0,
-          };
-        }
-      );
+      this.unitsForm.value.recommendedCategories = CategoriesDataToForm(categories, this.indicators);
       const unit = this.unitsForm.value as UnitsForm;
       console.log('unit:', unit);
       this.unitsService.addNewUnit(unit).subscribe({

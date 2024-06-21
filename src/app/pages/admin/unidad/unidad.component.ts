@@ -9,7 +9,7 @@ import { FormsModule } from '@angular/forms';
 import { FloatLabelModule } from 'primeng/floatlabel';
 import { DialogCreateComponent } from '../../../components/unidad/dialog-create/dialog-create.component';
 import { DialogEditComponent } from '../../../components/unidad/dialog-edit/dialog-edit.component';
-import { UnitsGet } from '../../../interfaces/units/units';
+import { CategoriesData, CategoriesForm, Indicators, UnitsGet } from '../../../interfaces/units/units';
 import { UnitsService } from '../../../services/units/units.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CustomHttpErrorResponse } from '../../../interfaces/responses/error';
@@ -20,6 +20,29 @@ interface PageEvent {
   rows?: number;
   page?: number;
   pageCount?: number;
+}
+
+export function CategoriesDataToForm(categories: CategoriesData[], indicators: Indicators[]): CategoriesForm[] {
+   return categories?.map(
+    (category) => {
+      const indicatorIndex = indicators.find((indicator) =>
+        indicator.categories.includes(category)
+      );
+      return {
+        categoryName: category.name,
+        indicatorIndex: indicatorIndex?.index ?? 0,
+      };
+    }
+  );
+}
+export function FormToCategoriesData(categories: CategoriesForm[]): CategoriesData[] {
+  return categories.map((category) => {
+    return {
+      name: category.categoryName,
+      criteria: [],
+    };
+  });
+
 }
 
 @Component({
@@ -50,6 +73,7 @@ export class UnidadComponent implements OnInit {
   paginationRows = 10;
   first: number = 0;
   totalRecords: number = 0;
+  indicators: Indicators[] = [];
 
   constructor(
     private readonly unitsService: UnitsService,
@@ -63,7 +87,6 @@ export class UnidadComponent implements OnInit {
         next: (response) => {
           console.log(response);
           this.unitsData = response.data.items;
-          console.log(this.unitsData);
           this.totalRecords = response.data.itemCount;
           this.paginationRows = response.data.itemsPerPage;
         },
@@ -71,6 +94,15 @@ export class UnidadComponent implements OnInit {
           console.error(error);
         },
       });
+    });
+
+    this.unitsService.getAllIndicators().subscribe({
+      next: (response) => {
+        this.indicators = response.data;
+      },
+      error: (error: CustomHttpErrorResponse) => {
+        console.error('Error al obtener los indicadores:', error);
+      },
     });
   }
 
@@ -95,7 +127,7 @@ export class UnidadComponent implements OnInit {
 
   hideDialogEdit() {
     this.visibleEdit = false;
-    this.editingUnit = { id: '', name: '', email: '' };
+    this.editingUnit = { id: '', name: '', email: '', recommendedCatgeories: []};
   }
 
   update({ value, id }: { value: UnitsGet; id: string }) {
