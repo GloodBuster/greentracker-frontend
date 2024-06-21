@@ -16,7 +16,7 @@ export class UnitsService {
   private readonly BASE_URL = environment.BASE_URL;
 
   getAllUnits(): Observable<Response<UnitDetails[]>> {
-    return this.http.get<Response<UnitDetails[]>>(`${this.BASE_URL}/units`);
+    return this.http.get<Response<UnitDetails[]>>(`${this.BASE_URL}/units/all`);
   }
 
   getUnits(
