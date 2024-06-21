@@ -11,12 +11,6 @@ import { CommonModule } from '@angular/common';
 import { UnitsService } from '../../../../services/units/units.service';
 import { SkeletonModule } from 'primeng/skeleton';
 
-interface HasActivity {
-  unitId: string;
-  categoryName: string;
-  hasActivity: boolean;
-}
-
 @Component({
   selector: 'app-evidence-matrix',
   standalone: true,
@@ -27,7 +21,6 @@ interface HasActivity {
 export class EvidenceMatrixComponent {
   indicators: IndicatorDetails[] = [];
   units: UnitDetails[] = [];
-  activitiesByUnits: HasActivity[] = [];
   loading = true;
   @Output() editChargedEvidence: EventEmitter<number> = new EventEmitter();
   @Output() editLoading: EventEmitter<boolean> = new EventEmitter();
@@ -47,51 +40,128 @@ export class EvidenceMatrixComponent {
         this.unitsService.getAllUnits().subscribe({
           next: (response) => {
             this.units = response.data;
-
-            this.units.forEach((unit, unitIndex) => {
-              this.indicators.forEach((indicator, indicatorIndex) => {
-                indicator.categories.forEach((category, categoryIndex) => {
-                  this.activitiesService
-                    .getFilteredActivities({
-                      unitId: unit.id,
-                      itemsPerPage: 1,
-                      categoryName: category.name,
-                    })
-                    .subscribe({
-                      next: (response) => {
-                        this.activitiesByUnits.push({
-                          unitId: unit.id,
-                          categoryName: category.name,
-                          hasActivity: response.data.items.length > 0,
-                        });
-
-                        if (
-                          unitIndex === this.units.length - 1 &&
-                          indicatorIndex === this.indicators.length - 1 &&
-                          categoryIndex === indicator.categories.length - 1
-                        ) {
-                          this.editPercentageValue(
-                            this.activitiesByUnits.filter(
-                              (activity) => activity.hasActivity
-                            ).length / this.activitiesByUnits.length
-                          );
-                          this.loading = false;
-                          this.editLoading.emit(false);
-                        }
+            this.loading = false;
+            this.editLoading.emit(false);
+            this.units = [
+              {
+                id: '1',
+                name: 'Unit 1',
+                email: 'unit1@example.com',
+                recommendedCategories: [
+                  {
+                    indicatorIndex: 0,
+                    name: 'Category 1',
+                  },
+                ],
+                contributedCategories: [
+                  {
+                    indicatorIndex: 0,
+                    name: 'Category 1',
+                  },
+                  {
+                    indicatorIndex: 1,
+                    name: 'Category 2',
+                  },
+                ],
+              },
+              {
+                id: '2',
+                name: 'Unit 2',
+                email: 'unit2@example.com',
+                recommendedCategories: [
+                  {
+                    indicatorIndex: 1,
+                    name: 'Category 2',
+                  },
+                ],
+                contributedCategories: [
+                  {
+                    indicatorIndex: 1,
+                    name: 'Category 2',
+                  },
+                ],
+              },
+              {
+                id: '3',
+                name: 'Unit 3',
+                email: 'unit3@example.com',
+                recommendedCategories: [
+                  {
+                    indicatorIndex: 2,
+                    name: 'Category 3',
+                  },
+                ],
+                contributedCategories: [
+                  {
+                    indicatorIndex: 2,
+                    name: 'Category 3',
+                  },
+                ],
+              },
+            ];
+            this.indicators = [
+              {
+                index: 0,
+                englishName: 'Test Indicator 1',
+                spanishAlias: 'Indicador de Prueba 1',
+                categories: [
+                  {
+                    name: 'Category 1',
+                    criteria: [
+                      {
+                        indicatorIndex: 0,
+                        subindex: 0,
+                        englishName: 'Test Criteria 1',
+                        spanishAlias: 'Criterio de Prueba 1',
                       },
-                      error: (error: CustomHttpErrorResponse) => {
-                        if (error.error.statusCode === 500) {
-                          this.toastService.error(
-                            'Ha ocurrido un error inesperado'
-                          );
-                        } else {
-                          this.toastService.error(error.error.message);
-                        }
+                    ],
+                  },
+                ],
+              },
+              {
+                index: 1,
+                englishName: 'Test Indicator 2',
+                spanishAlias: 'Indicador de Prueba 2',
+                categories: [
+                  {
+                    name: 'Category 2',
+                    criteria: [
+                      {
+                        indicatorIndex: 1,
+                        subindex: 1,
+                        englishName: 'Test Criteria 2',
+                        spanishAlias: 'Criterio de Prueba 2',
                       },
-                    });
-                });
-              });
-            });
+                    ],
+                  },
+                ],
+              },
+              {
+                index: 2,
+                englishName: 'Test Indicator 3',
+                spanishAlias: 'Indicador de Prueba 3',
+                categories: [
+                  {
+                    name: 'Category 3',
+                    criteria: [
+                      {
+                        indicatorIndex: 2,
+                        subindex: 2,
+                        englishName: 'Test Criteria 3',
+                        spanishAlias: 'Criterio de Prueba 3',
+                      },
+                    ],
+                  },
+                ],
+              },
+            ];
+            const percentage =
+              (this.units.reduce((acc, unit) => {
+                return acc + (unit.contributedCategories.length > 0 ? 1 : 0);
+              }, 0) /
+                this.units.length) *
+              100;
+            this.editPercentageValue(percentage);
           },
           error: (error: CustomHttpErrorResponse) => {
             if (error.error.statusCode === 500) {
@@ -111,110 +181,20 @@ export class EvidenceMatrixComponent {
       },
     });
 
-    this.activitiesService.getFilteredActivities({}).subscribe({
-      next: (response) => {
-        this.editChargedEvidenceValue(response.data.itemCount);
-      },
-      error: (error: CustomHttpErrorResponse) => {
-        if (error.error.statusCode === 500) {
-          this.toastService.error('Ha ocurrido un error inesperado');
-        } else {
-          this.toastService.error(error.error.message);
-        }
-      },
-    });
-
-    this.units = [
-      {
-        id: '1',
-        name: 'Unit 1',
-        email: 'unit1@example.com',
-        recommendedCategories: [
-          {
-            indicatorIndex: 0,
-            name: 'Category 1',
-          },
-        ],
-      },
-      {
-        id: '2',
-        name: 'Unit 2',
-        email: 'unit2@example.com',
-        recommendedCategories: [
-          {
-            indicatorIndex: 1,
-            name: 'Category 2',
-          },
-        ],
-      },
-      {
-        id: '3',
-        name: 'Unit 3',
-        email: 'unit3@example.com',
-        recommendedCategories: [
-          {
-            indicatorIndex: 2,
-            name: 'Category 3',
-          },
-        ],
-      },
-    ];
-    this.indicators = [
-      {
-        index: 0,
-        englishName: 'Test Indicator 1',
-        spanishAlias: 'Indicador de Prueba 1',
-        categories: [
-          {
-            name: 'Category 1',
-            criteria: [
-              {
-                indicatorIndex: 0,
-                subindex: 0,
-                englishName: 'Test Criteria 1',
-                spanishAlias: 'Criterio de Prueba 1',
-              },
-            ],
-          },
-        ],
-      },
-      {
-        index: 1,
-        englishName: 'Test Indicator 2',
-        spanishAlias: 'Indicador de Prueba 2',
-        categories: [
-          {
-            name: 'Category 2',
-            criteria: [
-              {
-                indicatorIndex: 1,
-                subindex: 1,
-                englishName: 'Test Criteria 2',
-                spanishAlias: 'Criterio de Prueba 2',
-              },
-            ],
-          },
-        ],
-      },
-      {
-        index: 2,
-        englishName: 'Test Indicator 3',
-        spanishAlias: 'Indicador de Prueba 3',
-        categories: [
-          {
-            name: 'Category 3',
-            criteria: [
-              {
-                indicatorIndex: 2,
-                subindex: 2,
-                englishName: 'Test Criteria 3',
-                spanishAlias: 'Criterio de Prueba 3',
-              },
-            ],
-          },
-        ],
-      },
-    ];
+    this.activitiesService
+      .getFilteredActivities({ itemsPerPage: 1 })
+      .subscribe({
+        next: (response) => {
+          this.editChargedEvidenceValue(response.data.itemCount);
+        },
+        error: (error: CustomHttpErrorResponse) => {
+          if (error.error.statusCode === 500) {
+            this.toastService.error('Ha ocurrido un error inesperado');
+          } else {
+            this.toastService.error(error.error.message);
+          }
+        },
+      });
   }
 
   editPercentageValue(percentage: number): void {
@@ -232,11 +212,12 @@ export class EvidenceMatrixComponent {
   }
 
   hasActivity(unitId: string, categoryName: string): boolean {
-    return this.activitiesByUnits.some(
-      (activity) =>
-        activity.unitId === unitId &&
-        activity.categoryName === categoryName &&
-        activity.hasActivity
+    return this.units.some(
+      (unit) =>
+        unit.id === unitId &&
+        unit.contributedCategories.some(
+          (contributedCategory) => contributedCategory.name === categoryName
+        )
     );
   }
 }
