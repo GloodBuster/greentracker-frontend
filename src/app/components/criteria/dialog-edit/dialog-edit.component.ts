@@ -70,7 +70,6 @@ export class DialogEditComponent {
   constructor(
     private readonly route: ActivatedRoute,
     private confirmationService: ConfirmationService,
-    private messageService: MessageService
   ) {
     this.route.queryParams.subscribe((params) => {
       this.indicatorIndex = +params['index'];

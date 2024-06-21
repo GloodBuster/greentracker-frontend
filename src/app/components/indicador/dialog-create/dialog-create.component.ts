@@ -56,12 +56,10 @@ export class DialogCreateComponent {
         },
         (error: ErrorResponse) => {
           this.toastService.error(error.message);
-          console.log('Error al crear el indicador:', error.message);
         }
       );
     } else {
       this.toastService.error('Ha ocurrido un error');
-      console.log('Formulario no válido');
     }
   }
 }

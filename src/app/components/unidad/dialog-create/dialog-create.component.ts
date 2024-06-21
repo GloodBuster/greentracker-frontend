@@ -68,7 +68,6 @@ export class DialogCreateComponent {
         .recommendedCategories as CategoriesData[];
       this.unitsForm.value.recommendedCategories = CategoriesDataToForm(categories, this.indicators);
       const unit = this.unitsForm.value as UnitsForm;
-      console.log('unit:', unit);
       this.unitsService.addNewUnit(unit).subscribe({
         next: (response) => {
           this.create.emit(response.data);
@@ -79,6 +78,7 @@ export class DialogCreateComponent {
         error: (error: CustomHttpErrorResponse) => {
           this.toastService.error('Error al agregar la unidad');
           console.error('Error al agregar la unidad:', error);
+          this.loading = false;
         },
       });
     }

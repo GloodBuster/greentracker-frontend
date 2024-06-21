@@ -25,5 +25,16 @@
         border: 1px solid var(--green);
       }
     }
+    .mr{
+      margin-right: 6px;
+    }
+  }
+  .edit-button {
+    margin-left: 6px;
+    border-radius: 999999px;
+    padding: 5px;
+    border: none;
+    background-color: transparent;
+    box-shadow: none;
   }
   

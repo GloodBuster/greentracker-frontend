@@ -33,7 +33,13 @@ import {
 import { UnitsService } from '../../../services/units/units.service';
 import { CustomHttpErrorResponse } from '../../../interfaces/responses/error';
 import { CategoriesForm } from '../../../interfaces/categories/categories';
-import { CategoriesDataToForm, FormToCategoriesData } from '../../../pages/admin/unidad/unidad.component';
+import {
+  CategoriesDataToForm,
+  FormToCategoriesData,
+} from '../../../pages/admin/unidad/unidad.component';
+import { ConfirmationService, MessageService } from 'primeng/api';
+import { ConfirmPopupModule } from 'primeng/confirmpopup';
+import { ToastModule } from 'primeng/toast';
 
 @Component({
   selector: 'app-dialog-edit',
@@ -48,9 +54,12 @@ import { CategoriesDataToForm, FormToCategoriesData } from '../../../pages/admin
     PanelModule,
     MultiSelectModule,
     CommonModule,
+    ConfirmPopupModule,
+    ToastModule,
   ],
   templateUrl: './dialog-edit.component.html',
   styleUrl: './dialog-edit.component.scss',
+  providers: [ConfirmationService, MessageService],
 })
 export class DialogEditComponent implements OnChanges {
   @Input() unit: UnitsGet = {
@@ -69,9 +78,12 @@ export class DialogEditComponent implements OnChanges {
 
   categoriesData = categoriesData;
 
-  constructor(private unitsService: UnitsService) {}
+  constructor(
+    private unitsService: UnitsService,
+    private confirmationService: ConfirmationService
+  ) {}
   showConfirmDialog = false;
-
+  
   unitsForm = new FormGroup({
     name: new FormControl(this.unit.name, [Validators.required]),
     email: new FormControl(this.unit.email, [
@@ -88,7 +100,6 @@ export class DialogEditComponent implements OnChanges {
 
   hideDialogEdit() {
     this.unitsForm.reset();
-    this.unit = { id: '', name: '', email: '', recommendedCategories: [] };
     this.hide.emit();
   }
 
@@ -99,20 +110,24 @@ export class DialogEditComponent implements OnChanges {
         email: changes['unit'].currentValue.email,
         recommendedCategories: FormToCategoriesData(
           changes['unit'].currentValue.recommendedCategories
-        ),
+        ) ?? [],
       });
     }
   }
 
   submitForm() {
     if (this.unitsForm.valid) {
+      this.loading = true;
       const categories = this.unitsForm.value
         .recommendedCategories as CategoriesData[];
       const unit: UnitsGet = {
         id: this.unit.id ?? '',
         name: this.unitsForm.value.name ?? '',
         email: this.unitsForm.value.email ?? '',
-        recommendedCategories: CategoriesDataToForm(categories, this.indicators),
+        recommendedCategories: CategoriesDataToForm(
+          categories,
+          this.indicators
+        ),
       };
 
       this.unitsService.updateUnit(this.unit.id, unit).subscribe({
@@ -120,13 +135,38 @@ export class DialogEditComponent implements OnChanges {
           this.update.emit({ value: unit, id: this.unit.id });
           this.toastService.success('Unidad actualizada con éxito');
           this.hideDialogEdit();
+          this.loading = false;
         },
         error: (error: CustomHttpErrorResponse) => {
           this.toastService.error('Error al actualizar la unidad');
           console.error('Error al actualizar la unidad:', error);
+          this.loading = false;
         },
       });
     }
+  }
+
+  cancelDelete() {
+    this.showConfirmDialog = false;
+  }
+
+  confirmDelete() {
+    this.deleteLoading = true;
+    const id = this.unit.id;
+    this.unitsService.deleteUnit(id).subscribe({
+      next: (response) => {
+        this.delete.emit(id);
+        this.hideDialogEdit();
+        this.toastService.success('Unidad eliminada con éxito');
+        this.deleteLoading = false;
+        this.showConfirmDialog = false;
+      },
+      error: (error: CustomHttpErrorResponse) => {
+        this.deleteLoading = false;
+        this.toastService.error('Ha ocurrido un error inesperado');
+        console.error('Error al eliminar la unidad:', error);
+      },
+    });
   }
 
   deleteUnit() {
@@ -134,27 +174,20 @@ export class DialogEditComponent implements OnChanges {
       this.showConfirmDialog = true;
     } else {
       this.toastService.error('Ha ocurrido un error');
-      console.log('Formulario no válido');
     }
   }
 
-  confirmDelete() {
-    const id = this.unit.id;
-    this.unitsService.deleteUnit(id).subscribe({
-      next: (response) => {
-        this.delete.emit(id);
-        this.hideDialogEdit();
-        this.toastService.success('Unidad eliminada con éxito');
-        this.showConfirmDialog = false;
-      },
-      error: (error: CustomHttpErrorResponse) => {
-        this.toastService.error('Ha ocurrido un error inesperado');
-        console.error('Error al eliminar la unidad:', error);
+  confirm(event: Event) {
+    this.confirmationService.confirm({
+      target: event.target as EventTarget,
+      acceptIcon: 'pi pi-trash mr-5',
+      acceptLabel: 'Eliminar',
+      acceptButtonStyleClass:
+        'p-button-sm p-button-danger no-outline button-separation',
+      rejectVisible: false,
+      accept: () => {
+        this.deleteUnit();
       },
     });
-  }
-
-  cancelDelete() {
-    this.showConfirmDialog = false;
   }
 }

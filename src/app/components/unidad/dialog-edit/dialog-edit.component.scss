@@ -100,4 +100,8 @@ header {
     padding-left: 6%;
     padding-right: 6%;
   }
+
+  ::ng-deep .confirm-delete-popup .p-confirm-popup-content {
+    display: none;
+  }
   

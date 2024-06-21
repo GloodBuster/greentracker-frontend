@@ -36,7 +36,7 @@ export function CategoriesDataToForm(categories: CategoriesData[], indicators: I
   );
 }
 export function FormToCategoriesData(categories: CategoriesForm[]): CategoriesData[] {
-  return categories.map((category) => {
+  return categories?.map((category) => {
     return {
       name: category.categoryName,
       criteria: [],
@@ -85,7 +85,6 @@ export class UnidadComponent implements OnInit {
       this.first = (page - 1) * this.paginationRows;
       this.unitsService.getUnits(page, this.paginationRows).subscribe({
         next: (response) => {
-          console.log(response);
           this.unitsData = response.data.items;
           this.totalRecords = response.data.itemCount;
           this.paginationRows = response.data.itemsPerPage;
@@ -131,7 +130,6 @@ export class UnidadComponent implements OnInit {
   }
 
   update({ value, id }: { value: UnitsGet; id: string }) {
-    console.log(value, id);
     const indexToUpdate = this.unitsData.findIndex((unit) => unit.id === id);
     this.unitsData[indexToUpdate] = value;
   }

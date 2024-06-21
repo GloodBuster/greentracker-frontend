@@ -74,12 +74,10 @@ export class DialogEditComponent {
         },
         error: (error: ErrorResponse) => {
           this.toastService.error(error.message);
-          console.log('Error al editar el indicador:', error.message);
         }}
       );
     } else {
       this.toastService.error('Ha ocurrido un error');
-      console.log('Formulario no válido');
     }
   }
 
@@ -88,7 +86,6 @@ export class DialogEditComponent {
       this.showConfirmDialog = true;
     } else {
       this.toastService.error('Ha ocurrido un error');
-      console.log('Formulario no válido');
     }
   }
 
@@ -103,7 +100,6 @@ export class DialogEditComponent {
         },
         error: (error: ErrorResponse) => {
           this.toastService.error(error.message);
-          console.log('Error al eliminar el indicador:', error.message);
         }}
       );
   }

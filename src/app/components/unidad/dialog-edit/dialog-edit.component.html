@@ -52,6 +52,16 @@
   </div>
 </form>
 <div class="buttons-container">
+  <p-toast />
+  <p-confirmPopup styleClass="confirm-delete-popup" />
+  <button
+        pButton
+        class="delete-button"
+        [text]="true"
+        (click)="confirm($event)"
+      >
+        Más opciones
+      </button>
   <button pButton (click)="hideDialogEdit()" [outlined]="true" class="cancel">
     Cancelar
   </button>
@@ -65,6 +75,27 @@
     Guardar
   </button>
 </div>
+<p-dialog
+    header="Confirmar eliminación"
+    [(visible)]="showConfirmDialog"
+    [modal]="true"
+    [baseZIndex]="10000"
+    [style]="{ color: '#000' }"
+  >
+    <p>¿Estás seguro de que quieres eliminar este criterio?</p>
+    <p-footer>
+      <p-button
+        icon="pi pi-check"
+        label="Eliminar"
+        severity="danger"
+        [outlined]="true"
+        (click)="confirmDelete()"
+        [loading]="deleteLoading"
+        [style]="{ outline: 'none', boxShadow: 'none' }"
+      />
+      <p-button icon="pi pi-times" label="Cancelar" (click)="cancelDelete()" />
+    </p-footer>
+  </p-dialog>
 <!--
 
     <div class="flex justify-content-end gap-2 buttons-container">
