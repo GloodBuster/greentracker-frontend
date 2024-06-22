@@ -14,11 +14,12 @@ import { ToastrService } from 'ngx-toastr';
 import { IndicatorService } from '../../../services/indicator/indicator.service';
 import { Indicator } from '../../../interfaces/indicator/indicator';
 import { ErrorResponse } from '../../../interfaces/responses/error';
+import { InputNumberModule } from 'primeng/inputnumber';
 
 @Component({
   selector: 'app-dialog-create',
   standalone: true,
-  imports: [DialogModule, InputTextModule, FormsModule, FloatLabelModule, ButtonModule, PanelModule, ReactiveFormsModule],
+  imports: [DialogModule, InputTextModule, FormsModule, FloatLabelModule, ButtonModule, PanelModule, ReactiveFormsModule, InputNumberModule],
   templateUrl: './dialog-create.component.html',
   styleUrl: './dialog-create.component.scss'
 })
@@ -26,6 +27,7 @@ export class DialogCreateComponent {
   @Input() visible: boolean = false;
   @Output() hide: EventEmitter<any> = new EventEmitter();
   @Output() create: EventEmitter<any> = new EventEmitter<any>();
+  loading = false;
 
   constructor(private indicatorService: IndicatorService) { }
 
@@ -41,6 +43,7 @@ export class DialogCreateComponent {
 
   submitForm() {
     if (this.indicatorForm.valid) {
+      this.loading = true;
       const indicator: Indicator = {
         index: this.indicatorForm.value.index ?? 0, 
         englishName: this.indicatorForm.value.englishName ?? '', 
@@ -53,13 +56,16 @@ export class DialogCreateComponent {
           this.hideDialog();
           this.toastService.success('Indicador creado con éxito');
           this.indicatorForm.reset();
+          this.loading = false;
         },
         (error: ErrorResponse) => {
           this.toastService.error(error.message);
+          this.loading = false;
         }
       );
     } else {
       this.toastService.error('Ha ocurrido un error');
+      this.loading = false;
     }
   }
 }
