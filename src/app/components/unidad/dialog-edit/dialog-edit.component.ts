@@ -26,8 +26,6 @@ import { CommonModule } from '@angular/common';
 import {
   CategoriesData,
   Indicators,
-  Units,
-  UnitsForm,
   UnitsGet,
 } from '../../../interfaces/units/units';
 import { UnitsService } from '../../../services/units/units.service';

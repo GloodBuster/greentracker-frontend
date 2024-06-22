@@ -1,35 +1,117 @@
-<p-dialog header="Indicador" [modal]="true" [(visible)]="visible" [style]="{ width: '30rem'}" [closable]="false">
-  <span> Ingrese los nuevos datos del indicador</span>
-  <form [formGroup]="indicadorForm" class="indicador-form">
-    <div class="card flex justify-content-center mt-5 input-container">
-      <label for="index">Index</label>
-      <input pInputText class="indicador-input" formControlName="index" />
+<p-dialog
+  [modal]="true"
+  [(visible)]="visible"
+  [style]="{ width: '60vw' }"
+  [closable]="false"
+  [draggable]="false"
+  styleClass="inidcators-dialog"
+>
+  <form [formGroup]="indicadorForm" class="modal">
+    <div class="modal-content">
+      <header>
+        <h3>Indicador</h3>
+        <p>
+          Área utilizada para evaluar y medir la sostenibilidad ambiental de la
+          universidad. Algunos indicadores pueden ser Energía y cambio
+          climático, Entorno e infraestructura y Transporte.
+        </p>
+      </header>
+      <h4>Información</h4>
+      <div class="input-info">
+        <label>Índice</label>
+        <p-inputNumber
+          styleClass="indicator-number-input"
+          formControlName="index"
+          [style]="{ width: '100%' }"
+          placeholder="Ejemplo: 1"
+          [autofocus]="false"
+        />
+      </div>
+      <div class="input-info">
+        <label>Nombre en inglés</label>
+        <input
+          type="text"
+          pInputText
+          formControlName="englishName"
+          placeholder="Nombre en inglés"
+        />
+      </div>
+      <div class="input-info">
+        <label>Alias en español</label>
+        <input
+          type="text"
+          pInputText
+          formControlName="spanishAlias"
+          placeholder="Nombre en inglés"
+        />
+      </div>
     </div>
-    <div class="card flex justify-content-center mt-5 input-container">
-      <label for="englishName">Nombre en inglés</label>
-      <input pInputText class="indicador-input" formControlName="englishName" />
-    </div>
-    <div class="card flex justify-content-center mt-5 input-container">
-      <label for="spanishAlias">Alias en español</label>
-      <input pInputText class="indicador-input" formControlName="spanishAlias" />
-    </div>
-    <div class="flex justify-content-end gap-2 buttons-container">
-      <div class="primaryButtons">
-        <p-button label="Cancelar" severity="secondary" (click)="hideDialogEdit()" class="button1" />
-        <p-button label="Guardar" (click)="submitForm()" [disabled]="!indicadorForm.valid" />
-      </div>  
-      <p-button icon=" pi pi-trash" [raised]="true" severity="danger" [outlined]="true" class="button1"
-        (click)="deleteIndicador()" />
+    <div class="modal-content">
+      <div
+        style="
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+        "
+      >
+        <h4>Criterios asociados</h4>
+        <button class="p-button add-button" (click)="editCriteria()">
+          <i class="pi pi-pencil" style="font-size: 1rem"></i>
+          {{ " Editar criterios" }}
+        </button>
+      </div>
+       <div *ngFor="let category of indicador?.categories; let i = index">
+        <div *ngFor="let criterion of category?.criteria; let j = index">
+          <p>{{indicador.index}}.{{criterion.subindex}} {{criterion.spanishAlias}}</p>
+        </div>
+      </div>
+     <div *ngIf="allCriteriaEmpty()">No hay criterios asociados</div> 
     </div>
   </form>
-  <div *ngIf="showConfirmDialog" class="modal">
-    <p-dialog header="Confirmar eliminación" [(visible)]="showConfirmDialog" [modal]="true" [style]="{width: '50vw'}"
-      [baseZIndex]="10000">
-      <p>¿Estás seguro de que quieres eliminar esta unidad?</p>
-      <p-footer>
-        <p-button icon="pi pi-check" label="Eliminar" severity="danger" [outlined]="true" (click)="confirmDelete()" />
-        <p-button icon="pi pi-times" label="Cancelar" (click)="cancelDelete()" />
-      </p-footer>
-    </p-dialog>
+  <div class="buttons-container">
+    <p-toast />
+    <p-confirmPopup styleClass="confirm-delete-popup" />
+    <button
+      pButton
+      class="delete-button"
+      [text]="true"
+      (click)="confirm($event)"
+    >
+      Más opciones
+    </button>
+    <button pButton (click)="hideDialogEdit()" [outlined]="true" class="cancel">
+      Cancelar
+    </button>
+    <button
+      pButton
+      (click)="submitForm()"
+      [disabled]="!indicadorForm.valid"
+      [loading]="loading"
+      class="save"
+    >
+      Guardar
+    </button>
   </div>
+
+  <p-dialog
+    header="Confirmar eliminación"
+    [(visible)]="showConfirmDialog"
+    [modal]="true"
+    [baseZIndex]="10000"
+    [style]="{ color: '#000' }"
+  >
+    <p>¿Estás seguro de que quieres eliminar este criterio?</p>
+    <p-footer>
+      <p-button
+        icon="pi pi-check"
+        label="Eliminar"
+        severity="danger"
+        [outlined]="true"
+        (click)="confirmDelete()"
+        [loading]="deleteLoading"
+        [style]="{ outline: 'none', boxShadow: 'none' }"
+      />
+      <p-button icon="pi pi-times" label="Cancelar" (click)="cancelDelete()" />
+    </p-footer>
+  </p-dialog>
 </p-dialog>
