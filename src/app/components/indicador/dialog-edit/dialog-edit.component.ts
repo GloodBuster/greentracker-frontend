@@ -78,7 +78,6 @@ export class DialogEditComponent {
         categories: this.indicador.categories ?? [{name: '', criteria: [{subindex: 0, englishName: '', spanishAlias: '', categoryName: ''}]}]
       };
     
-      console.log(indicator);
       this.indicatorService.editIndicator(indicator).subscribe(
         {
           next:(response) => {

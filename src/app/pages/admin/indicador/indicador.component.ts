@@ -48,7 +48,6 @@ export class IndicadorComponent {
       this.first = (page - 1) * this.paginationRows;
       this.indicatorService.getIndicators(page, this.paginationRows).subscribe({
         next: (response) => {
-          console.log("this",response);
           this.indicatorsData = response.data.items;
           this.totalRecords = response.data.itemCount;
           this.paginationRows = response.data.itemsPerPage;
