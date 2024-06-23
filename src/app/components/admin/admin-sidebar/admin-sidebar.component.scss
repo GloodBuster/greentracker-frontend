@@ -50,10 +50,11 @@
         &:hover {
           background-color: #7ae37e;
           cursor: pointer;
+          color: #276137;
         }
 
         h3 {
-          font-weight: 500;
+          font-weight: 550;
           font-size: 14px;
           font-family: "Inter var", sans-serif;
         }
@@ -61,6 +62,7 @@
 
       .active {
         background-color: #7ae37e;
+        color: #276137;
       }
     }
   }
