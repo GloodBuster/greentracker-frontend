@@ -9,24 +9,37 @@ import { PanelModule } from 'primeng/panel';
 import { ToastrService } from 'ngx-toastr';
 import { CommonModule } from '@angular/common';
 import { IndicatorService } from '../../../services/indicator/indicator.service';
-import { Indicator } from '../../../interfaces/indicator/indicator';
-import { ErrorResponse } from '../../../interfaces/responses/error';
+import { indicatorForm } from '../../../interfaces/indicator/indicator';
+import { CustomHttpErrorResponse, ErrorResponse } from '../../../interfaces/responses/error';
+import { InputNumberModule } from 'primeng/inputnumber';
+import { ConfirmationService, MessageService } from 'primeng/api';
+import { ConfirmPopupModule } from 'primeng/confirmpopup';
+import { ToastModule } from 'primeng/toast';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-dialog-edit',
   standalone: true,
-  imports: [ReactiveFormsModule, DialogModule, ButtonModule, InputTextModule, FormsModule, FloatLabelModule, PanelModule, CommonModule],
+  imports: [ReactiveFormsModule, DialogModule, ButtonModule, InputTextModule, FormsModule, FloatLabelModule, PanelModule, CommonModule, InputNumberModule, ConfirmPopupModule,
+    ToastModule],
   templateUrl: './dialog-edit.component.html',
-  styleUrl: './dialog-edit.component.scss'
+  styleUrl: './dialog-edit.component.scss',
+  providers: [ConfirmationService, MessageService],
 })
 export class DialogEditComponent {
-  @Input() indicador: Indicator = {index: 0, englishName: '', spanishAlias: ''};
+  @Input() indicador: indicatorForm = {index: 0, englishName: '', spanishAlias: '', categories: [{name: '', criteria: [{subindex: 0, englishName: '', spanishAlias: '', categoryName: ''}]}]};
   @Input() visible: boolean = false;
   @Output() hide: EventEmitter<any> = new EventEmitter();
-  @Output() update: EventEmitter<{value: Indicator, index: number}> = new EventEmitter<any>();
+  @Output() update: EventEmitter<{value: indicatorForm, index: number}> = new EventEmitter<any>();
   @Output() delete: EventEmitter<any> = new EventEmitter<any>();
+  loading = false;
+  deleteLoading = false;
 
-  constructor(private indicatorService: IndicatorService) {
+  allCriteriaEmpty(): boolean {
+    return this.indicador?.categories.every(category => category.criteria.length === 0);
+  }
+
+  constructor(private indicatorService: IndicatorService, private confirmationService: ConfirmationService, private router: Router) {
 
    }
 
@@ -42,7 +55,7 @@ export class DialogEditComponent {
 
   hideDialogEdit() {
     this.indicadorForm.reset();
-    this.indicador = {index: 0, englishName: '', spanishAlias: ''};
+    this.indicador = {index: 0, englishName: '', spanishAlias: '', categories: [{name: '', criteria: [{subindex: 0, englishName: '', spanishAlias: '', categoryName: ''}]}]};
     this.hide.emit();
   }
   
@@ -58,10 +71,11 @@ export class DialogEditComponent {
 
   submitForm() {
     if (this.indicadorForm.valid) {
-      const indicator: Indicator = {
+      const indicator: indicatorForm = {
         index: this.indicadorForm.value.index ?? 0, 
         englishName: this.indicadorForm.value.englishName ?? '', 
         spanishAlias: this.indicadorForm.value.spanishAlias ?? '', 
+        categories: this.indicador.categories ?? [{name: '', criteria: [{subindex: 0, englishName: '', spanishAlias: '', categoryName: ''}]}]
       };
     
       this.indicatorService.editIndicator(indicator).subscribe(
@@ -74,25 +88,19 @@ export class DialogEditComponent {
         },
         error: (error: ErrorResponse) => {
           this.toastService.error(error.message);
-          console.log('Error al editar el indicador:', error.message);
         }}
       );
     } else {
       this.toastService.error('Ha ocurrido un error');
-      console.log('Formulario no válido');
     }
   }
 
-  deleteIndicador() {
-    if (this.indicadorForm.valid) {
-      this.showConfirmDialog = true;
-    } else {
-      this.toastService.error('Ha ocurrido un error');
-      console.log('Formulario no válido');
-    }
+  cancelDelete() {
+    this.showConfirmDialog = false;
   }
 
   confirmDelete() {
+    this.loading = true;
     const index = this.indicador.index;
       this.indicatorService.deleteIndicator(index).subscribe({
         next: (response) => {
@@ -100,15 +108,39 @@ export class DialogEditComponent {
           this.hideDialogEdit();
           this.toastService.success('Indicador eliminado con éxito');
           this.showConfirmDialog = false;
+          this.loading = false;
         },
-        error: (error: ErrorResponse) => {
-          this.toastService.error(error.message);
-          console.log('Error al eliminar el indicador:', error.message);
+        error: (error: CustomHttpErrorResponse) => {
+          this.deleteLoading = false;
+          this.toastService.error("Ha ocurrido un error inesperado");
+          console.error('Error al eliminar el indicador:', error);
         }}
       );
   }
 
-  cancelDelete() {
-    this.showConfirmDialog = false;
+  deleteIndicador() {
+    if (this.indicadorForm.valid) {
+      this.showConfirmDialog = true;
+    } else {
+      this.toastService.error('Ha ocurrido un error');
+    }
+  }
+
+  confirm(event: Event) {
+    this.confirmationService.confirm({
+      target: event.target as EventTarget,
+      acceptIcon: 'pi pi-trash mr-5',
+      acceptLabel: 'Eliminar',
+      acceptButtonStyleClass:
+        'p-button-sm p-button-danger no-outline button-separation',
+      rejectVisible: false,
+      accept: () => {
+        this.deleteIndicador();
+      },
+    });
+  }
+
+  editCriteria() {
+    this.router.navigate(['/criteria'], { queryParams: { index: this.indicador.index } });
   }
 }

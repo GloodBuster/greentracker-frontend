@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { SidebarComponent } from '../../../components/sidebar/sidebar.component';
 import { ButtonModule } from 'primeng/button';
 import { TableModule } from 'primeng/table';
-import * as data from '../../../../assets/unitsData.json';
 import { CommonModule } from '@angular/common';
 import { TagModule } from 'primeng/tag';
 import { DialogModule } from 'primeng/dialog';
@@ -11,7 +9,7 @@ import { FormsModule } from '@angular/forms';
 import { FloatLabelModule } from 'primeng/floatlabel';
 import { DialogCreateComponent } from '../../../components/unidad/dialog-create/dialog-create.component';
 import { DialogEditComponent } from '../../../components/unidad/dialog-edit/dialog-edit.component';
-import { UnitsGet } from '../../../interfaces/units/units';
+import { CategoriesData, CategoriesForm, Indicators, UnitsGet } from '../../../interfaces/units/units';
 import { UnitsService } from '../../../services/units/units.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CustomHttpErrorResponse } from '../../../interfaces/responses/error';
@@ -24,12 +22,47 @@ interface PageEvent {
   pageCount?: number;
 }
 
+export function CategoriesDataToForm(categories: CategoriesData[], indicators: Indicators[]): CategoriesForm[] {
+   return categories?.map(
+    (category) => {
+      const indicatorIndex = indicators.find((indicator) =>
+        indicator.categories.includes(category)
+      );
+      return {
+        categoryName: category.name,
+        indicatorIndex: indicatorIndex?.index ?? 0,
+      };
+    }
+  );
+}
+export function FormToCategoriesData(categories: CategoriesForm[]): CategoriesData[] {
+  return categories?.map((category) => {
+    return {
+      name: category.categoryName,
+      criteria: [],
+    };
+  });
+
+}
+
 @Component({
   selector: 'app-unidad',
   standalone: true,
-  imports: [SidebarComponent, ButtonModule, TableModule, CommonModule, TagModule, DialogModule, InputTextModule, FormsModule, FloatLabelModule, DialogCreateComponent, DialogEditComponent, PaginatorModule],
+  imports: [
+    ButtonModule,
+    TableModule,
+    CommonModule,
+    TagModule,
+    DialogModule,
+    InputTextModule,
+    FormsModule,
+    FloatLabelModule,
+    DialogCreateComponent,
+    DialogEditComponent,
+    PaginatorModule,
+  ],
   templateUrl: './unidad.component.html',
-  styleUrl: './unidad.component.scss'
+  styleUrl: './unidad.component.scss',
 })
 export class UnidadComponent implements OnInit {
   unitsData: UnitsGet[] = [];
@@ -40,12 +73,13 @@ export class UnidadComponent implements OnInit {
   paginationRows = 10;
   first: number = 0;
   totalRecords: number = 0;
+  indicators: Indicators[] = [];
 
   constructor(
     private readonly unitsService: UnitsService,
     private readonly route: ActivatedRoute,
     private readonly router: Router
-  ) { 
+  ) {
     this.route.queryParams.subscribe((params) => {
       const page = +params['page'] || 1;
       this.first = (page - 1) * this.paginationRows;
@@ -57,15 +91,24 @@ export class UnidadComponent implements OnInit {
         },
         error: (error: CustomHttpErrorResponse) => {
           console.error(error);
-        }
-      })
+        },
+      });
+    });
+
+    this.unitsService.getAllIndicators().subscribe({
+      next: (response) => {
+        this.indicators = response.data;
+      },
+      error: (error: CustomHttpErrorResponse) => {
+        console.error('Error al obtener los indicadores:', error);
+      },
     });
   }
 
   showDialog() {
     this.visible = true;
   }
-  
+
   hideDialog() {
     this.visible = false;
   }
@@ -74,64 +117,61 @@ export class UnidadComponent implements OnInit {
     this.unitsData.push(unit);
   }
 
-
   visibleEdit: boolean = false;
 
-showDialogEdit(unit: any) {
-  this.editingUnit = unit;
-  this.visibleEdit = true;
-}
+  showDialogEdit(unit: any) {
+    this.editingUnit = unit;
+    this.visibleEdit = true;
+  }
 
-hideDialogEdit() {
-  this.visibleEdit = false;
-  this.editingUnit = {id: '', name: '', email: ''};
-}
+  hideDialogEdit() {
+    this.visibleEdit = false;
+    this.editingUnit = { id: '', name: '', email: '', recommendedCatgeories: []};
+  }
 
-  update({value, id}: { value: UnitsGet, id: string }) {
-    console.log(value, id);
+  update({ value, id }: { value: UnitsGet; id: string }) {
     const indexToUpdate = this.unitsData.findIndex((unit) => unit.id === id);
     this.unitsData[indexToUpdate] = value;
   }
 
   onPageChange(event: PageEvent) {
     this.unitsService
-    .getUnits(event.page ? event.page + 1 : 1, event.rows ? event.rows : this.paginationRows)
-    .subscribe({
-      next: (response) => {
-        this.unitsData = response.data.items;
-        this.totalRecords = response.data.itemCount;
-        if (event.rows) this.paginationRows = event.rows;
-        if (event.first) this.first = event.first;
+      .getUnits(
+        event.page ? event.page + 1 : 1,
+        event.rows ? event.rows : this.paginationRows
+      )
+      .subscribe({
+        next: (response) => {
+          this.unitsData = response.data.items;
+          this.totalRecords = response.data.itemCount;
+          if (event.rows) this.paginationRows = event.rows;
+          if (event.first) this.first = event.first;
 
-        this.router.navigate([], {
-          relativeTo: this.route,
-          queryParams: { page: event.page ? event.page + 1 : 1 },
-          queryParamsHandling: 'merge', // preserve the existing query params
-        });
-      },
-      error: (error: CustomHttpErrorResponse) => {
-        console.error(error);
-      }
-    });
+          this.router.navigate([], {
+            relativeTo: this.route,
+            queryParams: { page: event.page ? event.page + 1 : 1 },
+            queryParamsHandling: 'merge', // preserve the existing query params
+          });
+        },
+        error: (error: CustomHttpErrorResponse) => {
+          console.error(error);
+        },
+      });
   }
 
-  ngOnInit(): void {
+  ngOnInit(): void {}
+
+  delete(id: string) {
+    const idDelete = this.unitsData.findIndex((i) => i.id === id);
+    this.unitsData.splice(idDelete, 1);
   }
 
+  view(unit: any) {
+    this.viewingUnit = unit;
+    this.visibleView = true;
+  }
 
-
-
-delete(id: string) {
-  const idDelete = this.unitsData.findIndex((i) => i.id === id);
-  this.unitsData.splice(idDelete, 1);
-}
-
-view(unit: any) {
-  this.viewingUnit = unit;
-  this.visibleView = true; 
-}
-
-hideDialogView() {
-  this.visibleView = false;
-}
+  hideDialogView() {
+    this.visibleView = false;
+  }
 }

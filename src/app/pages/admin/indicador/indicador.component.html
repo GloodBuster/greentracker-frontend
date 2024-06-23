@@ -1,43 +1,65 @@
 <main class="indicator-page">
-    <article>
-        <header class="indicator-page-header">
-            <div class="indicator-top-header">
-                <h1>Indicadores</h1>
-            </div>
-            <p-button label="+ Crear" [raised]="true" class="add-button" (click)="showDialog()"/>
-        </header>
+  <article>
+    <header class="indicator-page-header">
+      <div class="indicator-top-header">
+        <h1>Indicadores</h1>
+      </div>
+      <button class="p-button add-button" (click)="showDialog()">
+        <i class="pi pi-plus-circle" style="font-size: 1.2rem"></i>
+        {{ " Crear" }}
+      </button>
+    </header>
 
-        <div class="table-container">
-            <p-table styleClass="p-datatable-gridlines" [value]="indicatorsData" [tableStyle]="{'min-width': '75rem'}" scrollable="true" scrollHeight="40rem">
-                <ng-template pTemplate="header">
-                    <tr>
-                        <th class="column-id">Índice</th>
-                        <th class="column-nombre">Nombre en inglés</th>
-                        <th class="column-correo">Alias en español</th>
-                        <th class="column-buttons"></th>
-                    </tr>
-                </ng-template>
-                <ng-template pTemplate="body" let-indicator>
-                    <tr>
-                        <td>{{indicator.index}}</td>
-                        <td>{{indicator.englishName}}</td>
-                        <td>{{indicator.spanishAlias}}</td>
-                        <td>
-                            <p-button icon="pi pi-pencil" class="indicador-button-edit" [outlined]="true"
-                                severity="success" (click)="showDialogEdit(indicator)"/>
-                        </td>
-                    </tr>
-                </ng-template>
-            </p-table>
-            <p-paginator
+    <div class="table-container">
+      <p-table
+        styleClass="p-datatable-gridlines"
+        [value]="indicatorsData"
+        [tableStyle]="{ 'min-width': '75rem' }"
+        scrollable="true"
+        scrollHeight="40rem"
+      >
+        <ng-template pTemplate="header">
+          <tr>
+            <th class="column-id">Índice</th>
+            <th class="column-nombre">Nombre en inglés</th>
+            <th class="column-correo">Alias en español</th>
+            <th class="column-buttons"></th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-indicator>
+          <tr>
+            <td>{{ indicator.index }}</td>
+            <td>{{ indicator.englishName }}</td>
+            <td>{{ indicator.spanishAlias }}</td>
+            <td>
+              <button
+                class="p-button edit-button"
+                (click)="showDialogEdit(indicator)"
+              >
+                <i class="pi pi-pencil" style="color: #3ba13f"></i>
+              </button>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+      <p-paginator
         [first]="first"
         [rows]="paginationRows"
         [totalRecords]="totalRecords"
         (onPageChange)="onPageChange($event)"
       />
-            </div>
-            <app-dialog-create [visible]="visible" (hide)="hideDialog()" (create)="create($event)"></app-dialog-create>
-            <app-dialog-edit [indicador]="editingIndicator" [visible]="visibleEdit" (hide)="hideDialogEdit()"
-            (update)="update($event)" (delete)="delete($event)"></app-dialog-edit>
-    </article>    
+    </div>
+    <app-dialog-create
+      [visible]="visible"
+      (hide)="hideDialog()"
+      (create)="create($event)"
+    ></app-dialog-create>
+    <app-dialog-edit
+      [indicador]="editingIndicator"
+      [visible]="visibleEdit"
+      (hide)="hideDialogEdit()"
+      (update)="update($event)"
+      (delete)="delete($event)"
+    ></app-dialog-edit>
+  </article>
 </main>

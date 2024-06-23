@@ -4,21 +4,37 @@
   
     .indicator-page-header {
       display: flex;
-      flex-direction: column;
-      margin-bottom: 40px;
+    margin-bottom: 40px;
+    align-items: center;
+    justify-content: space-between;
       .indicator-top-header {
         display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 20px;
+      justify-content: space-between;
+      align-items: center;
+      gap: 30px;
   
         h1 {
           margin: 0;
         }
       }
       .add-button {
-        align-self: flex-end;
+        color: var(--green);
+      display: flex;
+      gap: 6px;
+      background-color: transparent;
+      border: 1px solid var(--green);
       }
     }
+    .mr{
+      margin-right: 6px;
+    }
+  }
+  .edit-button {
+    margin-left: 6px;
+    border-radius: 999999px;
+    padding: 5px;
+    border: none;
+    background-color: transparent;
+    box-shadow: none;
   }
   

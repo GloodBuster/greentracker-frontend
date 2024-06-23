@@ -1,12 +1,16 @@
-import { Criterion } from '../criteria/criteria';
+import { Criterion, CriterionForm } from '../criteria/criteria';
 
 export interface Categories {
   indicatorIndex: number;
   name: string;
 }
 
+export interface CriteriaSubIndex {
+  subindex: number;
+}
 export interface CategoriesForm {
   name: string;
+  criteria: CriteriaSubIndex[];
 }
 
 export const initialCategoriesForm = {
@@ -21,4 +25,10 @@ export interface CategorieDetails {
 export interface UnitCategory {
   categoryName: string;
   indicatorIndex: number;
+}
+
+export interface CategoriesByIndicator {
+  indicatorIndex: number;
+  name: string;
+  criteria: CriterionForm[];
 }

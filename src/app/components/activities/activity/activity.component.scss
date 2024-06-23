@@ -1,0 +1,119 @@
+.activity-page {
+    margin: 0;
+    box-sizing: border-box;
+  
+    .activity-page-header {
+      display: flex;
+      margin-bottom: 40px;
+      align-items: center;
+      justify-content: space-between;
+  
+      .activity-left-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 30px;
+  
+        h1 {
+          margin: 0;
+        }
+      }
+    }
+    .activity-content-container {
+        width: 100%; 
+        height: 90%; 
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        
+        .activity-container{
+            width: 35%; 
+            height: 90%; 
+            display: flex;
+            display: flex;
+            flex-direction: column;
+
+            h3 {
+                margin: 0;
+                font-weight: 600;
+                font-size: 20px;
+                margin-bottom: 20px;
+              }
+            
+              h4{
+                margin-top: -10px;
+                margin-bottom: 3px;
+              }
+            
+        }
+        .activity-container2{
+            width: 55%; 
+            height: 80vh; 
+            overflow: scroll;
+            display: flex;
+            display: flex;
+            flex-direction: column;
+      }
+  }
+  .evidence-card{
+    width: 100%;
+    margin-bottom: 20px;
+    padding: 10px;
+    padding-top: 0px;
+    height: min-content;
+    border: #CBD5E1 2px solid;
+    border-radius: 10px;
+  }
+  .category{
+    margin-bottom: 20px;
+    font-weight: 500;
+    font-size: 18px;
+    background-color: #7AE37E;
+    padding: 5px;
+    border-radius: 5px;
+    max-width: min-content;
+    display: flex;
+    justify-content: center;
+    white-space: nowrap;
+}
+.evidence-type{
+    margin-bottom: 30px;
+    font-weight: 500;
+    font-size: 16px;
+    background-color: #7AE37E;
+    padding: 5px;
+    border-radius: 5px;
+    width: min-content;
+    display: flex;
+    justify-content: center;
+    white-space: nowrap;
+}
+.document-type{
+    display: flex;
+    flex-direction: row;
+    .file{
+        width: auto;
+        height: 70px;
+        background-color: #CBE2FF;
+        border-radius: 10px;
+        padding: 10px;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 10px;
+    }
+}
+.image-type{
+        width: 220px;
+        height: 170px;
+        background-color: #CBE2FF;
+        border-radius: 10px;
+        padding: 10px;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+}
+}
+  

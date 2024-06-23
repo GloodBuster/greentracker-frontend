@@ -3,7 +3,7 @@ import { Injectable, inject } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { Observable } from 'rxjs';
 import { PaginatedResponse, Response } from '../../interfaces/responses/response';
-import { Indicator, IndicatorDetails } from '../../interfaces/indicator/indicator';
+import { Indicator, IndicatorDetails, indicatorForm } from '../../interfaces/indicator/indicator';
 
 @Injectable({
   providedIn: 'root'
@@ -11,8 +11,8 @@ import { Indicator, IndicatorDetails } from '../../interfaces/indicator/indicato
 export class IndicatorService {
     readonly http = inject(HttpClient);
     private readonly BASE_URL = environment.BASE_URL;
-    getIndicators(page: number = 1, itemsPerPage: number = 10): Observable<PaginatedResponse<Indicator>> {
-        return this.http.get<PaginatedResponse<Indicator>>(`${this.BASE_URL}/indicators?pageIndex=${page}&itemsPerPage=${itemsPerPage}`);
+    getIndicators(page: number = 1, itemsPerPage: number = 10): Observable<PaginatedResponse<indicatorForm>> {
+        return this.http.get<PaginatedResponse<indicatorForm>>(`${this.BASE_URL}/indicators?pageIndex=${page}&itemsPerPage=${itemsPerPage}`);
 
     };
     createIndicator(indicator: Indicator): Observable<Response<Indicator>> {

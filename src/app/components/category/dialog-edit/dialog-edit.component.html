@@ -1,32 +1,125 @@
-<p-dialog header="Editar Categoría" [modal]="true" [(visible)]="visible" [closable]="false">
-    <h3>Ingrese los datos para editar la categoría</h3>
-    <form [formGroup]="categoryForm" class="edit-form">
-        <div class="input-container">
-            <label>Nombre</label>
-            <input type="text" pInputText formControlName="name" />
-        </div>
-        <div class="buttons-container">
-            <p-button label="Cancelar" severity="secondary" (click)="hide()" />
-            <p-button label="Guardar" (click)="updateCategory()" [disabled]="!categoryForm.valid" [loading]="loading" />
-            <p-button
-            class="delete-button"
-            icon=" pi pi-trash"
-            [raised]="true"
-            severity="danger"
-            [outlined]="true"
-            (click)="showDelete()"
-          />
-        </div>
-    </form>
-</p-dialog>
 <p-dialog
+  [modal]="true"
+  [(visible)]="visible"
+  [style]="{ width: '60vw' }"
+  [closable]="false"
+  [draggable]="false"
+  styleClass="category-dialog"
+>
+  <form [formGroup]="categoryForm" class="modal">
+    <div class="modal-content">
+      <header>
+        <h3>Categoría</h3>
+        <p>
+          Agrupación de criterios que seleccionarán las unidades al momento de
+          subir evidencias de sus actividades.
+        </p>
+      </header>
+      <h4>Información</h4>
+      <div class="input-info">
+        <label>Nombre</label>
+        <input
+          type="text"
+          pInputText
+          formControlName="name"
+          placeholder="Nombre"
+        />
+      </div>
+    </div>
+    <div class="modal-content">
+      <h4>Criterios asociados</h4>
+      <p-multiSelect
+        formControlName="criteria"
+        [options]="criteria"
+        optionLabel="spanishAlias"
+        placeholder="Seleccione los criterios"
+      ></p-multiSelect>
+    </div>
+  </form>
+  <div class="buttons-container">
+    <p-toast />
+    <p-confirmPopup styleClass="confirm-delete-popup" />
+    <button
+      pButton
+      class="delete-button"
+      [text]="true"
+      (click)="confirm($event)"
+    >
+      Más opciones
+    </button>
+    <button pButton (click)="hide()" [outlined]="true" class="cancel">
+      Cancelar
+    </button>
+    <button
+      pButton
+      (click)="updateCategory()"
+      [disabled]="!categoryForm.valid"
+      [loading]="loading"
+      class="save"
+    >
+      Guardar
+    </button>
+  </div>
+  <p-dialog
     header="Confirmar eliminación"
     [(visible)]="visibleDelete"
     [modal]="true"
-    [baseZIndex]="10000">
-<p>¿Estás seguro de que quieres eliminar esta categoría?</p>
-<p-footer>
-    <p-button icon="pi pi-check" label="Eliminar" severity="danger" [outlined]="true" (click)="confirmDelete()" [loading]="deleteLoading"></p-button>
-    <p-button icon="pi pi-times" label="Cancelar" (click)="hideDelete()"></p-button>
-</p-footer>
+    [baseZIndex]="10000"
+    [style]="{ color: '#000' }"
+  >
+    <p>¿Estás seguro de que quieres eliminar este criterio?</p>
+    <p-footer>
+      <p-button
+        icon="pi pi-check"
+        label="Eliminar"
+        severity="danger"
+        [outlined]="true"
+        (click)="confirmDelete()"
+        [loading]="deleteLoading"
+        [style]="{ outline: 'none', boxShadow: 'none' }"
+      />
+      <p-button icon="pi pi-times" label="Cancelar" (click)="hideDelete()" />
+    </p-footer>
+  </p-dialog>
 </p-dialog>
+
+<!-- <div class="buttons-container">
+      <p-button label="Cancelar" severity="secondary" (click)="hide()" />
+      <p-button
+        label="Guardar"
+        (click)="updateCategory()"
+        [disabled]="!categoryForm.valid"
+        [loading]="loading"
+      />
+      <p-button
+        class="delete-button"
+        icon=" pi pi-trash"
+        [raised]="true"
+        severity="danger"
+        [outlined]="true"
+        (click)="showDelete()"
+      />
+    </div>
+</p-dialog>
+<p-dialog
+  header="Confirmar eliminación"
+  [(visible)]="visibleDelete"
+  [modal]="true"
+  [baseZIndex]="10000"
+>
+  <p>¿Estás seguro de que quieres eliminar esta categoría?</p>
+  <p-footer>
+    <p-button
+      icon="pi pi-check"
+      label="Eliminar"
+      severity="danger"
+      [outlined]="true"
+      (click)="confirmDelete()"
+      [loading]="deleteLoading"
+    ></p-button>
+    <p-button
+      icon="pi pi-times"
+      label="Cancelar"
+      (click)="hideDelete()"
+    ></p-button>
+  </p-footer>-->

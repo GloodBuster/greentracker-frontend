@@ -1,18 +1,39 @@
 <main class="category-page">
     <article>
         <header class="category-page-header">
-            <div class="category-top-header">
+            <div class="criteria-left-header">
                 <h1>Categorías</h1>
+                <p-dropdown
+          [options]="indicators"
+          [(ngModel)]="selectedIndicator"
+          optionLabel="englishName"
+          placeholder="Indicador"
+          (onChange)="onIndicatorChange($event)"
+          [style]="{ minWidth: '400px' }"
+        ></p-dropdown>
             </div>
-            <p-button label="+ Crear" [raised]="true" class="add-button" (click)="showCreate()"/>
+            <div class="criteria-right-header">
+                <button
+                  class="p-button add-button"
+                  [disabled]="!indicatorIndex"
+                  (click)="showCreate()"
+                >
+                  <i class="pi pi-plus-circle" style="font-size: 1.2rem"></i>
+                  {{ " Crear" }}
+                </button>
+              </div>
         </header>
 
-        <div class="table-container">
+        <section class="criteria-table-container">
+            @if (!indicatorIndex) {
+            <h3>Seleccione un indicador para ver sus categorías</h3>
+            } @else {
             <p-table styleClass="p-datatable-gridlines" [value]="categories">
                 <ng-template pTemplate="header">
                     <tr>
                         <th>Indicador</th>
                         <th>Nombre</th>
+                        <th>Criterios asociados</th>
                         <th></th>
                     </tr>
                 </ng-template>
@@ -21,21 +42,32 @@
                         <td>{{ category.indicatorIndex }}</td>
                         <td>{{ category.name }}</td>
                         <td>
-                            <p-button icon="pi pi-pencil" [outlined]="true" severity="success" (click)="showEdit(category)"/>
+                            <p-tag
+                                *ngFor="let criterion of category.criteria.slice(0, 2)"
+                                severity="info"
+                                class="mr">
+                                {{category.indicatorIndex}}.{{criterion.subindex}} {{ criterion.spanishAlias }}
+                            </p-tag>
+                            <span *ngIf="category.criteria.length > 2">+{{ category.criteria.length - 2 }}</span>
+                            <div *ngIf="allCriteriaEmpty()">No hay criterios asociados</div>
+                        </td>
+                        <td>
+                            <p-button icon="pi pi-pencil" [outlined]="true" severity="success" (click)="showEdit(category)"/>         
                         </td>
                     </tr>
                 </ng-template>
             </p-table>
             <p-paginator [first]="first" [rows]="paginationRows" [totalRecords]="totalRecords"
-                (onPageChange)="onPageChange($event)" />
-            <app-dialog-create [visible]="visibleCreate" (hideDialog)="hideCreate()" (createCategory)="createCategory($event)"></app-dialog-create>    
+            (onPageChange)="onPageChange($event)" />}
+            </section>
+            <app-dialog-create [criteria]="criteria" [visible]="visibleCreate" (hideDialog)="hideCreate()" (createCategory)="createCategory($event)"></app-dialog-create>    
             <app-dialog-edit
+            [criteria]="criteria"
             [visible]="visibleEdit"
             (hideDialog)="hideEdit()"
             [category]="categoryToEdit"
             (editCategory)="editCategory($event)"
             (deleteCategory)="deleteCategory($event)"
           ></app-dialog-edit>
-        </div>
     </article>
 </main>

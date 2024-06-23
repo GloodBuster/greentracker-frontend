@@ -11,7 +11,7 @@ import { FloatLabelModule } from 'primeng/floatlabel';
 import { DialogCreateComponent } from '../../../components/indicador/dialog-create/dialog-create.component';
 import { DialogEditComponent } from '../../../components/indicador/dialog-edit/dialog-edit.component';
 import { IndicatorService } from '../../../services/indicator/indicator.service';
-import { Indicator } from '../../../interfaces/indicator/indicator';
+import { Indicator, indicatorForm } from '../../../interfaces/indicator/indicator';
 import { CustomHttpErrorResponse } from '../../../interfaces/responses/error';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PaginatorModule } from 'primeng/paginator';
@@ -31,7 +31,7 @@ interface PageEvent{
   styleUrl: './indicador.component.scss'
 })
 export class IndicadorComponent {
-  indicatorsData: Indicator[] = [];
+  indicatorsData: indicatorForm[] = [];
   visible: boolean = false;
   editingIndicator: any;
   paginationRows = 10;
@@ -48,7 +48,6 @@ export class IndicadorComponent {
       this.first = (page - 1) * this.paginationRows;
       this.indicatorService.getIndicators(page, this.paginationRows).subscribe({
         next: (response) => {
-          console.log(response);
           this.indicatorsData = response.data.items;
           this.totalRecords = response.data.itemCount;
           this.paginationRows = response.data.itemsPerPage;
@@ -78,10 +77,10 @@ export class IndicadorComponent {
   
   hideDialogEdit() {
     this.visibleEdit = false;
-    this.editingIndicator = {index: 0, englishName: '', spanishAlias: ''};
+    this.editingIndicator = {index: 0, englishName: '', spanishAlias: '', categories: [{name: '', criteria: [{subindex: 0, englishName: '', spanishAlias: '', categoryName: ''}]}]};
   }
 
-  update({value,index}: { value: Indicator, index: number }) {
+  update({value,index}: { value: indicatorForm, index: number }) {
     const indexToUpdate = this.indicatorsData.findIndex((indicator) => indicator.index === index);
     this.indicatorsData[indexToUpdate] = value;
   }
