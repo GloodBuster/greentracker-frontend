@@ -52,7 +52,7 @@ export class CategoriesComponent {
   categories: CategoriesByIndicator[] = [];
   indicators: Indicator[] = [];
   toastService = inject(ToastrService);
-  indicatorIndex = 1;
+  indicatorIndex = 0;
   selectedIndicator: Indicator | undefined;
   totalRecords = 0;
   paginationRows = 10;
@@ -68,11 +68,10 @@ export class CategoriesComponent {
     private readonly router: Router,
     private readonly criteriaService: CriteriaService
   ) {
-
     this.route.queryParams.subscribe((params) => {
       const page = +params['page'] || 1;
       this.first = (page - 1) * this.paginationRows;
-      //this.indicatorIndex = +params['index'];
+      this.indicatorIndex = +params['index'];
 
       this.categoriesService.getAllIndicators().subscribe({
         next: (response) => {
@@ -100,11 +99,6 @@ export class CategoriesComponent {
         .subscribe({
           next: (response) => {
             this.categories = response.data.items;
-            this.categories[0].criteria.push({
-              subindex: 1,
-              englishName: 'test',
-              spanishAlias: 'test',
-            },)
             this.totalRecords = response.data.itemCount;
             this.paginationRows = response.data.itemsPerPage;
           },
@@ -123,20 +117,6 @@ export class CategoriesComponent {
         .subscribe({
           next: (response) => {
             this.criteria = response.data.items;
-            this.criteria = [
-              {
-                indicatorIndex: 1,
-                subindex: 1,
-                englishName: 'test',
-                spanishAlias: 'test',
-              },
-              {
-                indicatorIndex: 1,
-                subindex: 2,
-                englishName: 'test2',
-                spanishAlias: 'test2',
-              },
-            ];
           },
           error: (error: CustomHttpErrorResponse) => {
             const errorResponse = error.error;
