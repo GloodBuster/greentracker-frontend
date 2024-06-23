@@ -1,0 +1,17 @@
+<li>
+  @if (type === 'upload') {
+  <i class="pi pi-upload upload"></i>
+  <div>
+    <p>Una unidad subió una actividad</p>
+    <a href="">Ver actividad</a>
+  </div>
+  } @else if (type === 'period') {
+  <i class="pi pi-calendar period"></i>
+  <div>
+    <p>El periodo de subida de actividades ha comenzado</p>
+  </div>
+  } @else {
+  <i class="pi pi-question unknown"></i>
+  <div><p>Notificación desconocida ¿?</p></div>
+  }
+</li>
