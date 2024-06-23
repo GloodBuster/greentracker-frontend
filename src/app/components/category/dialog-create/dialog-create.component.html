@@ -1,28 +1,52 @@
 <p-dialog
-  header="Categoría"
   [modal]="true"
   [(visible)]="visible"
+  [style]="{ width: '60vw' }"
   [closable]="false"
+  [draggable]="false"
+  styleClass="category-dialog"
 >
-  <h3>Ingrese los datos para crear una nueva categoría</h3>
-  <form [formGroup]="categoryForm" class="create-form">
-    <div class="input-container">
-      <label>Nombre</label>
-      <input type="text" pInputText formControlName="name" />
+  <form [formGroup]="categoryForm" class="modal">
+    <div class="modal-content">
+      <header>
+        <h3>Categoría</h3>
+        <p>
+          Agrupación de criterios que seleccionarán las unidades al momento de subir evidencias de sus actividades.
+        </p>
+      </header>
+      <h4>Información</h4>
+      <div class="input-info">
+        <label>Nombre</label>
+        <input
+          type="text"
+          pInputText
+          formControlName="name"
+          placeholder="Nombre"
+        />
+      </div>
     </div>
-      <!--<p-dropdown
-        formControlName="indicatorIndex"
-        optionLabel="index"
-        placeholder="Selecciona un indicador"
-      />-->
+    <div class="modal-content">
+      <h4>Criterios asociados</h4>
+      <p-multiSelect
+        formControlName="criteria"
+        [options]="criteria"
+        optionLabel="spanishAlias"
+        placeholder="Seleccione los criterios"
+      ></p-multiSelect>
+    </div>
+  </form>
     <div class="buttons-container">
-      <p-button label="Cancelar" severity="secondary" (click)="hide()" />
-      <p-button
-        label="Guardar"
+      <button pButton (click)="hide()" [outlined]="true" class="cancel">
+        Cancelar
+      </button>
+      <button
+        pButton
         (click)="submitForm()"
         [disabled]="!categoryForm.valid"
         [loading]="loading"
-      />
-    </div>
-    </form>
+        class="save"
+      >
+        Guardar
+      </button>
+    </div>  
 </p-dialog>
