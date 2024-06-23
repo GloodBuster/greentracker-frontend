@@ -8,6 +8,8 @@ import {
   Validators,
 } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
+import { ChargePeriodService } from '../../../services/charge-period/charge-period.service';
+import { adjustDateForTimezone, convertToUTCDate } from '../../../utils/date';
 
 @Component({
   selector: 'app-change-period',
@@ -21,6 +23,24 @@ export class ChangePeriodComponent {
   @Output() hideDialog: EventEmitter<void> = new EventEmitter();
   loading = false;
   toastService = inject(ToastrService);
+
+  constructor(private readonly chargePeriodService: ChargePeriodService) {
+    this.chargePeriodService.getChargePeriod().subscribe({
+      next: (response) => {
+        let startDateUTC = convertToUTCDate(response.data.startTimestamp);
+
+        let endDateUTC = convertToUTCDate(response.data.endTimestamp);
+
+        startDateUTC = adjustDateForTimezone(startDateUTC);
+        endDateUTC = adjustDateForTimezone(endDateUTC);
+
+        this.chargePeriodFormGroup.setValue({
+          startDate: startDateUTC,
+          endDate: endDateUTC,
+        });
+      },
+    });
+  }
 
   chargePeriodFormGroup = new FormGroup({
     startDate: new FormControl<Date | null>(null, [Validators.required]),
@@ -41,6 +61,31 @@ export class ChangePeriodComponent {
           'La fecha de inicio debe ser menor a la fecha final.'
         );
       } else {
+        this.loading = true;
+        if (!startDate || !endDate) {
+          this.toastService.error('Por favor, seleccione una fecha válida.');
+          this.loading = false;
+          return;
+        }
+        const formStartDate = startDate.toISOString().slice(0, 10);
+        const formEndDate = endDate.toISOString().slice(0, 10);
+        this.chargePeriodService
+          .updateChargePeriod({
+            startTimestamp: formStartDate,
+            endTimestamp: formEndDate,
+          })
+          .subscribe({
+            next: () => {
+              this.toastService.success('Periodo de carga actualizado');
+              this.hide();
+            },
+            error: () => {
+              this.toastService.error('Ha ocurrido un error inesperado');
+            },
+            complete: () => {
+              this.loading = false;
+            },
+          });
       }
     }
   }
