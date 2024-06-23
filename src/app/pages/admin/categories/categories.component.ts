@@ -1,10 +1,14 @@
 import { Component, inject } from '@angular/core';
-import { SidebarComponent } from '../../../components/sidebar/sidebar.component';
 import { ButtonModule } from 'primeng/button';
 import { TableModule } from 'primeng/table';
 import { CommonModule } from '@angular/common';
 import { PaginatorModule } from 'primeng/paginator';
-import { Categories, CategoriesForm, initialCategoriesForm } from '../../../interfaces/categories/categories';
+import {
+  Categories,
+  CategoriesByIndicator,
+  CategoriesForm,
+  initialCategoriesForm,
+} from '../../../interfaces/categories/categories';
 import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CategoriesService } from '../../../services/categories/categories.service';
@@ -13,6 +17,9 @@ import { DialogCreateComponent } from '../../../components/category/dialog-creat
 import { DialogEditComponent } from '../../../components/category/dialog-edit/dialog-edit.component';
 import { Indicator } from '../../../interfaces/indicator/indicator';
 import { DropdownChangeEvent, DropdownModule } from 'primeng/dropdown';
+import { TagModule } from 'primeng/tag';
+import { Criterion } from '../../../interfaces/criteria/criteria';
+import { CriteriaService } from '../../../services/criteria/criteria.service';
 
 interface PageEvent {
   first?: number;
@@ -28,35 +35,44 @@ interface DropdownIndicatorChangeEvent extends DropdownChangeEvent {
 @Component({
   selector: 'app-categories',
   standalone: true,
-  imports: [ ButtonModule, TableModule, CommonModule, PaginatorModule, DialogCreateComponent, DialogEditComponent, DropdownModule],
+  imports: [
+    ButtonModule,
+    TableModule,
+    CommonModule,
+    PaginatorModule,
+    DialogCreateComponent,
+    DialogEditComponent,
+    DropdownModule,
+    TagModule,
+  ],
   templateUrl: './categories.component.html',
-  styleUrl: './categories.component.scss'
+  styleUrl: './categories.component.scss',
 })
 export class CategoriesComponent {
- categories: Categories[] = [];
- indicators: Indicator[] = [];
- toastService = inject(ToastrService);
- indicatorIndex = 0;
+  categories: CategoriesByIndicator[] = [];
+  indicators: Indicator[] = [];
+  toastService = inject(ToastrService);
+  indicatorIndex = 1;
   selectedIndicator: Indicator | undefined;
   totalRecords = 0;
   paginationRows = 10;
   first = 0;
   visibleCreate = false;
   visibleEdit = false;
-  categoryToEdit: CategoriesForm = initialCategoriesForm;
+  categoryToEdit: any;
+  criteria: Criterion[] = [];
 
   constructor(
     private readonly categoriesService: CategoriesService,
     private readonly route: ActivatedRoute,
-    private readonly router: Router
-  ){
-    const indicatorIndex = this.route.snapshot.paramMap.get('indicatorIndex');
-    if (indicatorIndex) this.indicatorIndex = parseInt(indicatorIndex);
+    private readonly router: Router,
+    private readonly criteriaService: CriteriaService
+  ) {
 
     this.route.queryParams.subscribe((params) => {
       const page = +params['page'] || 1;
       this.first = (page - 1) * this.paginationRows;
-      this.indicatorIndex = +params['index'];
+      //this.indicatorIndex = +params['index'];
 
       this.categoriesService.getAllIndicators().subscribe({
         next: (response) => {
@@ -84,6 +100,11 @@ export class CategoriesComponent {
         .subscribe({
           next: (response) => {
             this.categories = response.data.items;
+            this.categories[0].criteria.push({
+              subindex: 1,
+              englishName: 'test',
+              spanishAlias: 'test',
+            },)
             this.totalRecords = response.data.itemCount;
             this.paginationRows = response.data.itemsPerPage;
           },
@@ -96,22 +117,60 @@ export class CategoriesComponent {
             }
           },
         });
+
+      this.criteriaService
+        .getCriteriaByIndex(this.indicatorIndex, 1, 9999)
+        .subscribe({
+          next: (response) => {
+            this.criteria = response.data.items;
+            this.criteria = [
+              {
+                indicatorIndex: 1,
+                subindex: 1,
+                englishName: 'test',
+                spanishAlias: 'test',
+              },
+              {
+                indicatorIndex: 1,
+                subindex: 2,
+                englishName: 'test2',
+                spanishAlias: 'test2',
+              },
+            ];
+          },
+          error: (error: CustomHttpErrorResponse) => {
+            const errorResponse = error.error;
+            if (errorResponse.statusCode === 401) {
+              this.toastService.error('Acceso denegado');
+            } else {
+              this.toastService.error(
+                'Ha ocurrido un error inesperado al cargar los criterios'
+              );
+            }
+          },
+        });
     });
   }
+
+  allCriteriaEmpty(): boolean {
+    return this.categories.every((category) => category.criteria.length === 0);
+  }
+
   showCreate() {
     this.visibleCreate = true;
   }
   hideCreate() {
     this.visibleCreate = false;
   }
-  createCategory(category: CategoriesForm){
-    this.categories.push({indicatorIndex: this.indicatorIndex, ...category});
+  createCategory(category: any) {
+    this.categories.push({ indicatorIndex: this.indicatorIndex, ...category });
   }
-  showEdit(category: Categories){
+
+  showEdit(category: Categories) {
     this.categoryToEdit = category;
     this.visibleEdit = true;
   }
-  hideEdit(){
+  hideEdit() {
     this.visibleEdit = false;
     this.categoryToEdit = initialCategoriesForm;
   }
@@ -119,16 +178,14 @@ export class CategoriesComponent {
     category,
     name,
   }: {
-    category: CategoriesForm;
+    category: CategoriesByIndicator;
     name: string;
   }) {
     const indexToUpdate = this.categories.findIndex(
       (category) => category.name === name
     );
-    this.categories[indexToUpdate] = {
-      indicatorIndex: this.indicatorIndex,
-      ...category,
-    };
+
+    this.categories[indexToUpdate] = category;
   }
   deleteCategory({ name }: { name: string }) {
     const index = this.categories.findIndex(
@@ -139,7 +196,10 @@ export class CategoriesComponent {
 
   onPageChange(event: PageEvent) {
     this.categoriesService
-      .getCategoriesByIndex(this.indicatorIndex, event.page ? event.page + 1 : 1)
+      .getCategoriesByIndex(
+        this.indicatorIndex,
+        event.page ? event.page + 1 : 1
+      )
       .subscribe({
         next: (response) => {
           this.categories = response.data.items;
@@ -164,33 +224,51 @@ export class CategoriesComponent {
           }
         },
       });
-}
+  }
 
-onIndicatorChange(event: DropdownIndicatorChangeEvent) {
-  this.router.navigate([], {
-    relativeTo: this.route,
-    queryParams: { index: event.value.index },
-    queryParamsHandling: 'merge',
-  });
-  this.selectedIndicator = event.value;
-  this.indicatorIndex = event.value.index;
+  onIndicatorChange(event: DropdownIndicatorChangeEvent) {
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: { index: event.value.index },
+      queryParamsHandling: 'merge',
+    });
+    this.selectedIndicator = event.value;
+    this.indicatorIndex = event.value.index;
 
-  this.categoriesService.getCategoriesByIndex(this.indicatorIndex).subscribe({
-    next: (response) => {
-      this.categories = response.data.items;
-      this.totalRecords = response.data.itemCount;
-      this.paginationRows = response.data.itemsPerPage;
-    },
-    error: (error: CustomHttpErrorResponse) => {
-      const errorResponse = error.error;
-      if (errorResponse.statusCode === 401) {
-        this.toastService.error('Acceso denegado');
-      } else {
-        this.toastService.error(
-          'Ha ocurrido un error inesperado al cargar las categorías'
-        );
-      }
-    },
-  });
-}
+    this.categoriesService.getCategoriesByIndex(this.indicatorIndex).subscribe({
+      next: (response) => {
+        this.categories = response.data.items;
+        this.totalRecords = response.data.itemCount;
+        this.paginationRows = response.data.itemsPerPage;
+      },
+      error: (error: CustomHttpErrorResponse) => {
+        const errorResponse = error.error;
+        if (errorResponse.statusCode === 401) {
+          this.toastService.error('Acceso denegado');
+        } else {
+          this.toastService.error(
+            'Ha ocurrido un error inesperado al cargar las categorías'
+          );
+        }
+      },
+    });
+
+    this.criteriaService
+      .getCriteriaByIndex(this.indicatorIndex, 1, 9999)
+      .subscribe({
+        next: (response) => {
+          this.criteria = response.data.items;
+        },
+        error: (error: CustomHttpErrorResponse) => {
+          const errorResponse = error.error;
+          if (errorResponse.statusCode === 401) {
+            this.toastService.error('Acceso denegado');
+          } else {
+            this.toastService.error(
+              'Ha ocurrido un error inesperado al cargar los criterios'
+            );
+          }
+        },
+      });
+  }
 }

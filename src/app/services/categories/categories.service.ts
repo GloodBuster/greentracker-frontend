@@ -6,7 +6,7 @@ import {
   Response,
 } from '../../interfaces/responses/response';
 import { Observable } from 'rxjs';
-import { Categories, CategoriesForm } from '../../interfaces/categories/categories';
+import { Categories, CategoriesByIndicator, CategoriesForm } from '../../interfaces/categories/categories';
 import { Indicator } from '../../interfaces/indicator/indicator';
 
 @Injectable({
@@ -26,16 +26,16 @@ export class CategoriesService {
         indicatorIndex: number,
         page: number = 1,
         itemsPerPage: number = 10
-    ): Observable<PaginatedResponse<Categories>> {
-        return this.http.get<PaginatedResponse<Categories>>(
+    ): Observable<PaginatedResponse<CategoriesByIndicator>> {
+        return this.http.get<PaginatedResponse<CategoriesByIndicator>>(
             `${this.BASE_URL}/indicators/${indicatorIndex}/categories?pageIndex=${page}&itemsPerPage=${itemsPerPage}`
         );
     }
     createCategory(
         indicatorIndex: number,
         category: CategoriesForm
-    ): Observable<Response<Categories>> {
-        return this.http.post<Response<Categories>>(
+    ): Observable<Response<CategoriesByIndicator>> {
+        return this.http.post<Response<CategoriesByIndicator>>(
             `${this.BASE_URL}/indicators/${indicatorIndex}/categories`,
             { indicatorIndex, ...category }
         );
@@ -44,8 +44,8 @@ export class CategoriesService {
         indicatorIndex: number,
         name: string,
         category: CategoriesForm
-    ): Observable<Response<Categories>> {  
-        return this.http.put<Response<Categories>>(
+    ): Observable<Response<CategoriesByIndicator>> {  
+        return this.http.put<Response<CategoriesByIndicator>>(
             `${this.BASE_URL}/indicators/${indicatorIndex}/categories/${name}`,
             { indicatorIndex, ...category }
         );
@@ -53,8 +53,8 @@ export class CategoriesService {
     deleteCategory(
         indicatorIndex: number,
         name: string
-    ): Observable<Response<Categories>> {
-        return this.http.delete<Response<Categories>>(
+    ): Observable<Response<CategoriesByIndicator>> {
+        return this.http.delete<Response<CategoriesByIndicator>>(
             `${this.BASE_URL}/indicators/${indicatorIndex}/categories/${name}`
         );
     }

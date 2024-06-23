@@ -26,13 +26,14 @@
 
         <section class="criteria-table-container">
             @if (!indicatorIndex) {
-            <h3>Seleccione un indicador para ver sus criterios</h3>
+            <h3>Seleccione un indicador para ver sus categorías</h3>
             } @else {
             <p-table styleClass="p-datatable-gridlines" [value]="categories">
                 <ng-template pTemplate="header">
                     <tr>
                         <th>Indicador</th>
                         <th>Nombre</th>
+                        <th>Criterios asociados</th>
                         <th></th>
                     </tr>
                 </ng-template>
@@ -41,7 +42,17 @@
                         <td>{{ category.indicatorIndex }}</td>
                         <td>{{ category.name }}</td>
                         <td>
-                            <p-button icon="pi pi-pencil" [outlined]="true" severity="success" (click)="showEdit(category)"/>
+                            <p-tag
+                                *ngFor="let criterion of category.criteria.slice(0, 2)"
+                                severity="info"
+                                class="mr">
+                                {{category.indicatorIndex}}.{{criterion.subindex}} {{ criterion.spanishAlias }}
+                            </p-tag>
+                            <span *ngIf="category.criteria.length > 2">+{{ category.criteria.length - 2 }}</span>
+                            <div *ngIf="allCriteriaEmpty()">No hay criterios asociados</div>
+                        </td>
+                        <td>
+                            <p-button icon="pi pi-pencil" [outlined]="true" severity="success" (click)="showEdit(category)"/>         
                         </td>
                     </tr>
                 </ng-template>
@@ -49,8 +60,9 @@
             <p-paginator [first]="first" [rows]="paginationRows" [totalRecords]="totalRecords"
             (onPageChange)="onPageChange($event)" />}
             </section>
-            <app-dialog-create [visible]="visibleCreate" (hideDialog)="hideCreate()" (createCategory)="createCategory($event)"></app-dialog-create>    
+            <app-dialog-create [criteria]="criteria" [visible]="visibleCreate" (hideDialog)="hideCreate()" (createCategory)="createCategory($event)"></app-dialog-create>    
             <app-dialog-edit
+            [criteria]="criteria"
             [visible]="visibleEdit"
             (hideDialog)="hideEdit()"
             [category]="categoryToEdit"
