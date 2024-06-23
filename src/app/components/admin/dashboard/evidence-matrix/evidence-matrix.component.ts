@@ -42,119 +42,6 @@ export class EvidenceMatrixComponent {
             this.units = response.data;
             this.loading = false;
             this.editLoading.emit(false);
-            this.units = [
-              {
-                id: '1',
-                name: 'Unit 1',
-                email: 'unit1@example.com',
-                recommendedCategories: [
-                  {
-                    indicatorIndex: 0,
-                    name: 'Category 1',
-                  },
-                ],
-                contributedCategories: [
-                  {
-                    indicatorIndex: 0,
-                    name: 'Category 1',
-                  },
-                  {
-                    indicatorIndex: 1,
-                    name: 'Category 2',
-                  },
-                ],
-              },
-              {
-                id: '2',
-                name: 'Unit 2',
-                email: 'unit2@example.com',
-                recommendedCategories: [
-                  {
-                    indicatorIndex: 1,
-                    name: 'Category 2',
-                  },
-                ],
-                contributedCategories: [
-                  {
-                    indicatorIndex: 1,
-                    name: 'Category 2',
-                  },
-                ],
-              },
-              {
-                id: '3',
-                name: 'Unit 3',
-                email: 'unit3@example.com',
-                recommendedCategories: [
-                  {
-                    indicatorIndex: 2,
-                    name: 'Category 3',
-                  },
-                ],
-                contributedCategories: [
-                  {
-                    indicatorIndex: 2,
-                    name: 'Category 3',
-                  },
-                ],
-              },
-            ];
-            this.indicators = [
-              {
-                index: 0,
-                englishName: 'Test Indicator 1',
-                spanishAlias: 'Indicador de Prueba 1',
-                categories: [
-                  {
-                    name: 'Category 1',
-                    criteria: [
-                      {
-                        indicatorIndex: 0,
-                        subindex: 0,
-                        englishName: 'Test Criteria 1',
-                        spanishAlias: 'Criterio de Prueba 1',
-                      },
-                    ],
-                  },
-                ],
-              },
-              {
-                index: 1,
-                englishName: 'Test Indicator 2',
-                spanishAlias: 'Indicador de Prueba 2',
-                categories: [
-                  {
-                    name: 'Category 2',
-                    criteria: [
-                      {
-                        indicatorIndex: 1,
-                        subindex: 1,
-                        englishName: 'Test Criteria 2',
-                        spanishAlias: 'Criterio de Prueba 2',
-                      },
-                    ],
-                  },
-                ],
-              },
-              {
-                index: 2,
-                englishName: 'Test Indicator 3',
-                spanishAlias: 'Indicador de Prueba 3',
-                categories: [
-                  {
-                    name: 'Category 3',
-                    criteria: [
-                      {
-                        indicatorIndex: 2,
-                        subindex: 2,
-                        englishName: 'Test Criteria 3',
-                        spanishAlias: 'Criterio de Prueba 3',
-                      },
-                    ],
-                  },
-                ],
-              },
-            ];
             const percentage =
               (this.units.reduce((acc, unit) => {
                 return acc + (unit.contributedCategories.length > 0 ? 1 : 0);
@@ -207,7 +94,7 @@ export class EvidenceMatrixComponent {
 
   isRecommendedCategory(unit: UnitDetails, categoryName: string): boolean {
     return unit.recommendedCategories.some(
-      (recommendedCategory) => recommendedCategory.name === categoryName
+      (recommendedCategory) => recommendedCategory.categoryName === categoryName
     );
   }
 
@@ -216,7 +103,8 @@ export class EvidenceMatrixComponent {
       (unit) =>
         unit.id === unitId &&
         unit.contributedCategories.some(
-          (contributedCategory) => contributedCategory.name === categoryName
+          (contributedCategory) =>
+            contributedCategory.categoryName === categoryName
         )
     );
   }

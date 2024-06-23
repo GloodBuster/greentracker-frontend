@@ -1,6 +1,19 @@
-p-table th,
-p-table td {
+::ng-deep .real-matrix th,
+::ng-deep .real-matrix td {
   white-space: nowrap;
+  text-align: center;
+  border-right: 1px solid #d0d0d0;
+  border-bottom: 1px solid #d0d0d0;
+}
+
+::ng-deep .real-matrix tr:first-child th,
+::ng-deep .real-matrix tr:first-child td {
+  border-top: 1px solid #d0d0d0;
+}
+
+::ng-deep .real-matrix th:first-child,
+::ng-deep .real-matrix td:first-child {
+  border-left: 1px solid #d0d0d0;
 }
 
 .recomended-category {
