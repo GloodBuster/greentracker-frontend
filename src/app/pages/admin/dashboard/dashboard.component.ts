@@ -40,10 +40,11 @@ export class DashboardComponent {
         this.endPeriodDate = convertDateFormat(
           response.data.endTimestamp.slice(0, 10)
         );
-        const start = new Date(response.data.startTimestamp);
         const end = new Date(response.data.endTimestamp);
-        const diff = Math.abs(end.getTime() - start.getTime());
-        this.remainingDays = Math.ceil(diff / (1000 * 60 * 60 * 24));
+        const today = new Date();
+        const diff = end.getTime() - today.getTime();
+        this.remainingDays =
+          diff > 0 ? Math.ceil(diff / (1000 * 60 * 60 * 24)) : 0;
       },
       error: (error: CustomHttpErrorResponse) => {
         if (error.error.statusCode === 500) {
