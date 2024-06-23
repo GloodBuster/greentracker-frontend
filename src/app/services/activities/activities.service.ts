@@ -3,7 +3,7 @@ import { inject, Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { Observable } from 'rxjs';
 import { PaginatedResponse } from '../../interfaces/responses/response';
-import { Activity } from '../../interfaces/activities/activities';
+import { Activity, Units } from '../../interfaces/activities/activities';
 
 type ActivitiesFilters = {
   pageIndex?: number;
@@ -67,5 +67,9 @@ export class ActivitiesService {
       `${this.BASE_URL}/activities`,
       { params }
     );
+  }
+
+  getAllUnits(): Observable<PaginatedResponse<Units>> {
+    return this.http.get<PaginatedResponse<Units>>(`${this.BASE_URL}/units`);
   }
 }
