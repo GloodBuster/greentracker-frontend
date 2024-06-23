@@ -19,6 +19,9 @@
           [disabled]="!indicatorIndex"
           (click)="showCreate()"
           [class.button-disabled]="!indicatorIndex"
+          [pTooltip]="
+            indicatorIndex ? undefined : 'Debe seleccionar un indicador primero'
+          "
         >
           <i class="pi pi-plus-circle" style="font-size: 1.2rem"></i>
           {{ " Crear" }}

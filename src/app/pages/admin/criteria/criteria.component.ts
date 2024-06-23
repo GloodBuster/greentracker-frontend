@@ -15,6 +15,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { PaginatorModule } from 'primeng/paginator';
 import { Indicator } from '../../../interfaces/indicator/indicator';
 import { DropdownChangeEvent, DropdownModule } from 'primeng/dropdown';
+import { TooltipModule } from 'primeng/tooltip';
 
 interface PageEvent {
   first?: number;
@@ -37,6 +38,7 @@ interface DropdownIndicatorChangeEvent extends DropdownChangeEvent {
     DialogEditComponent,
     PaginatorModule,
     DropdownModule,
+    TooltipModule
   ],
   templateUrl: './criteria.component.html',
   styleUrl: './criteria.component.scss',
