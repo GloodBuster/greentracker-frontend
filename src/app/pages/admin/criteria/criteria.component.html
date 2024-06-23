@@ -9,7 +9,8 @@
           optionLabel="englishName"
           placeholder="Indicador"
           (onChange)="onIndicatorChange($event)"
-          [style]="{ minWidth: '400px' }"
+          [style]="{ minWidth: '400px', outline: 'none', boxShadow: 'none' }"
+          styleClass="criteria-dropdown"
         ></p-dropdown>
       </div>
       <div class="criteria-right-header">
@@ -17,6 +18,7 @@
           class="p-button add-button"
           [disabled]="!indicatorIndex"
           (click)="showCreate()"
+          [class.button-disabled]="!indicatorIndex"
         >
           <i class="pi pi-plus-circle" style="font-size: 1.2rem"></i>
           {{ " Crear" }}
@@ -47,12 +49,12 @@
               {{ criterion.spanishAlias }}
             </td>
             <td>
-              <p-button
-                icon="pi pi-pencil"
-                [outlined]="true"
-                severity="success"
+              <button
+                class="p-button edit-button"
                 (click)="showEdit(criterion)"
-              />
+              >
+                <i class="pi pi-pencil" style="color: #3ba13f"></i>
+              </button>
             </td>
           </tr>
         </ng-template>

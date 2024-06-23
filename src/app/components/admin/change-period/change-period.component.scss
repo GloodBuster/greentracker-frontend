@@ -1,0 +1,109 @@
+header {
+  h3 {
+    color: black;
+    font-size: x-large;
+    margin: 0;
+  }
+
+  p {
+    color: #3f3f3f;
+    font-weight: 500;
+  }
+}
+
+h4 {
+  color: black;
+  font-size: large;
+}
+
+.buttons-container {
+  display: flex;
+  justify-content: flex-end;
+  gap: 20px;
+
+  .cancel {
+    color: #515050;
+    width: 130px;
+    border: none;
+    font-weight: 400;
+    display: flex;
+    justify-content: center;
+
+    &:hover {
+      color: #000;
+    }
+  }
+
+  .save {
+    background-color: #3ba13f;
+    border: none;
+    width: 130px;
+    border-radius: 4px;
+    font-weight: 400;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    outline: none;
+    box-shadow: none;
+
+    &:hover {
+      background-color: #268729;
+    }
+  }
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex: 1;
+  gap: 20px;
+  margin-bottom: 30px;
+
+  .calendars-container {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+
+    .input-container {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+
+      label {
+        color: #000;
+        font-weight: 500;
+      }
+    }
+  }
+}
+
+::ng-deep .change-period-calendar-input .p-datepicker {
+  transform: translateX(-15%) scale(0.7);
+  bottom: 0;
+}
+
+::ng-deep .change-period-calendar-input .p-inputtext {
+  box-shadow: none;
+
+  &:hover,
+  &:focus {
+    border: 1px solid #2d7b30;
+  }
+}
+
+::ng-deep .change-period-dialog .p-dialog-header {
+  padding-bottom: 10px;
+}
+
+::ng-deep .change-period-dialog {
+  height: 90vh;
+  display: flex;
+  flex-direction: column;
+}
+
+::ng-deep .change-period-dialog .p-dialog-content {
+  padding-bottom: 0px;
+  display: flex;
+  flex-direction: column;
+}

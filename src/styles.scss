@@ -12,11 +12,16 @@ body {
   background-color: #F3F3F3;
 }
 
-.p-password:hover .p-inputtext,
-.p-password .p-inputtext:focus {
-  border-color: var(--green);
-}
-
 :root {
   --green: #3ba13f;
+}
+
+.no-outline {
+  outline: none;
+  box-shadow: none;
+}
+
+.button-separation {
+  display: flex;
+  gap: 6px;
 }
