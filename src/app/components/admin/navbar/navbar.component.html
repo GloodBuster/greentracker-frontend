@@ -4,8 +4,22 @@
     <h2>GreenTracker</h2>
   </section>
   <section class="notifications">
-    <button class="p-button notifications-button">
+    <button
+      class="p-button notifications-button"
+      (click)="adminNotificationsOverlay.toggle($event)"
+    >
       <i class="pi pi-bell" style="font-size: 1.5rem"></i>
     </button>
+    <p-overlayPanel
+      #adminNotificationsOverlay
+      styleClass="notifications-overlay"
+    >
+      <h3>Notificaciones</h3>
+      <ul>
+        @for (item of ['upload', 'period', '']; track $index) {
+        <app-notification-card [type]="item"></app-notification-card>
+        }
+      </ul>
+    </p-overlayPanel>
   </section>
 </header>

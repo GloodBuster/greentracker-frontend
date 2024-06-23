@@ -35,6 +35,44 @@
       background-color: transparent;
       color: #3ba13f;
       border: #3ba13f 2px solid;
+      outline: none;
+      box-shadow: none;
     }
+  }
+}
+
+::ng-deep .notifications-overlay {
+  height: 80vh;
+  overflow-y: scroll;
+  width: 300px;
+  scrollbar-width: thin;
+  scrollbar-color: darkgray transparent;
+
+  &::-webkit-scrollbar {
+    width: 2px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: darkgray;
+    border-radius: 0px;
+  }
+
+  &::-webkit-scrollbar-button {
+    display: none;
+  }
+
+  h3 {
+    margin: 0;
+    color: black;
+  }
+
+  ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
   }
 }
