@@ -12,6 +12,8 @@ import { DashboardComponent } from './pages/admin/dashboard/dashboard.component'
 import { UnidadComponent } from './pages/admin/unidad/unidad.component';
 import { ActivitiesComponent } from './pages/activities/activities.component';
 import { ActivityComponent } from './components/activities/activity/activity.component';
+import { DashboardComponent as UnitDashboard } from './pages/unit/dashboard/dashboard.component';
+import { UnitLayoutComponent } from './components/unit/unit-layout/unit-layout.component';
 
 export const routes: Routes = [
   {
@@ -61,21 +63,27 @@ export const routes: Routes = [
       },
       {
         path: 'activities',
-        component: ActivitiesComponent
+        component: ActivitiesComponent,
       },
       {
         path: 'activity',
-        component: ActivityComponent
-      }
+        component: ActivityComponent,
+      },
     ],
   },
   {
     path: '',
+    component: UnitLayoutComponent,
     canActivate: [hasRoleGuard],
     data: {
       role: Role.UNIT,
     },
-    children: [],
+    children: [
+      {
+        path: 'unit-dashboard',
+        component: UnitDashboard,
+      },
+    ],
   },
   {
     path: '**',
