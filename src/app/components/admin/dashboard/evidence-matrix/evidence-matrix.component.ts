@@ -42,12 +42,13 @@ export class EvidenceMatrixComponent {
             this.units = response.data;
             this.loading = false;
             this.editLoading.emit(false);
-            const percentage =
+            const percentage = Math.floor(
               (this.units.reduce((acc, unit) => {
                 return acc + (unit.contributedCategories.length > 0 ? 1 : 0);
               }, 0) /
                 this.units.length) *
-              100;
+                100
+            );
             this.editPercentageValue(percentage);
           },
           error: (error: CustomHttpErrorResponse) => {
