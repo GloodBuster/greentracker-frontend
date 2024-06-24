@@ -1,0 +1,54 @@
+<main class="unit-dashboard-page">
+  <h1>Panel Principal</h1>
+  <section class="statistics-section">
+    <div class="card card-1">
+      @if (loading) {
+      <p-skeleton height="80px" />
+      } @else{
+      <div class="top-side">
+        <h2>{{ remainingDays }}</h2>
+        <p>Días restantes para cargar evidencias</p>
+      </div>
+      <p class="period">Periodo: {{ startPeriodDate }} - {{ endPeriodDate }}</p>
+      }
+    </div>
+    <div class="card card-2">
+      @if (loading) {
+      <p-skeleton height="80px" />
+      } @else{
+      <div class="top-side">
+        <h2>{{ unitsWithEvidencePercentage }}%</h2>
+        <p>Unidades con actividades</p>
+      </div>
+      <p-progressBar
+        [style]="{
+          height: '14px',
+          'border-radius': '10px',
+          opacity: '0.5',
+          'background-color': '#c0c0c0'
+        }"
+        [styleClass]="'custom-progress-bar'"
+        [value]="unitsWithEvidencePercentage"
+        [showValue]="false"
+      >
+      </p-progressBar
+      >}
+    </div>
+    <div class="card card-3">
+      @if (loading) {
+      <p-skeleton height="80px" />
+      } @else{
+      <div class="top-side">
+        <h2>{{ chargedEvidence }}</h2>
+        <p>Actividades cargadas</p>
+      </div>
+      }
+    </div>
+  </section>
+  <h2>Actividades por Unidad</h2>
+  <app-evidence-matrix
+    (editChargedEvidence)="editChargedEvidence($event)"
+    (editUnitsWithEvidencePercentage)="editUnitsWithEvidencePercentage($event)"
+    (editLoading)="editLoading($event)"
+  ></app-evidence-matrix>
+</main>
