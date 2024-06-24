@@ -10,6 +10,7 @@ import { map, Observable } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { UnitsService } from '../../../../services/units/units.service';
 import { SkeletonModule } from 'primeng/skeleton';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-evidence-matrix',
@@ -31,7 +32,8 @@ export class EvidenceMatrixComponent {
     private readonly indicatorService: IndicatorService,
     private readonly toastService: ToastrService,
     private readonly activitiesService: ActivitiesService,
-    private readonly unitsService: UnitsService
+    private readonly unitsService: UnitsService,
+    private readonly router: Router
   ) {
     this.indicatorService.getAllIndicators().subscribe({
       next: (response) => {
@@ -107,5 +109,9 @@ export class EvidenceMatrixComponent {
             contributedCategory.categoryName === categoryName
         )
     );
+  }
+
+  navigateToActivity(unitId: string, categoryName: string): void {
+    this.router.navigate(['/activities'], { queryParams: { unitId: unitId, categoryName: categoryName } });
   }
 }

@@ -2,17 +2,19 @@
     <article>
         <header class="activity-page-header">
             <div class="activity-left-header">
-                <h1>Actividad</h1>
+                <h1>Actividad {{activity.name}}</h1>
             </div>
         </header>
         <section class="activity-content-container">
                 <div class="activity-container" >
                     <h3>Categoría</h3>
                     <div class="category">
-                        Categoría 2 hola
+                        {{activity.categoryName}}
                     </div>
-                    <h3>Resumen</h3>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sed, est sit! Delectus animi praesentium accusantium dicta obcaecati quia perferendis minus, amet suscipit aspernatur consequuntur asperiores eaque corrupti? Distinctio, magni doloribus.</p>
+                    <h3 style="margin-bottom: -5px;">Resumen</h3>
+                    <p>{{activity.summary}}</p>
+                    <h3 style="margin-bottom: -5px; margin-top: 10px;">Fecha y hora de carga</h3>
+                    <p>{{activity.uploadTimestamp | date:'dd-MM-yyyy HH:mm'}}</p>
                 </div>
                 <div class="activity-container2" >
                     <h3>Evidencias</h3>
