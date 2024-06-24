@@ -73,6 +73,7 @@ export class DialogEditComponent implements OnChanges {
   @Input() indicators: Indicators[] = [];
   loading = false;
   deleteLoading = false;
+  formattedIndicators = false;
 
   categoriesData = categoriesData;
 
@@ -81,7 +82,7 @@ export class DialogEditComponent implements OnChanges {
     private confirmationService: ConfirmationService
   ) {}
   showConfirmDialog = false;
-  
+
   unitsForm = new FormGroup({
     name: new FormControl(this.unit.name, [Validators.required]),
     email: new FormControl(this.unit.email, [
@@ -102,13 +103,28 @@ export class DialogEditComponent implements OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
+    if (!this.formattedIndicators && this.indicators.length !== 0) {
+      this.indicators = this.indicators.map((indicator) => {
+        return {
+          ...indicator,
+          categories: indicator.categories.map((category) => {
+            return {
+              name: category.name,
+              criteria: [],
+            };
+          }),
+        };
+      });
+      this.formattedIndicators = true;
+    }
     if (changes['unit'] && changes['unit'].currentValue) {
       this.unitsForm.setValue({
         name: changes['unit'].currentValue.name,
         email: changes['unit'].currentValue.email,
-        recommendedCategories: FormToCategoriesData(
-          changes['unit'].currentValue.recommendedCategories
-        ) ?? [],
+        recommendedCategories:
+          FormToCategoriesData(
+            changes['unit'].currentValue.recommendedCategories
+          ) ?? [],
       });
     }
   }

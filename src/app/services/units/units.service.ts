@@ -54,4 +54,7 @@ export class UnitsService {
       `${this.BASE_URL}/indicators/all`
     );
   }
+  getUnitById(id: string): Observable<Response<UnitDetails>> {
+    return this.http.get<Response<UnitDetails>>(`${this.BASE_URL}/units/${id}`);
+  }
 }
