@@ -1,0 +1,72 @@
+.landing-page-navbar {
+  height: 70px;
+  display: flex;
+  overflow: hidden;
+  justify-content: space-between;
+  padding-right: 40px;
+  padding-left: 10px;
+  margin: 0;
+  margin-left: 25px;
+  position: relative;
+
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 2px;
+    width: 100%;
+    background: linear-gradient(90deg, #3ba13f 0%, #fcff51 50%, #3ba13f 100%);
+  }
+
+  .logo {
+    height: 100%;
+    display: flex;
+    align-items: center;
+  }
+
+  .notifications {
+    height: 100%;
+    display: flex;
+    align-items: center;
+
+    .notifications-button {
+      padding: 8px;
+      background-color: transparent;
+      color: #3ba13f;
+      border: #3ba13f 2px solid;
+      outline: none;
+      box-shadow: none;
+    }
+  }
+}
+
+::ng-deep .notifications-overlay {
+  height: 80vh;
+  overflow-y: scroll;
+  width: 300px;
+  scrollbar-width: thin;
+  scrollbar-color: darkgray transparent;
+
+  &::-webkit-scrollbar {
+    width: 2px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: darkgray;
+    border-radius: 0px;
+  }
+
+  &::-webkit-scrollbar-button {
+    display: none;
+  }
+
+  h3 {
+    margin: 0;
+    color: black;
+  }
+}

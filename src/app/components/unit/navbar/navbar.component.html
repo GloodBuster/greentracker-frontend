@@ -1,0 +1,20 @@
+<header class="landing-page-navbar">
+  <section class="logo">
+    <p-image src="assets\login\sprout.svg" alt="sprout" width="40" />
+    <h2>GreenTracker</h2>
+  </section>
+  <section class="notifications">
+    <button
+      class="p-button notifications-button"
+      (click)="adminNotificationsOverlay.toggle($event)"
+    >
+      <i class="pi pi-bell" style="font-size: 1.5rem"></i>
+    </button>
+    <p-overlayPanel
+      #adminNotificationsOverlay
+      styleClass="notifications-overlay"
+    >
+      <h3>Notificaciones</h3>
+    </p-overlayPanel>
+  </section>
+</header>
