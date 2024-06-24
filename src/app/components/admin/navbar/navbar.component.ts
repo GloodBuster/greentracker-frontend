@@ -3,6 +3,7 @@ import { ButtonModule } from 'primeng/button';
 import { ImageModule } from 'primeng/image';
 import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { NotificationCardComponent } from '../notification-card/notification-card.component';
+import { NotificationsListComponent } from '../notifications-list/notifications-list.component';
 
 @Component({
   selector: 'app-navbar',
@@ -11,7 +12,7 @@ import { NotificationCardComponent } from '../notification-card/notification-car
     ImageModule,
     ButtonModule,
     OverlayPanelModule,
-    NotificationCardComponent,
+    NotificationsListComponent,
   ],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.scss',

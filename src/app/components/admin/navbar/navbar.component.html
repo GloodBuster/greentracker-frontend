@@ -15,11 +15,7 @@
       styleClass="notifications-overlay"
     >
       <h3>Notificaciones</h3>
-      <ul>
-        @for (item of ['upload', 'period', '']; track $index) {
-        <app-notification-card [type]="item"></app-notification-card>
-        }
-      </ul>
+      <app-notifications-list></app-notifications-list>
     </p-overlayPanel>
   </section>
 </header>
