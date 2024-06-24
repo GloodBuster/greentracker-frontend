@@ -2,7 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { Observable } from 'rxjs';
-import { PaginatedResponse } from '../../interfaces/responses/response';
+import { PaginatedResponse, Response } from '../../interfaces/responses/response';
 import { Activity, Units } from '../../interfaces/activities/activities';
 
 type ActivitiesFilters = {
@@ -71,5 +71,9 @@ export class ActivitiesService {
 
   getAllUnits(): Observable<PaginatedResponse<Units>> {
     return this.http.get<PaginatedResponse<Units>>(`${this.BASE_URL}/units`);
+  }
+
+  getActivityById(id: string): Observable<Response<Activity>> {
+    return this.http.get<Response<Activity>>(`${this.BASE_URL}/activities/${id}`);
   }
 }

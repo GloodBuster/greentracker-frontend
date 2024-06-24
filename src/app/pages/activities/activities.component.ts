@@ -1,15 +1,15 @@
 import { Component, inject } from '@angular/core';
 import { DropdownChangeEvent, DropdownModule } from 'primeng/dropdown';
-import { Units } from '../../interfaces/activities/activities';
+import { Activity, Units } from '../../interfaces/activities/activities';
 import { ToastrService } from 'ngx-toastr';
 import { ActivitiesService } from '../../services/activities/activities.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CustomHttpErrorResponse } from '../../interfaces/responses/error';
 import { PaginatorModule } from 'primeng/paginator';
 import { CardModule } from 'primeng/card';
-import { activitiesData } from '../../components/activities/activitiesData';
 import { CommonModule } from '@angular/common';
-
+import { UnitsService } from '../../services/units/units.service';
+import { UnitDetails } from '../../interfaces/units/units';
 
 interface PageEvent {
   first?: number;
@@ -25,81 +25,69 @@ interface DropdownUnitChangeEvent extends DropdownChangeEvent {
 @Component({
   selector: 'app-activities',
   standalone: true,
-  imports: [
-    PaginatorModule,
-    DropdownModule,
-    CardModule,
-  CommonModule],
+  imports: [PaginatorModule, DropdownModule, CardModule, CommonModule],
   templateUrl: './activities.component.html',
-  styleUrl: './activities.component.scss'
+  styleUrl: './activities.component.scss',
 })
 export class ActivitiesComponent {
-activities = activitiesData;
-units: Units[] = [];
-toastService = inject(ToastrService);
-unitIndex = "";
-selectedUnit: Units | undefined;
-totalRecords = 0;
-paginationRows = 10;
-first = 0;
+  activities: Activity[] = [];
+  units: UnitDetails = {} as UnitDetails;
+  toastService = inject(ToastrService);
+  unitIndex = '';
+  totalRecords = 0;
+  paginationRows = 10;
+  first = 0;
+  unitId: string | undefined = undefined;
+  categoryName: string | undefined = undefined;
 
-constructor(
-  private readonly activitiesService: ActivitiesService,
-  private readonly route: ActivatedRoute,
-  private readonly router: Router
-){
-  this.route.queryParams.subscribe((params) => {
-    const page = +params['page'] || 1;
-    this.first = (page - 1) * this.paginationRows;
-    this.activitiesService.getAllUnits().subscribe({
+  constructor(
+    private readonly activitiesService: ActivitiesService,
+    private readonly unitService: UnitsService,
+    private readonly route: ActivatedRoute,
+    private readonly router: Router
+  ) {
+    this.route.queryParams.subscribe((params) => {
+      this.unitId = params['unitId'];
+      this.categoryName = params['categoryName'];
+    });
+
+    this.activitiesService.getFilteredActivities({
+      pageIndex: this.first,
+      itemsPerPage: this.paginationRows,
+      unitId: this.unitId,
+      categoryName: this.categoryName,
+    }).subscribe({
       next: (response) => {
-        this.units = response.data.items;
-        this.selectedUnit = this.units.find(
-          (unit) => unit.id === this.unitIndex
-        );
+        this.activities = response.data.items;
+        this.totalRecords = response.data.itemCount;
+        this.paginationRows = response.data.itemsPerPage;
       },
       error: (error: CustomHttpErrorResponse) => {
-        const errorResponse = error.error;
-        if (errorResponse.statusCode === 401) {
-          this.toastService.error('Acceso denegado');
+        if (error.error.statusCode === 500) {
+          this.toastService.error('Ha ocurrido un error inesperado');
         } else {
-          this.toastService.error(
-            'Ha ocurrido un error inesperado al cargar los indicadores'
-          );
+          this.toastService.error(error.error.message);
         }
       },
     });
 
-    if(!this.unitIndex) return;
-
+    if (this.unitId !== undefined) {
+      this.unitService.getUnitById(this.unitId).subscribe({
+        next: (response) => {
+          this.units = response.data;
+        },
+        error: (error: CustomHttpErrorResponse) => {
+          if (error.error.statusCode === 500) {
+            this.toastService.error('Ha ocurrido un error inesperado');
+          } else {
+            this.toastService.error(error.error.message);
+          }
+        },
+      });
+    }
   }
-  );
-}
-onUnitChange(event: DropdownUnitChangeEvent) {
-  this.router.navigate([], {
-    relativeTo: this.route,
-    queryParams: { index: event.value.id },
-    queryParamsHandling: 'merge',
-  });
-  this.selectedUnit = event.value;
-  this.unitIndex = event.value.id;
+  navigateToTheActivity(activityId: string): void {
+    this.router.navigate(['/activity'], { queryParams: { activityId: activityId,} });
+  }
 
-  /*this.criteriaService.getCriteriaByIndex(this.indicatorIndex).subscribe({
-    next: (response) => {
-      this.criteria = response.data.items;
-      this.totalRecords = response.data.itemCount;
-      this.paginationRows = response.data.itemsPerPage;
-    },
-    error: (error: CustomHttpErrorResponse) => {
-      const errorResponse = error.error;
-      if (errorResponse.statusCode === 401) {
-        this.toastService.error('Acceso denegado');
-      } else {
-        this.toastService.error(
-          'Ha ocurrido un error inesperado al cargar los criterios'
-        );
-      }
-    },
-  });*/
-}
 }
