@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { SidebarComponent } from '../../../components/sidebar/sidebar.component';
 import { ButtonModule } from 'primeng/button';
 import { TableModule } from 'primeng/table';
 import { CommonModule } from '@angular/common';
@@ -26,7 +25,7 @@ interface PageEvent{
 @Component({
   selector: 'app-indicador',
   standalone: true,
-  imports: [SidebarComponent, ButtonModule, TableModule, CommonModule, TagModule, DialogModule, InputTextModule, FormsModule, FloatLabelModule, DialogCreateComponent, DialogEditComponent, PaginatorModule],
+  imports: [ButtonModule, TableModule, CommonModule, TagModule, DialogModule, InputTextModule, FormsModule, FloatLabelModule, DialogCreateComponent, DialogEditComponent, PaginatorModule],
   templateUrl: './indicador.component.html',
   styleUrl: './indicador.component.scss'
 })
