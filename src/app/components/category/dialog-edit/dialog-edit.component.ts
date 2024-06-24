@@ -20,6 +20,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import {
   CategoriesByIndicator,
   CategoriesForm,
+  CriteriaSubIndex,
 } from '../../../interfaces/categories/categories';
 import { CategoriesService } from '../../../services/categories/categories.service';
 import { ToastrService } from 'ngx-toastr';
@@ -44,8 +45,17 @@ export function CriterionFormToCriterion(
       subindex: criterion.subindex,
       englishName: criterion.englishName,
       spanishAlias: criterion.spanishAlias,
-      };
-    });
+    };
+  });
+}
+export function CriterionToCriteriaSubIndex(
+  criterion: Criterion[]
+): CriteriaSubIndex[] {
+  return criterion?.map((criterion: Criterion): CriteriaSubIndex => {
+    return {
+      subindex: criterion.subindex,
+    };
+  });
 }
 @Component({
   selector: 'app-dialog-edit',
@@ -68,7 +78,6 @@ export function CriterionFormToCriterion(
 export class DialogEditComponent {
   @Input() visible: boolean = false;
   @Input() category: CategoriesByIndicator = {
-    indicatorIndex: 0,
     name: '',
     criteria: [],
   };
@@ -94,7 +103,8 @@ export class DialogEditComponent {
   ) {
     this.route.queryParams.subscribe((params) => {
       this.indicatorIndex = +params['index'];
-  });}
+    });
+  }
 
   categoryForm = new FormGroup({
     name: new FormControl('', [Validators.required]),
@@ -103,11 +113,13 @@ export class DialogEditComponent {
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['category'] && changes['category'].currentValue) {
-      console.log(this.category);
       this.categoryForm.setValue({
         name: changes['category'].currentValue.name,
         criteria:
-          CriterionFormToCriterion(changes['category'].currentValue.criteria, this.indicatorIndex) ?? [],
+          CriterionFormToCriterion(
+            changes['category'].currentValue.criteria,
+            this.indicatorIndex
+          ) ?? [],
       });
     }
   }
@@ -115,16 +127,20 @@ export class DialogEditComponent {
   hide() {
     this.hideDialog.emit();
     this.categoryForm.reset();
-    this.category = { indicatorIndex: 0, name: '', criteria: [] };
+    this.category = { name: '', criteria: [] };
   }
   updateCategory() {
     if (this.categoryForm.valid) {
       this.loading = true;
-      const category: CategoriesForm = this.categoryForm
-        .value as CategoriesForm;
+      const category: CategoriesForm = {
+        name: this.categoryForm.value.name as string,
+        criteria: CriterionToCriteriaSubIndex(
+          this.categoryForm.value.criteria as Criterion[]
+        ),
+      };
       this.categoriesService
         .updateCategory(
-          this.category.indicatorIndex,
+          this.indicatorIndex,
           this.category.name,
           category
         )
@@ -154,7 +170,7 @@ export class DialogEditComponent {
   confirmDelete() {
     this.deleteLoading = true;
     this.categoriesService
-      .deleteCategory(this.category.indicatorIndex, this.category.name)
+      .deleteCategory(this.indicatorIndex, this.category.name)
       .subscribe({
         next: (response) => {
           this.deleteCategory.emit({ name: this.category.name });

@@ -28,7 +28,6 @@ export interface UnitCategory {
 }
 
 export interface CategoriesByIndicator {
-  indicatorIndex: number;
   name: string;
   criteria: CriterionForm[];
 }

@@ -17,6 +17,10 @@
                   class="p-button add-button"
                   [disabled]="!indicatorIndex"
                   (click)="showCreate()"
+                  [class.button-disabled]="!indicatorIndex"
+          [pTooltip]="
+            indicatorIndex ? undefined : 'Debe seleccionar un indicador primero'
+          "
                 >
                   <i class="pi pi-plus-circle" style="font-size: 1.2rem"></i>
                   {{ " Crear" }}
@@ -39,14 +43,14 @@
                 </ng-template>
                 <ng-template pTemplate="body" let-category>
                     <tr>
-                        <td>{{ category.indicatorIndex }}</td>
+                        <td>{{ indicatorIndex }} </td>
                         <td>{{ category.name }}</td>
                         <td>
                             <p-tag
                                 *ngFor="let criterion of category.criteria.slice(0, 2)"
                                 severity="info"
                                 class="mr">
-                                {{category.indicatorIndex}}.{{criterion.subindex}} {{ criterion.spanishAlias }}
+                                {{indicatorIndex}}.{{criterion.subindex}} {{ criterion.spanishAlias }}
                             </p-tag>
                             <span *ngIf="category.criteria.length > 2">+{{ category.criteria.length - 2 }}</span>
                             <div *ngIf="allCriteriaEmpty()">No hay criterios asociados</div>

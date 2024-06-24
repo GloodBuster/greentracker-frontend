@@ -20,6 +20,7 @@ import { DropdownChangeEvent, DropdownModule } from 'primeng/dropdown';
 import { TagModule } from 'primeng/tag';
 import { Criterion } from '../../../interfaces/criteria/criteria';
 import { CriteriaService } from '../../../services/criteria/criteria.service';
+import { TooltipModule } from 'primeng/tooltip';
 
 interface PageEvent {
   first?: number;
@@ -44,6 +45,7 @@ interface DropdownIndicatorChangeEvent extends DropdownChangeEvent {
     DialogEditComponent,
     DropdownModule,
     TagModule,
+    TooltipModule
   ],
   templateUrl: './categories.component.html',
   styleUrl: './categories.component.scss',
@@ -116,7 +118,14 @@ export class CategoriesComponent {
         .getCriteriaByIndex(this.indicatorIndex, 1, 9999)
         .subscribe({
           next: (response) => {
-            this.criteria = response.data.items;
+            this.criteria = response.data.items.map((criterion) => {
+              return {
+                subindex: criterion.subindex,
+                englishName: criterion.englishName,
+                indicatorIndex: criterion.indicatorIndex,
+                spanishAlias: criterion.spanishAlias
+              }
+            });
           },
           error: (error: CustomHttpErrorResponse) => {
             const errorResponse = error.error;

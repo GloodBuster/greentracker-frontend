@@ -25,6 +25,10 @@
         background-color: transparent;
         border: 1px solid var(--green);
       }
+      .button-disabled {
+        opacity: 0.5;
+        pointer-events: auto;
+      }
     }
     .criteria-table-container {
       h3 {
