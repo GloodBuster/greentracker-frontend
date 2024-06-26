@@ -13,6 +13,7 @@ export const routes = {
   unitHomePage: 'unit-dashboard',
   unitStatistics: '/unit-statistics',
   unitActivities: '/my-activities',
+  unitActivity: '/my-activities/:id',
   //unlogged
   login: '/login',
 };
