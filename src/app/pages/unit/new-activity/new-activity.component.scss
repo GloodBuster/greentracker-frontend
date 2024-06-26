@@ -1,0 +1,81 @@
+.new-activity-page {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+
+  section {
+    flex: 1;
+
+    h1 {
+      margin: 0;
+      margin-bottom: 6px;
+    }
+
+    p {
+      margin: 0;
+      font-size: 14px;
+    }
+  }
+
+  .evidence-section {
+    .evidence-header {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      h2 {
+        font-size: 18px;
+        margin: 0;
+        margin-bottom: 6px;
+      }
+
+      .add-button {
+        color: var(--green);
+        display: flex;
+        gap: 6px;
+        background-color: transparent;
+        border: 1px solid var(--green);
+        box-shadow: none;
+      }
+    }
+  }
+}
+
+::ng-deep .evidence-options-overlay .p-overlaypanel-content {
+  padding: 5px;
+  width: 165px;
+
+  .overlay-item {
+    width: 100%;
+
+    &:nth-child(1),
+    &:nth-child(2) {
+      position: relative;
+
+      &::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 20px;
+        width: calc(100% - 40px);
+        border-bottom: 1px solid #276137;
+      }
+    }
+
+    .overlay-button {
+      height: 50px;
+      width: 100%;
+      color: #276137;
+      display: flex;
+      justify-content: space-between;
+      background-color: transparent;
+      border: none;
+      box-shadow: none;
+
+      span {
+        margin: 0;
+      }
+    }
+  }
+}

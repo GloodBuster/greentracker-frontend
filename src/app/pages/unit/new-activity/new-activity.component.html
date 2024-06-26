@@ -1,0 +1,51 @@
+<main class="new-activity-page">
+  <section>
+    <h1>Actividad</h1>
+    <p>
+      Actividad realizada, reportada dentro de una categoría. Adjunte imágenes,
+      enlaces y documentos que sirvan como evidencia de la actividad.
+    </p>
+    <form></form>
+  </section>
+  <section class="evidence-section">
+    <div class="evidence-header">
+      <h2>Evidencias</h2>
+      <p-overlayPanel
+        #newActivityEvidenceOptions
+        styleClass="evidence-options-overlay"
+      >
+        <div class="overlay-item">
+          <button
+            class="p-button overlay-button"
+            (click)="newActivityEvidenceOptions.toggle($event); print()"
+          >
+            <i class="pi pi-image"></i><span>Imagen</span>
+          </button>
+        </div>
+        <div class="overlay-item">
+          <button
+            class="p-button overlay-button"
+            (click)="newActivityEvidenceOptions.toggle($event)"
+          >
+            <i class="pi pi-link"></i><span>Enlace</span>
+          </button>
+        </div>
+        <div class="overlay-item">
+          <button
+            class="p-button overlay-button"
+            (click)="newActivityEvidenceOptions.toggle($event)"
+          >
+            <i class="pi pi-file"></i><span>Documento</span>
+          </button>
+        </div>
+      </p-overlayPanel>
+      <button
+        class="p-button add-button"
+        (click)="newActivityEvidenceOptions.toggle($event)"
+      >
+        <i class="pi pi-plus-circle" style="font-size: 1.2rem"></i>
+        {{ " Crear" }}
+      </button>
+    </div>
+  </section>
+</main>
