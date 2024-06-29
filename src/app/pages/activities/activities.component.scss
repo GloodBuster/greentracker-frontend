@@ -10,9 +10,7 @@
   
       .activities-left-header {
         display: flex;
-        justify-content: space-between;
-        align-items: center;
-        gap: 30px;
+        flex-direction: column;
   
         h1 {
           margin: 0;

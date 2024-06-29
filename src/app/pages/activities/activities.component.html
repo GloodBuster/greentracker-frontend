@@ -2,21 +2,26 @@
     <article>
         <header class="activities-page-header">
             <div class="activities-left-header">
-                <h1>Actividades de la unidad {{units.name}}</h1>
+                <h1>{{units.name}} - Actividades</h1>
+                <p>Actividad realizada, reportada dentro de una categoría.</p>
             </div>
         </header>
         <section class="activities-content-container">
                 <div class="activities-container" >
-                    <p-card *ngFor="let activity of activities" header="{{ activity.name }}" [style]="{ width: '360px'}" (click)="navigateToTheActivity(activity.id)">
+                    <p-card *ngFor="let activity of activities" header="{{ activity.name }}" [style]="{ width: '360px'}">
                         <ng-template pTemplate="header">
                             <img alt="Card" src="../../../assets/activities/activity-image.png" alt="Actividad" />
                         </ng-template>
-                        <p style="margin-top: -12px; margin-bottom: -5px; background-color: #CBE2FF; border-radius: 5px; width: fit-content; padding: 5px;">
+                        <p style="margin-top: -12px; margin-bottom: -5px; background-color: #CCFFDC; border-radius: 8px; width: fit-content; padding: 8px; color: #22C55E;">
                             Categoría: {{activity.categoryName}}
                         </p>
-                        <p style="margin-bottom: -10px;">
+                        <p style="margin-bottom: -10px; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis;">
                             {{ activity.summary }}
-                        </p>
+                          </p>
+                        <p-footer>
+                            <p style="color: #3BA13F; text-align: right; margin-top: -10px;" (click)="navigateToTheActivity(activity.id)">Ver detalle</p>
+                        </p-footer>
+
                     </p-card>
                 </div>
           </section>  
