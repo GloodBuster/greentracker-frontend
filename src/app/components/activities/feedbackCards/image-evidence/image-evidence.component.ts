@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
 import { DividerModule } from 'primeng/divider';
 import { InputGroupModule } from 'primeng/inputgroup';
 import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
@@ -13,5 +14,15 @@ import { TagModule } from 'primeng/tag';
   styleUrl: './image-evidence.component.scss'
 })
 export class ImageEvidenceComponent {
+  toastService = inject(ToastrService);
+
+  async copyValue(inputValue: HTMLInputElement) {
+    try {
+      await navigator.clipboard.writeText(inputValue.value);
+      this.toastService.success('Copiado al portapapeles');
+    } catch (err) {
+      console.error('Error al copiar al portapapeles', err);
+    }
+  }
 
 }

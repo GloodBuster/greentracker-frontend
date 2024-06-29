@@ -4,9 +4,9 @@
     <div class="container">
       <p class="title">Enlace</p>
       <p-inputGroup>
-        <input pInputText value="www.google.com" [style]="{ width: '100%' }" />
+        <input pInputText #inputValue value="www.google.com" [style]="{ width: '100%' }" disabled />
         <p-inputGroupAddon>
-          <i class="pi pi-copy"></i>
+          <i class="pi pi-copy" (click)="copyValue(inputValue)"></i>
         </p-inputGroupAddon>
       </p-inputGroup>
       <p style="margin-top: 20px">
