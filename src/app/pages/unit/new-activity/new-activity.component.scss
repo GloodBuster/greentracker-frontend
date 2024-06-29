@@ -2,6 +2,7 @@
   display: flex;
   justify-content: center;
   gap: 15px;
+  padding-bottom: 20px;
 
   section {
     flex: 1;
@@ -18,6 +19,10 @@
   }
 
   .evidence-section {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+
     .evidence-header {
       width: 100%;
       display: flex;
@@ -37,6 +42,29 @@
         background-color: transparent;
         border: 1px solid var(--green);
         box-shadow: none;
+      }
+    }
+
+    .evidences-container {
+      display: flex;
+      flex-direction: column-reverse;
+      gap: 14px;
+      overflow-x: hidden;
+      overflow-y: scroll;
+      max-height: 70vh;
+
+      &::-webkit-scrollbar {
+        width: 8px;
+      }
+
+      &::-webkit-scrollbar-track {
+        background: transparent;
+        border-radius: 10px;
+      }
+
+      &::-webkit-scrollbar-thumb {
+        background: #e4e4e4;
+        border-radius: 10px;
       }
     }
   }
