@@ -34,6 +34,10 @@ form {
       flex-direction: column;
       gap: 10px;
       flex: 1;
+
+      textarea {
+        flex: 1;
+      }
     }
 
     .evidence-input {
@@ -45,41 +49,56 @@ form {
     }
   }
 
+  .file-template-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
   .image-container {
     width: 100%;
-    height: 40px;
+    flex-grow: 1;
     overflow: hidden;
     display: flex;
     justify-content: center;
     align-items: center;
 
     img {
-      object-fit: contain;
-      width: 100%;
+      object-fit: cover;
+      max-width: 100%;
     }
   }
 
   .file-info-container {
     display: flex;
     align-items: center;
-
-    > * {
-      flex-grow: 1;
-    }
+    width: 100%;
+    height: 40px;
+    gap: 6px;
 
     .text {
       font-size: 12px;
-      padding: 10px 0px;
+      padding: 0px;
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 6px;
+      flex: 1;
+      overflow: hidden;
+      text-overflow: ellipsis;
 
       p {
         font-weight: 600;
+        flex-grow: 1;
+        text-overflow: ellipsis;
+      }
+
+      span {
+        flex-grow: 1;
       }
 
       * {
         margin: 0;
+        white-space: nowrap;
       }
     }
 
@@ -117,6 +136,21 @@ form {
 
 ::ng-deep .evidence-input-file {
   width: 150px;
+  height: 200px;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+
+  .p-progressbar {
+    display: none;
+  }
+
+  .p-fileupload-content {
+    flex: 1;
+    padding: 6px;
+    display: flex;
+    flex-direction: column;
+  }
 }
 
 ::ng-deep .hide-header .p-fileupload-buttonbar {

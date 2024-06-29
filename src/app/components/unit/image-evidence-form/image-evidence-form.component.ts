@@ -6,8 +6,11 @@ import { InputTextModule } from 'primeng/inputtext';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { FileUploadModule } from 'primeng/fileupload';
 import { formatFileSize } from '../../../utils/files';
+import { animate, style, transition, trigger } from '@angular/animations';
+import { DialogModule } from 'primeng/dialog';
+import { ButtonModule } from 'primeng/button';
 
-interface UploadEvent {
+export interface UploadEvent {
   originalEvent: Event;
   files: File[];
 }
@@ -21,13 +24,28 @@ interface UploadEvent {
     InputTextModule,
     InputTextareaModule,
     FileUploadModule,
+    DialogModule,
+    ButtonModule,
   ],
   templateUrl: './image-evidence-form.component.html',
   styleUrl: './image-evidence-form.component.scss',
+  animations: [
+    trigger('slideInOut', [
+      transition(':enter', [
+        style({ transform: 'translateY(+100%)' }),
+        animate('800ms ease-in-out', style({ transform: 'translateY(0%)' })),
+      ]),
+      transition(':leave', [
+        style({ transform: 'translateY(0%)' }),
+        animate('800ms ease-in-out', style({ transform: 'translateY(-100%)' })),
+      ]),
+    ]),
+  ],
 })
 export class ImageEvidenceFormComponent {
   @Input() imageForm: ImageEvidence = getImageEvidenceForm();
   @Output() removeEvidence: EventEmitter<void> = new EventEmitter<void>();
+  visibleDelete = false;
   file: File | null = null;
 
   objectURL: string | null = null;
@@ -64,6 +82,14 @@ export class ImageEvidenceFormComponent {
 
   choose(event: Event, callback: any) {
     callback();
+  }
+
+  showDelete() {
+    this.visibleDelete = true;
+  }
+
+  hideDelete() {
+    this.visibleDelete = false;
   }
 
   formatFileSize = formatFileSize;
