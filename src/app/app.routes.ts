@@ -14,6 +14,7 @@ import { ActivitiesComponent } from './pages/activities/activities.component';
 import { ActivityComponent } from './components/activities/activity/activity.component';
 import { DashboardComponent as UnitDashboard } from './pages/unit/dashboard/dashboard.component';
 import { UnitLayoutComponent } from './components/unit/unit-layout/unit-layout.component';
+import { MyActivitiesComponent } from './pages/unit/my-activities/my-activities.component';
 
 export const routes: Routes = [
   {
@@ -83,6 +84,10 @@ export const routes: Routes = [
         path: 'unit-dashboard',
         component: UnitDashboard,
       },
+      {
+        path: 'my-activities',
+        component: MyActivitiesComponent,
+      }
     ],
   },
   {

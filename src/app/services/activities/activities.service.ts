@@ -76,4 +76,8 @@ export class ActivitiesService {
   getActivityById(id: string): Observable<Response<Activity>> {
     return this.http.get<Response<Activity>>(`${this.BASE_URL}/activities/${id}`);
   }
+
+  getMyActivities(): Observable<PaginatedResponse<Activity>> {
+    return this.http.get<PaginatedResponse<Activity>>(`${this.BASE_URL}/units/me/activities`);
+  }
 }
