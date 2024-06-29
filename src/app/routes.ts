@@ -10,7 +10,9 @@ export const routes = {
   categories: '/category',
   activities: '/activities',
   //units
-  unitHomePage: '',
+  unitHomePage: 'unit-dashboard',
+  unitStatistics: '/unit-statistics',
+  unitActivities: '/my-activities',
   //unlogged
   login: '/login',
 };

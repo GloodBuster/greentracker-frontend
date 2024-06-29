@@ -1,8 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { ImageModule } from 'primeng/image';
 import { DividerModule } from 'primeng/divider';
 import { routes } from '../../../routes';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { ChangePeriodComponent } from '../change-period/change-period.component';
 
 @Component({
@@ -14,6 +14,7 @@ import { ChangePeriodComponent } from '../change-period/change-period.component'
 })
 export class AdminSidebarComponent {
   visiblePeriodModal = false;
+  router = inject(Router);
 
   showChargePeriod() {
     this.visiblePeriodModal = true;
@@ -21,6 +22,11 @@ export class AdminSidebarComponent {
 
   hideChargePeriod() {
     this.visiblePeriodModal = false;
+  }
+
+  signOut() {
+    localStorage.removeItem('token');
+    this.router.navigate([routes.login]);
   }
 
   adminHomePage = routes.adminHomePage;

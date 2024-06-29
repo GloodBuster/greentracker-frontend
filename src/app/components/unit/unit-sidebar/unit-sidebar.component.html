@@ -1,0 +1,66 @@
+<section class="unit-sidebar">
+  <header>
+    <p-image
+      src="assets/sidebar/white-sprout.svg"
+      alt="sprout"
+      width="40"
+    ></p-image>
+    <h2>GreenTracker</h2>
+  </header>
+  <ul>
+    <li>
+      <a
+        [routerLink]="unitHomePage"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: false }"
+        class="sidebar-item"
+      >
+        <i class="pi pi-home"></i>
+        <h3>Panel Principal</h3>
+      </a>
+    </li>
+  </ul>
+  <div class="divider">
+    <p-divider />
+  </div>
+  <ul>
+    <li>
+      <a
+        [routerLink]="unitStatistics"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: false }"
+        class="sidebar-item"
+      >
+        <i class="pi pi-chart-pie"></i>
+        <h3>Estadísticas</h3>
+      </a>
+    </li>
+  </ul>
+  <div class="divider">
+    <p-divider />
+  </div>
+  <ul>
+    <li>
+      <a
+        [routerLink]="unitActivities"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: false }"
+        class="sidebar-item"
+      >
+        <i class="pi pi-check-square"></i>
+        <h3>Mis actividades</h3>
+      </a>
+    </li>
+  </ul>
+  <div class="divider">
+    <p-divider />
+  </div>
+  <ul>
+    <li>
+      <button class="sidebar-item" (click)="signOut()">
+        <i class="pi pi-sign-out"></i>
+        <h3 class="button-h3">Cerrar sesión</h3>
+      </button>
+    </li>
+  </ul>
+</section>
