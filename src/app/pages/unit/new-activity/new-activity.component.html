@@ -53,8 +53,8 @@
         {{ " Crear" }}
       </button>
     </div>
-    <div class="">
-      @for (evidence of evidences; track $index) { @if (evidence.value.type ===
+    <div class="evidences-container" id="topOfPage">
+      @for (evidence of evidences; track $index){ @if (evidence.value.type ===
       'link') {
       <link-evidence-form
         [linkForm]="$any(evidence)"

@@ -29,23 +29,38 @@ import { DocumentEvidenceFormComponent } from '../../../components/unit/document
   styleUrl: './new-activity.component.scss',
 })
 export class NewActivityComponent {
-  evidences: (ImageEvidence | LinkEvidence | DocumentEvidence)[] = [
-    getImageEvidenceForm(),
-  ];
+  evidences: (ImageEvidence | LinkEvidence | DocumentEvidence)[] = [];
 
   addImageEvidence() {
     this.evidences.push(getImageEvidenceForm());
+    this.scrollToTop();
   }
 
   addLinkEvidence() {
     this.evidences.push(getLinkEvidenceForm());
+    this.scrollToTop();
   }
 
   addDocumentEvidence() {
     this.evidences.push(getDocumentEvidenceForm());
+    this.scrollToTop();
   }
 
   removeEvidence(index: number) {
-    this.evidences.splice(index, 1);
+    this.evidences = [
+      ...this.evidences.slice(0, index),
+      ...this.evidences.slice(index + 1),
+    ];
+  }
+
+  scrollToTop() {
+    setTimeout(() => {
+      const topElement = document.getElementById('topOfPage');
+      const lastChild = topElement?.lastElementChild;
+      if (lastChild) {
+        lastChild.scrollIntoView({ behavior: 'smooth' });
+        console.log('Subiendo');
+      }
+    }, 0);
   }
 }
