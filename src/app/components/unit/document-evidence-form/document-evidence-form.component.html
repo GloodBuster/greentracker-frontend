@@ -1,1 +1,109 @@
-<p>document-evidence-form works!</p>
+<form [formGroup]="documentForm" [@slideInOut]>
+  <header>
+    <div class="left-header">
+      <h5>Tipo:</h5>
+      <p-tag
+        icon="pi pi-image"
+        [rounded]="true"
+        styleClass="tag document-evidence-image"
+        >Imagen</p-tag
+      >
+      <p-tag
+        icon="pi pi-link"
+        [rounded]="true"
+        styleClass="tag document-evidence-link"
+        >Enlace</p-tag
+      >
+      <p-tag
+        icon="pi pi-file"
+        [rounded]="true"
+        styleClass="tag document-evidence-document"
+        >Documento</p-tag
+      >
+    </div>
+    <p-dialog
+      header="Confirmar eliminación"
+      [(visible)]="visibleDelete"
+      [modal]="true"
+      [baseZIndex]="10000"
+      [style]="{ color: '#000' }"
+    >
+      <p>¿Estás seguro de que quieres eliminar esta evidencia?</p>
+      <p-footer>
+        <p-button
+          icon="pi pi-check"
+          label="Eliminar"
+          severity="danger"
+          [outlined]="true"
+          (click)="remove()"
+          [style]="{ outline: 'none', boxShadow: 'none' }"
+        />
+        <p-button icon="pi pi-times" label="Cancelar" (click)="hideDelete()" />
+      </p-footer>
+    </p-dialog>
+    <i
+      class="pi pi-trash"
+      [style]="{ color: '#7E7E7E', cursor: 'pointer' }"
+      (click)="showDelete()"
+    ></i>
+  </header>
+  <div class="inputs-container">
+    <p-fileUpload
+      [multiple]="false"
+      accept="application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document, application/pdf"
+      maxFileSize="1000000"
+      (onSelect)="onUpload($event)"
+      [styleClass]="
+        file
+          ? 'evidence-input-file hide-header'
+          : 'evidence-input-file show-header'
+      "
+    >
+      <ng-template
+        pTemplate="header"
+        let-files
+        let-chooseCallback="chooseCallback"
+        let-clearCallback="clearCallback"
+        let-uploadCallback="uploadCallback"
+      >
+        <div class="header-container">
+          <p-button
+            (onClick)="choose($event, chooseCallback)"
+            icon="pi pi-file"
+            [rounded]="true"
+            [outlined]="true"
+            [style]="{ color: '#f97316' }"
+          />
+        </div>
+      </ng-template>
+      <ng-template pTemplate="content">
+        @if (file) {
+        <div class="file-template-container">
+          <div class="image-container"><i class="pi pi-file"></i></div>
+          <div class="file-info-container">
+            <div class="text">
+              <p>{{ file.name }}</p>
+              <span>{{ formatFileSize(file.size) }}</span>
+            </div>
+            <i class="pi pi-times-circle" (click)="removeFile()"></i>
+          </div>
+        </div>
+        }
+      </ng-template>
+      <ng-template pTemplate="file"> </ng-template>
+      <ng-template pTemplate="empty">
+        Arrastra el archivo para subirlo
+      </ng-template>
+    </p-fileUpload>
+    <div class="text-inputs-container">
+      <textarea
+        class="evidence-input"
+        rows="6"
+        pInputTextarea
+        placeholder="Descripción"
+        formControlName="description"
+        [autoResize]="true"
+      ></textarea>
+    </div>
+  </div>
+</form>
