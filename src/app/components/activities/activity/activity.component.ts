@@ -7,11 +7,19 @@ import { CardModule } from 'primeng/card';
 import { ActivitiesService } from '../../../services/activities/activities.service';
 import { ToastrService } from 'ngx-toastr';
 import { Activity } from '../../../interfaces/activities/activities';
+import { TagModule } from 'primeng/tag';
+import { InputGroupModule } from 'primeng/inputgroup';
+import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
+import { InputTextModule } from 'primeng/inputtext';
+import { DividerModule } from 'primeng/divider';
+import { ImageEvidenceComponent } from '../feedbackCards/image-evidence/image-evidence.component';
+import { LinkEvidenceComponent } from '../feedbackCards/link-evidence/link-evidence.component';
+import { DocumentEvidenceComponent } from '../feedbackCards/document-evidence/document-evidence.component';
 
 @Component({
   selector: 'app-activity',
   standalone: true,
-  imports: [CardModule, CommonModule, ButtonModule],
+  imports: [CardModule, CommonModule, ButtonModule, TagModule, InputGroupModule, InputGroupAddonModule, InputTextModule, DividerModule, ImageEvidenceComponent, LinkEvidenceComponent, DocumentEvidenceComponent],
   templateUrl: './activity.component.html',
   styleUrl: './activity.component.scss'
 })
