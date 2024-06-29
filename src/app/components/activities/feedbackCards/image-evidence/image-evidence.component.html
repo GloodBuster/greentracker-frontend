@@ -1,94 +1,45 @@
 <div class="evidence-card">
-    <div>
-      <i
-        class="pi pi-image"
-        style="
-          font-size: 14px;
-          background-color: #cbe2ff;
-          padding: 10px;
-          color: #3b82f6;
-          border-radius: 16px;
-          font-weight: 600;
-        "
-      >
-        <span
-          style="
-            font-family: Arial, Helvetica, sans-serif;
-            margin-left: 5px;
-          "
-          >Imagen</span
-        ></i
-      >
-    </div>
-    <div
-      style="
-        margin-top: 5px;
-        display: flex;
-        flex-direction: row;
-        align-items: flex-start;
-      "
-    >
-      <div style="display: flex; flex-direction: column; width: auto">
-        <img
-          src="../../../../../assets/activities/activity-image.png"
-          width="155px"
-          style="border-radius: 10px"
-        />
-        <div
-          style="
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-          "
-        >
-          <p style="font-weight: 500; font-size: 18px">Hola.jpg</p>
-          <span style="margin-top: -10px">5.59 KB</span>
-        </div>
-      </div>
-      <div style="display: flex; flex-direction: column; width: auto">
-        <p style="margin-top: -5px; margin-left: 8px">
-          <span style="font-weight: 500; font-size: 18px"
-            >Descripción: </span
-          >Lorem ipsum dolor sit amet consectetur adipisicing elit.
-          Aliquid aut aperiam odit illum. Molestiae consequatur quas illum
-          voluptat
-        </p>
-        <p style="font-weight: 500; font-size: 18px; margin-bottom: 0px">
-          Enlace
-        </p>
-        <p-inputGroup>
-          <input
-            pInputText
-            value="www.google.com"
-            [style]="{ width: '100%' }"
-          />
-          <p-inputGroupAddon>
-            <i class="pi pi-copy"></i>
-          </p-inputGroupAddon>
-        </p-inputGroup>
+  <div>
+    <i class="pi pi-image tag"> <span class="tag-text">Imagen</span></i>
+  </div>
+  <div class="container">
+    <div class="container2">
+      <img
+        src="../../../../../assets/activities/activity-image.png"
+        width="155px"
+        style="border-radius: 10px"
+      />
+      <div class="container3">
+        <p class="text">Hola.jpg</p>
+        <span style="margin-top: -10px">5.59 KB</span>
       </div>
     </div>
-    <p-divider />
-    <div
-      style="
-        width: 100%;
-        display: flex;
-        flex-direction: row;
-        justify-content: space-around;
-      "
-    >
-      <i
-        class="pi pi-thumbs-up"
-        style="font-size: 30px; color: #3ba13f"
-      ></i>
-      <img
-        src="../../../../../assets/feedback-icons/icons file-off.svg"
-        style="width: 32px; height: 32px"
-      />
-      <img
-        src="../../../../../assets/feedback-icons/link.svg"
-        style="width: 32px; height: 32px"
-      />
-      <i class="pi pi-phone" style="font-size: 30px; color: #3b82f6"></i>
+    <div class="container2">
+      <p style="margin-top: -5px; margin-left: 8px">
+        <span class="text">Descripción: </span>Lorem ipsum dolor sit amet
+        consectetur adipisicing elit. Aliquid aut aperiam odit illum. Molestiae
+        consequatur quas illum voluptat
+      </p>
+      <p class="text" style="margin-bottom: 0px;">Enlace</p>
+      <p-inputGroup>
+        <input pInputText value="www.google.com" [style]="{ width: '100%' }" />
+        <p-inputGroupAddon>
+          <i class="pi pi-copy"></i>
+        </p-inputGroupAddon>
+      </p-inputGroup>
     </div>
   </div>
+  <p-divider />
+  <div class="feedback-tags">
+    <i class="pi pi-thumbs-up" style="font-size: 30px; color: #3ba13f"></i>
+    <img
+      src="../../../../../assets/feedback-icons/icons file-off.svg"
+      style="width: 32px; height: 32px"
+    />
+    <img
+      src="../../../../../assets/feedback-icons/link.svg"
+      style="width: 32px; height: 32px"
+    />
+    <i class="pi pi-phone" style="font-size: 30px; color: #3b82f6"></i>
+  </div>
+</div>

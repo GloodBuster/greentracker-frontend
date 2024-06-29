@@ -14,28 +14,24 @@
       <div class="activity-container">
         <h3>Información</h3>
         <p>
-          <span style="font-weight: 500; font-size: 18px">Nombre: </span
+          <span class="titles">Nombre: </span
           >{{ activity.name }}
         </p>
         <p>
-          <span style="font-weight: 500; font-size: 18px">Categoría: </span>
+          <span class="titles">Categoría: </span>
           <span
-            style="
-              background-color: #ccffdc;
-              border-radius: 8px;
-              width: fit-content;
-              padding: 8px;
-              color: #22c55e;
+            class="
+              category-tag
             "
             >{{ activity.categoryName }}</span
           >
         </p>
         <p>
-          <span style="font-weight: 500; font-size: 18px">Resumen: </span
+          <span class="titles">Resumen: </span
           >{{ activity.summary }}
         </p>
         <p>
-          <span style="font-weight: 500; font-size: 18px"
+          <span class="titles"
             >Fecha y hora de carga: </span
           >{{ activity.uploadTimestamp | date : "dd-MM-yyyy HH:mm" }}
         </p>

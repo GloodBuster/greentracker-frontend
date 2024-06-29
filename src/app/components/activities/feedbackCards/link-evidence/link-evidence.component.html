@@ -1,74 +1,28 @@
 <div class="evidence-card">
-    <div>
-      <i
-        class="pi pi-link"
-        style="
-          font-size: 14px;
-          background-color: #ccffdc;
-          padding: 10px;
-          color: #22c55e;
-          border-radius: 16px;
-          font-weight: 600;
-        "
-      >
-        <span
-          style="
-            font-family: Arial, Helvetica, sans-serif;
-            margin-left: 5px;
-          "
-          >Enlace</span
-        ></i
-      >
-      <div
-        style="
-          margin-top: 2px;
-          display: flex;
-          flex-direction: column;
-          align-items: flex-start;
-        "
-      >
-        <p style="font-weight: 500; font-size: 18px; margin-bottom: 0px">
-          Enlace
-        </p>
-        <p-inputGroup>
-          <input
-            pInputText
-            value="www.google.com"
-            [style]="{ width: '100%' }"
-          />
-          <p-inputGroupAddon>
-            <i class="pi pi-copy"></i>
-          </p-inputGroupAddon>
-        </p-inputGroup>
-        <p style="margin-top: 20px">
-          <span style="font-weight: 500; font-size: 18px"
-            >Descripción: </span
-          >Lorem ipsum dolor sit amet consectetur adipisicing elit.
-          Aliquid aut aperiam odit illum. Molestiae consequatur quas illum
-          voluptat
-        </p>
-      </div>
-      <p-divider />
-      <div
-        style="
-          width: 100%;
-          display: flex;
-          flex-direction: row;
-          justify-content: space-around;
-        "
-      >
-        <i
-          class="pi pi-thumbs-up"
-          style="font-size: 30px; color: #3ba13f"
-        ></i>
-        <img
-          src="../../../../../assets/feedback-icons/link.svg"
-          style="width: 32px; height: 32px"
-        />
-        <i
-          class="pi pi-phone"
-          style="font-size: 30px; color: #3b82f6"
-        ></i>
-      </div>
+  <div>
+    <i class="pi pi-link tag"> <span class="tag-text">Enlace</span></i>
+    <div class="container">
+      <p class="title">Enlace</p>
+      <p-inputGroup>
+        <input pInputText value="www.google.com" [style]="{ width: '100%' }" />
+        <p-inputGroupAddon>
+          <i class="pi pi-copy"></i>
+        </p-inputGroupAddon>
+      </p-inputGroup>
+      <p style="margin-top: 20px">
+        <span style="font-weight: 500; font-size: 18px">Descripción: </span
+        >Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid aut
+        aperiam odit illum. Molestiae consequatur quas illum voluptat
+      </p>
+    </div>
+    <p-divider />
+    <div class="feedback-tags">
+      <i class="pi pi-thumbs-up" style="font-size: 30px; color: #3ba13f"></i>
+      <img
+        src="../../../../../assets/feedback-icons/link.svg"
+        style="width: 32px; height: 32px"
+      />
+      <i class="pi pi-phone" style="font-size: 30px; color: #3b82f6"></i>
     </div>
   </div>
+</div>

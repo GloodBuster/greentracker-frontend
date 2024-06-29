@@ -12,14 +12,14 @@
                         <ng-template pTemplate="header">
                             <img alt="Card" src="../../../assets/activities/activity-image.png" alt="Actividad" />
                         </ng-template>
-                        <p style="margin-top: -12px; margin-bottom: -5px; background-color: #CCFFDC; border-radius: 8px; width: fit-content; padding: 8px; color: #22C55E;">
+                        <p class="category-tag">
                             Categoría: {{activity.categoryName}}
                         </p>
-                        <p style="margin-bottom: -10px; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis;">
+                        <p class="summary">
                             {{ activity.summary }}
                           </p>
                         <p-footer>
-                            <p style="color: #3BA13F; text-align: right; margin-top: -10px; cursor: pointer;" (click)="navigateToTheActivity(activity.id)">Ver detalle</p>
+                            <p class="see-activity" (click)="navigateToTheActivity(activity.id)">Ver detalle</p>
                         </p-footer>
 
                     </p-card>
