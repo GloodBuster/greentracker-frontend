@@ -1,0 +1,45 @@
+<form [formGroup]="linkForm">
+  <header>
+    <div class="left-header">
+      <h5>Tipo:</h5>
+      <p-tag
+        icon="pi pi-image"
+        [rounded]="true"
+        styleClass="tag link-evidence-image"
+        >Imagen</p-tag
+      >
+      <p-tag
+        icon="pi pi-link"
+        [rounded]="true"
+        styleClass="tag link-evidence-link"
+        >Enlace</p-tag
+      >
+      <p-tag
+        icon="pi pi-file"
+        [rounded]="true"
+        styleClass="tag link-evidence-document"
+        >Documento</p-tag
+      >
+    </div>
+    <i
+      class="pi pi-trash"
+      [style]="{ color: '#7E7E7E', cursor: 'pointer' }"
+      (click)="remove()"
+    ></i>
+  </header>
+  <input
+    type="text"
+    pInputText
+    formControlName="link"
+    placeholder="Enlace"
+    class="evidence-input"
+  />
+  <textarea
+    class="evidence-input"
+    rows="4"
+    pInputTextarea
+    placeholder="Descripción"
+    formControlName="description"
+    [autoResize]="true"
+  ></textarea>
+</form>

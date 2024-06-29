@@ -1,0 +1,58 @@
+form {
+  background-color: white;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+
+  header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    h5 {
+      margin: 0;
+      font-size: 16px;
+      color: #3f3f3f;
+    }
+
+    .left-header {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+    }
+  }
+
+  .evidence-input {
+    box-shadow: none;
+    &:hover,
+    &:focus {
+      border-color: #22c55e;
+    }
+  }
+}
+::ng-deep .tag {
+  display: flex;
+  flex-direction: row-reverse;
+  gap: 4px;
+  font-weight: 500;
+  box-sizing: border-box;
+}
+
+::ng-deep .link-evidence-image {
+  background-color: transparent;
+  color: #3b82f6;
+  border: 1px solid #3b82f6;
+}
+
+::ng-deep .link-evidence-link {
+  color: white;
+  background-color: #22c55e;
+}
+
+::ng-deep .link-evidence-document {
+  background-color: transparent;
+  color: #f97316;
+  border: 1px solid #f97316;
+}
