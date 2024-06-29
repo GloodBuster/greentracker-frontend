@@ -38,7 +38,7 @@ export const getImageEvidenceForm = (
       validators: [Validators.required],
     }),
     linkToRelatedResource: new FormControl<string>(linkToRelatedResource, {
-      validators: [Validators.required],
+      validators: [],
     }),
   });
 };
