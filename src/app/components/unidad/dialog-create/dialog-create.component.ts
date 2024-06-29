@@ -77,7 +77,7 @@ export class DialogCreateComponent {
         },
         error: (error: CustomHttpErrorResponse) => {
           this.toastService.error('Error al agregar la unidad');
-          console.error('Error al agregar la unidad:', error);
+          console.error('Error al agregar la unidad:', error.error);
           this.loading = false;
         },
       });
