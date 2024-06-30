@@ -1,11 +1,47 @@
 <main class="new-activity-page">
-  <section>
+  <section class="activity-section">
     <h1>Actividad</h1>
     <p>
       Actividad realizada, reportada dentro de una categoría. Adjunte imágenes,
       enlaces y documentos que sirvan como evidencia de la actividad.
     </p>
-    <form></form>
+    <form class="new-activity-form" [formGroup]="activityForm">
+      <h3>Información</h3>
+      <input
+        type="text"
+        pInputText
+        formControlName="name"
+        placeholder="Nombre"
+        class="new-activity-input"
+      />
+      <p-dropdown
+        formControlName="category"
+        [options]="indicators"
+        placeholder="Categoría"
+        [group]="true"
+        optionLabel="name"
+        optionGroupLabel="spanishAlias"
+        optionGroupChildren="categories"
+        styleClass="new-activity-category-dropdown"
+      ></p-dropdown>
+      <textarea
+        pInputTextarea
+        formControlName="summary"
+        placeholder="Resumen"
+        rows="4"
+        [autoResize]="true"
+        class="new-activity-input"
+      ></textarea>
+    </form>
+    <button
+      pButton
+      (click)="createActivity()"
+      [disabled]="!activityForm.valid || !validEvidences"
+      [loading]="loading"
+      class="create"
+    >
+      <i class="pi pi-save"></i>Guardar
+    </button>
   </section>
   <section class="evidence-section">
     <div class="evidence-header">

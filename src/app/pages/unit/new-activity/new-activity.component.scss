@@ -18,6 +18,48 @@
     }
   }
 
+  .activity-section {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    .new-activity-form {
+      display: flex;
+      flex-direction: column;
+      background-color: white;
+      border-radius: 8px;
+      padding: 16px;
+      gap: 18px;
+
+      h3 {
+        margin: 0;
+      }
+
+      .new-activity-input {
+        box-shadow: none;
+        &:hover,
+        &:focus {
+          border: 1px solid #2d7b30;
+        }
+      }
+    }
+    .create {
+      background-color: #3ba13f;
+      border: none;
+      width: 130px;
+      border-radius: 4px;
+      font-weight: 400;
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      outline: none;
+      align-self: center;
+
+      &:hover {
+        background-color: #268729;
+      }
+    }
+  }
+
   .evidence-section {
     display: flex;
     flex-direction: column;
@@ -67,6 +109,14 @@
         border-radius: 10px;
       }
     }
+  }
+}
+
+::ng-deep .new-activity-category-dropdown {
+  width: 100%;
+  box-shadow: none;
+  &:hover {
+    border: 1px solid #2d7b30;
   }
 }
 
