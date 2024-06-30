@@ -47,7 +47,6 @@ export class ImageEvidenceFormComponent {
   @Output() removeEvidence: EventEmitter<void> = new EventEmitter<void>();
   visibleDelete = false;
   file: File | null = null;
-
   objectURL: string | null = null;
 
   createObjectURL() {
@@ -71,6 +70,7 @@ export class ImageEvidenceFormComponent {
     if (event.files && event.files[0]) {
       this.revokeObjectURL(); // Clean up any existing object URL
       this.file = event.files[0];
+      this.imageForm.controls.file.setValue(this.file);
       this.createObjectURL(); // Create a new object URL for the uploaded file
     }
   }
@@ -78,6 +78,7 @@ export class ImageEvidenceFormComponent {
   removeFile() {
     this.revokeObjectURL();
     this.file = null;
+    this.imageForm.controls.file.setValue(null);
   }
 
   choose(event: Event, callback: any) {

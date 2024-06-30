@@ -1,7 +1,7 @@
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 export type ImageEvidence = FormGroup<{
-  link: FormControl<string>;
+  file: FormControl<File | null>;
   description: FormControl<string>;
   type: FormControl<'image'>;
   linkToRelatedResource: FormControl<string | null>;
@@ -14,18 +14,18 @@ export type LinkEvidence = FormGroup<{
 }>;
 
 export type DocumentEvidence = FormGroup<{
-  link: FormControl<string>;
+  file: FormControl<File | null>;
   description: FormControl<string>;
   type: FormControl<'document'>;
 }>;
 
 export const getImageEvidenceForm = (
-  link = '',
+  file: File | null = null,
   description = '',
   linkToRelatedResource = ''
 ): ImageEvidence => {
   return new FormGroup({
-    link: new FormControl<string>(link, {
+    file: new FormControl<File | null>(file, {
       nonNullable: true,
       validators: [Validators.required],
     }),
@@ -64,11 +64,11 @@ export const getLinkEvidenceForm = (
 };
 
 export const getDocumentEvidenceForm = (
-  link = '',
+  file: File | null = null,
   description = ''
 ): DocumentEvidence => {
   return new FormGroup({
-    link: new FormControl<string>(link, {
+    file: new FormControl<File | null>(file, {
       nonNullable: true,
       validators: [Validators.required],
     }),

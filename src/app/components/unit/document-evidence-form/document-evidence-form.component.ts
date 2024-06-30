@@ -52,11 +52,13 @@ export class DocumentEvidenceFormComponent {
   onUpload(event: UploadEvent) {
     if (event.files && event.files[0]) {
       this.file = event.files[0];
+      this.documentForm.controls.file.setValue(this.file);
     }
   }
 
   removeFile() {
     this.file = null;
+    this.documentForm.controls.file.setValue(null);
   }
 
   choose(event: Event, callback: any) {
