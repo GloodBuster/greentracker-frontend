@@ -2,8 +2,16 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { Observable } from 'rxjs';
-import { PaginatedResponse, Response } from '../../interfaces/responses/response';
-import { Activity, Units } from '../../interfaces/activities/activities';
+import {
+  PaginatedResponse,
+  Response,
+} from '../../interfaces/responses/response';
+import {
+  Activity,
+  ActivityForm,
+  UnitActivity,
+  Units,
+} from '../../interfaces/activities/activities';
 
 type ActivitiesFilters = {
   pageIndex?: number;
@@ -74,10 +82,23 @@ export class ActivitiesService {
   }
 
   getActivityById(id: string): Observable<Response<Activity>> {
-    return this.http.get<Response<Activity>>(`${this.BASE_URL}/activities/${id}`);
+    return this.http.get<Response<Activity>>(
+      `${this.BASE_URL}/activities/${id}`
+    );
   }
 
   getMyActivities(): Observable<PaginatedResponse<Activity>> {
-    return this.http.get<PaginatedResponse<Activity>>(`${this.BASE_URL}/units/me/activities`);
+    return this.http.get<PaginatedResponse<Activity>>(
+      `${this.BASE_URL}/units/me/activities`
+    );
+  }
+
+  createUnitActivity(
+    activity: ActivityForm
+  ): Observable<Response<UnitActivity>> {
+    return this.http.post<Response<UnitActivity>>(
+      `${this.BASE_URL}/units/me/activities`,
+      activity
+    );
   }
 }

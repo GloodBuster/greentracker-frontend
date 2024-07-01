@@ -15,6 +15,8 @@ import { ActivityComponent } from './components/activities/activity/activity.com
 import { DashboardComponent as UnitDashboard } from './pages/unit/dashboard/dashboard.component';
 import { UnitLayoutComponent } from './components/unit/unit-layout/unit-layout.component';
 import { MyActivitiesComponent } from './pages/unit/my-activities/my-activities.component';
+import { ActivityDetailsComponent } from './pages/unit/activity-details/activity-details.component';
+import { NewActivityComponent } from './pages/unit/new-activity/new-activity.component';
 
 export const routes: Routes = [
   {
@@ -87,7 +89,15 @@ export const routes: Routes = [
       {
         path: 'my-activities',
         component: MyActivitiesComponent,
-      }
+      },
+      {
+        path: 'my-activities/new',
+        component: NewActivityComponent,
+      },
+      {
+        path: 'my-activities/:activityId',
+        component: ActivityDetailsComponent,
+      },
     ],
   },
   {

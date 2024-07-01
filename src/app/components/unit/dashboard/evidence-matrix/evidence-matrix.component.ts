@@ -12,7 +12,7 @@ import { UnitsService } from '../../../../services/units/units.service';
 import { SkeletonModule } from 'primeng/skeleton';
 
 @Component({
-  selector: 'app-evidence-matrix',
+  selector: 'app-unit-evidence-matrix',
   standalone: true,
   imports: [TableModule, CommonModule, SkeletonModule],
   templateUrl: './evidence-matrix.component.html',

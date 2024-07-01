@@ -22,3 +22,20 @@ export interface Categories {
   indicatorIndex: number;
   categoryName: string;
 }
+
+export interface ActivityForm {
+  name: string;
+  summary: string;
+  indicatorIndex: number;
+  categoryName: string;
+}
+
+export interface UnitActivity {
+  id: string;
+  name: string;
+  summary: string;
+  indicatorIndex: number;
+  categoryName: string;
+  uploadTimestamp: string;
+  evidence: Evidence[];
+}

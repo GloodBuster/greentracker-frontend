@@ -6,6 +6,7 @@ import { CustomHttpErrorResponse } from '../../../interfaces/responses/error';
 import { ToastrModule, ToastrService } from 'ngx-toastr';
 import { convertDateFormat } from '../../../utils/date';
 import { EvidenceMatrixComponent } from '../../../components/unit/dashboard/evidence-matrix/evidence-matrix.component';
+import { routes } from '../../../routes';
 
 @Component({
   selector: 'app-dashboard',
@@ -20,6 +21,7 @@ import { EvidenceMatrixComponent } from '../../../components/unit/dashboard/evid
   styleUrl: './dashboard.component.scss',
 })
 export class DashboardComponent {
+  myActivitiesRoute = routes.unitActivities;
   remainingDays = 0;
   startPeriodDate = '';
   endPeriodDate = '';
