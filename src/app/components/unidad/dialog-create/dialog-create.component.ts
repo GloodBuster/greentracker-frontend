@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
+import { Component, EventEmitter, Input, Output, SimpleChanges, inject } from '@angular/core';
 import {FormControl,
   FormGroup,
   ReactiveFormsModule,
@@ -42,8 +42,15 @@ export class DialogCreateComponent {
   selectedCategories: CategoriesData[] = [];
   selectedIndicator: Indicators | undefined;
   indicatorIndex = 0;
+  loadingIndicators = true;
 
   constructor(private unitsService: UnitsService) {
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['indicators'] && changes['indicators'].currentValue.length > 0) {
+      this.loadingIndicators = false;
+    }
   }
 
   hideDialog() {
