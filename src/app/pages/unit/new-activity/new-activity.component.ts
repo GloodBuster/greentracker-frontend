@@ -24,10 +24,11 @@ import { InputTextareaModule } from 'primeng/inputtextarea';
 import { IndicatorService } from '../../../services/indicator/indicator.service';
 import { CustomHttpErrorResponse } from '../../../interfaces/responses/error';
 import { ToastrService } from 'ngx-toastr';
-import { CategoriesData, Indicators } from '../../../interfaces/units/units';
+import { CategoriesData } from '../../../interfaces/units/units';
 import { ActivitiesService } from '../../../services/activities/activities.service';
 import { Router } from '@angular/router';
 import { routes } from '../../../routes';
+import { IndicatorDetails } from '../../../interfaces/indicator/indicator';
 
 @Component({
   selector: 'app-new-activity',
@@ -48,7 +49,7 @@ import { routes } from '../../../routes';
 })
 export class NewActivityComponent {
   evidences: (ImageEvidence | LinkEvidence | DocumentEvidence)[] = [];
-  indicators: Indicators[] = [];
+  indicators: IndicatorDetails[] = [];
   activityForm = new FormGroup({
     name: new FormControl<string>('', {
       nonNullable: true,
