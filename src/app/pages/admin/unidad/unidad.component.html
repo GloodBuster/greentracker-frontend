@@ -10,12 +10,47 @@
       </button>
     </header>
     <div class="table-container">
+        <p-table
+        styleClass="p-datatable-gridlines"
+        [tableStyle]="{ 'max-width': '90rem' }"
+        scrollable="true"
+        [value]="[1,2,3,4,5]"
+        scrollHeight="40rem"
+       *ngIf="loadingItems"
+      >
+        <ng-template pTemplate="header">
+          <tr>
+            <th class="column-nombre">Nombre</th>
+            <th class="column-correo">Correo</th>
+            <th class="column-categorias">Categorías recomendadas</th>
+            <th class="column-buttons"></th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-unit>
+          <tr>
+            <td>
+              <p-skeleton />
+            </td>
+            <td>
+              <p-skeleton/>
+            </td>
+            <td>
+              <p-skeleton/>
+            </td>
+            <td>
+              <p-skeleton/>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+
       <p-table
         styleClass="p-datatable-gridlines"
         [value]="unitsData"
         [tableStyle]="{ 'max-width': '90rem' }"
         scrollable="true"
         scrollHeight="40rem"
+        *ngIf="!loadingItems"
       >
         <ng-template pTemplate="header">
           <tr>
@@ -57,6 +92,7 @@
           </tr>
         </ng-template>
       </p-table>
+
       <p-paginator
         [first]="first"
         [rows]="paginationRows"
