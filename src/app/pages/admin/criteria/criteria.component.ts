@@ -192,6 +192,7 @@ export class CriteriaComponent {
 
   onIndicatorChange(event: DropdownIndicatorChangeEvent) {
     this.loadingIndicators = true;
+    this.loadingItems = true;
     this.router.navigate([], {
       relativeTo: this.route,
       queryParams: { index: event.value.index },
@@ -206,6 +207,7 @@ export class CriteriaComponent {
         this.totalRecords = response.data.itemCount;
         this.paginationRows = response.data.itemsPerPage;
         this.loadingItems = false;
+        this.loadingItems = false;
       },
       error: (error: CustomHttpErrorResponse) => {
         const errorResponse = error.error;
@@ -216,6 +218,7 @@ export class CriteriaComponent {
             'Ha ocurrido un error inesperado al cargar los criterios'
           );
         }
+        this.loadingItems = false;
         this.loadingItems = false;
       },
     });
