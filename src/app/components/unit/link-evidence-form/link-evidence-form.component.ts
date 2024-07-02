@@ -36,6 +36,7 @@ import { ButtonModule } from 'primeng/button';
 })
 export class LinkEvidenceFormComponent {
   @Input() linkForm: LinkEvidence = getLinkEvidenceForm();
+  @Input() feedback?: any[];
   @Output() removeEvidence: EventEmitter<void> = new EventEmitter<void>();
   visibleDelete = false;
 
