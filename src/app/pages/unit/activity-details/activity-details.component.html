@@ -1,1 +1,145 @@
-<main class="activity-details-page">hola</main>
+<main class="details-activity-page">
+  <section class="activity-section">
+    <h1>Actividad</h1>
+    <p>
+      Actividad realizada, reportada dentro de una categoría. Adjunte imágenes,
+      enlaces y documentos que sirvan como evidencia de la actividad.
+    </p>
+    <form class="details-activity-form" [formGroup]="activityForm">
+      <h3>Información</h3>
+      <input
+        type="text"
+        pInputText
+        formControlName="name"
+        placeholder="Nombre"
+        class="detail-activity-input"
+      />
+      <p-dropdown
+        formControlName="category"
+        [options]="indicators"
+        placeholder="Categoría"
+        [group]="true"
+        optionLabel="name"
+        optionGroupLabel="spanishAlias"
+        optionGroupChildren="categories"
+        styleClass="details-activity-category-dropdown"
+      ></p-dropdown>
+      <textarea
+        pInputTextarea
+        formControlName="summary"
+        placeholder="Resumen"
+        rows="4"
+        [autoResize]="true"
+        class="detail-activity-input"
+      ></textarea>
+    </form>
+    <div class="buttons">
+      <p-toast />
+      <p-confirmPopup styleClass="confirm-delete-popup" />
+      <button
+        pButton
+        class="delete-button"
+        [text]="true"
+        (click)="confirm($event)"
+      >
+        Más opciones
+      </button>
+      <button
+        pButton
+        (click)="createActivity()"
+        [disabled]="!activityForm.valid || !validEvidences"
+        [loading]="loading"
+        class="create"
+      >
+        <i class="pi pi-save"></i>Guardar
+      </button>
+    </div>
+  </section>
+  <p-dialog
+    header="Confirmar eliminación"
+    [(visible)]="visibleDelete"
+    [modal]="true"
+    [baseZIndex]="10000"
+    [style]="{ color: '#000' }"
+  >
+    <p>¿Estás seguro de que quieres eliminar este criterio?</p>
+    <p-footer>
+      <p-button
+        icon="pi pi-check"
+        label="Eliminar"
+        severity="danger"
+        [outlined]="true"
+        (click)="deleteActivity()"
+        [loading]="deleteLoading"
+        [style]="{ outline: 'none', boxShadow: 'none' }"
+      />
+      <p-button icon="pi pi-times" label="Cancelar" (click)="hideDelete()" />
+    </p-footer>
+  </p-dialog>
+  <section class="evidence-section">
+    <div class="evidence-header">
+      <h2>Evidencias</h2>
+      <p-overlayPanel
+        #newActivityEvidenceOptions
+        styleClass="evidence-options-overlay"
+      >
+        <div class="overlay-item">
+          <button
+            class="p-button overlay-button"
+            (click)="
+              newActivityEvidenceOptions.toggle($event); addImageEvidence()
+            "
+          >
+            <i class="pi pi-image"></i><span>Imagen</span>
+          </button>
+        </div>
+        <div class="overlay-item">
+          <button
+            class="p-button overlay-button"
+            (click)="
+              newActivityEvidenceOptions.toggle($event); addLinkEvidence()
+            "
+          >
+            <i class="pi pi-link"></i><span>Enlace</span>
+          </button>
+        </div>
+        <div class="overlay-item">
+          <button
+            class="p-button overlay-button"
+            (click)="
+              newActivityEvidenceOptions.toggle($event); addDocumentEvidence()
+            "
+          >
+            <i class="pi pi-file"></i><span>Documento</span>
+          </button>
+        </div>
+      </p-overlayPanel>
+      <button
+        class="p-button add-button"
+        (click)="newActivityEvidenceOptions.toggle($event)"
+      >
+        <i class="pi pi-plus-circle" style="font-size: 1.2rem"></i>
+        {{ " Crear" }}
+      </button>
+    </div>
+    <div class="evidences-container" id="topOfPage">
+      @for (evidence of evidences; track $index){ @if (evidence.value.type ===
+      'link') {
+      <link-evidence-form
+        [linkForm]="$any(evidence)"
+        (removeEvidence)="removeEvidence($index)"
+      ></link-evidence-form>
+      } @if (evidence.value.type === 'image') {
+      <image-evidence-form
+        [imageForm]="$any(evidence)"
+        (removeEvidence)="removeEvidence($index)"
+      ></image-evidence-form>
+      } @if (evidence.value.type === 'document') {
+      <document-evidence-form
+        [documentForm]="$any(evidence)"
+        (removeEvidence)="removeEvidence($index)"
+      ></document-evidence-form>
+      } }
+    </div>
+  </section>
+</main>
