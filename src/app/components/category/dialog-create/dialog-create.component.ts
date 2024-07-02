@@ -4,6 +4,7 @@ import {
   Input,
   OnInit,
   Output,
+  SimpleChanges,
   inject,
 } from '@angular/core';
 import {
@@ -49,6 +50,7 @@ export class DialogCreateComponent implements OnInit {
   toastService = inject(ToastrService);
   indicatorIndex = 0;
   loading = false;
+  loadingCriteria = true;
 
   constructor(private readonly route: ActivatedRoute) {}
   ngOnInit() {
@@ -56,6 +58,12 @@ export class DialogCreateComponent implements OnInit {
       const indicatorIndex = params.get('index');
       if (indicatorIndex) this.indicatorIndex = parseInt(indicatorIndex);
     });
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['criteria'] && changes['criteria'].currentValue.length > 0) {
+      this.loadingCriteria = false;
+    }
   }
 
   categoryForm = new FormGroup({
