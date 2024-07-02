@@ -14,26 +14,39 @@
       <div class="activity-container">
         <h3>Información</h3>
         <p>
-          <span class="titles">Nombre: </span
-          >{{ activity.name }}
+          @if (loadingItems){
+            <p-skeleton width="100%" height="30px"></p-skeleton>
+          } @else {
+            <span class="titles">Nombre: </span
+              >{{ activity.name }}
+          }
         </p>
         <p>
+          @if (loadingItems){
+            <p-skeleton width="100%" height="30px"></p-skeleton>
+          } @else {
           <span class="titles">Categoría: </span>
           <span
             class="
               category-tag
             "
             >{{ activity.categoryName }}</span
-          >
+          >}
         </p>
         <p>
+          @if (loadingItems){
+            <p-skeleton width="100%" height="30px"></p-skeleton>
+          } @else {
           <span class="titles">Resumen: </span
-          >{{ activity.summary }}
+          >{{ activity.summary }}}
         </p>
         <p>
+          @if (loadingItems){
+            <p-skeleton width="100%" height="30px"></p-skeleton>
+          } @else {
           <span class="titles"
             >Fecha y hora de carga: </span
-          >{{ activity.uploadTimestamp | date : "dd-MM-yyyy HH:mm" }}
+          >{{ activity.uploadTimestamp | date : "dd-MM-yyyy HH:mm" }}}
         </p>
       </div>
       <div class="activity-container2">
