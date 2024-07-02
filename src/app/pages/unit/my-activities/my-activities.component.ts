@@ -5,6 +5,7 @@ import { Activity } from '../../../interfaces/activities/activities';
 import { ActivitiesService } from '../../../services/activities/activities.service';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
+import { routes } from '../../../routes';
 
 @Component({
   selector: 'app-my-activities',
@@ -31,6 +32,9 @@ export class MyActivitiesComponent {
     });
   }
   navigateToTheActivity(activityId: string): void {
-    this.router.navigate(['/activity'], { queryParams: { activityId: activityId,} });
+    this.router.navigate([routes.unitActivity + activityId]);
+  }
+  navigateToNewActivity(): void {
+    this.router.navigate([routes.unitNewActivity]);
   }
 }
