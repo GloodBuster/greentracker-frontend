@@ -1,4 +1,11 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  Output,
+  SimpleChanges,
+} from '@angular/core';
 import { getImageEvidenceForm, ImageEvidence } from '../../../utils/formsTypes';
 import { ReactiveFormsModule } from '@angular/forms';
 import { TagModule } from 'primeng/tag';
@@ -42,12 +49,20 @@ export interface UploadEvent {
     ]),
   ],
 })
-export class ImageEvidenceFormComponent {
+export class ImageEvidenceFormComponent implements OnChanges {
   @Input() imageForm: ImageEvidence = getImageEvidenceForm();
+  @Input() feedback?: any[];
   @Output() removeEvidence: EventEmitter<void> = new EventEmitter<void>();
   visibleDelete = false;
   file: File | null = null;
   objectURL: string | null = null;
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['imageForm'] && changes['imageForm'].currentValue) {
+      const file = changes['imageForm'].currentValue.value.file ?? null;
+      this.uploadInput(file);
+    }
+  }
 
   createObjectURL() {
     if (this.file) {
@@ -70,6 +85,15 @@ export class ImageEvidenceFormComponent {
     if (event.files && event.files[0]) {
       this.revokeObjectURL(); // Clean up any existing object URL
       this.file = event.files[0];
+      this.imageForm.controls.file.setValue(this.file);
+      this.createObjectURL(); // Create a new object URL for the uploaded file
+    }
+  }
+
+  uploadInput(file?: File) {
+    if (file) {
+      this.revokeObjectURL(); // Clean up any existing object URL
+      this.file = file;
       this.imageForm.controls.file.setValue(this.file);
       this.createObjectURL(); // Create a new object URL for the uploaded file
     }
