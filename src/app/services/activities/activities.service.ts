@@ -93,12 +93,34 @@ export class ActivitiesService {
     );
   }
 
+  getMyActivity(activityId: string): Observable<Response<UnitActivity>> {
+    return this.http.get<Response<UnitActivity>>(
+      `${this.BASE_URL}/units/me/activities/${activityId}`
+    );
+  }
+
   createUnitActivity(
     activity: ActivityForm
   ): Observable<Response<UnitActivity>> {
     return this.http.post<Response<UnitActivity>>(
       `${this.BASE_URL}/units/me/activities`,
       activity
+    );
+  }
+
+  updateMyActivity(
+    activityId: string,
+    activity: ActivityForm
+  ): Observable<Response<UnitActivity>> {
+    return this.http.put<Response<UnitActivity>>(
+      `${this.BASE_URL}/units/me/activities/${activityId}`,
+      activity
+    );
+  }
+
+  deleteMyActivity(activityId: string): Observable<Response<UnitActivity>> {
+    return this.http.delete<Response<UnitActivity>>(
+      `${this.BASE_URL}/units/me/activities/${activityId}`
     );
   }
 }
