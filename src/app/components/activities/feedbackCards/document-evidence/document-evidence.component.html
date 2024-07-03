@@ -20,11 +20,8 @@
   </div>
   <p-divider />
   <div class="feedback-tags">
-    <i class="pi pi-thumbs-up" style="font-size: 30px; color: #3ba13f"></i>
-    <img
-      src="../../../../../assets/feedback-icons/icons file-off.svg"
-      style="width: 32px; height: 32px"
-    />
-    <i class="pi pi-phone" style="font-size: 30px; color: #3b82f6"></i>
+    <i class="pi pi-thumbs-up" [class.selected]="selectedFeedback === 'approved'" (click)="selectFeedback('approved')" style="font-size: 30px; color: #3ba13f; cursor: pointer; padding: 8px;"></i>
+    <img src="../../../../../assets/feedback-icons/icons file-off.svg" [class.selected]="selectedFeedback === 'broken_file'" (click)="selectFeedback('broken_file')" style="width: 48px; height: 48px; cursor: pointer; padding: 5px;" />
+    <i class="pi pi-phone" [class.selected]="selectedFeedback === 'contact_admin'" (click)="selectFeedback('contact_admin')" style="font-size: 30px; color: #3b82f6; cursor: pointer; padding: 8px;"></i>
   </div>
 </div>

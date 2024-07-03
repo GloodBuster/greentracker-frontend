@@ -14,4 +14,9 @@ import { TagModule } from 'primeng/tag';
 })
 export class DocumentEvidenceComponent {
   @Input() evidence: any;
+  selectedFeedback = '';
+
+  selectFeedback(icon: string) {
+    this.selectedFeedback = icon;
+  }
 }
