@@ -24,6 +24,7 @@ import { ActivatedRoute } from '@angular/router';
 import { CustomHttpErrorResponse } from '../../../interfaces/responses/error';
 import { Criterion } from '../../../interfaces/criteria/criteria';
 import { MultiSelectModule } from 'primeng/multiselect';
+import { InputTextareaModule } from 'primeng/inputtextarea';
 
 @Component({
   selector: 'app-dialog-create',
@@ -35,7 +36,8 @@ import { MultiSelectModule } from 'primeng/multiselect';
     FloatLabelModule,
     InputTextModule,
     DropdownModule,
-    MultiSelectModule
+    MultiSelectModule,
+    InputTextareaModule,
   ],
   templateUrl: './dialog-create.component.html',
   styleUrl: './dialog-create.component.scss',
@@ -60,7 +62,8 @@ export class DialogCreateComponent implements OnInit {
 
   categoryForm = new FormGroup({
     name: new FormControl('', [Validators.required]),
-    criteria: new FormControl<Criterion[]>([], []),
+    helpText: new FormControl('', [Validators.required]),
+    criteria: new FormControl<Criterion[] | null>([], []),
   });
 
   hide() {
@@ -72,6 +75,7 @@ export class DialogCreateComponent implements OnInit {
     if (this.categoryForm.valid) {
       this.loading = true;
       const category = this.categoryForm.value as CategoriesForm;
+      if (!category.criteria) category.criteria = [];
       this.categoryService
         .createCategory(this.indicatorIndex, category)
         .subscribe({

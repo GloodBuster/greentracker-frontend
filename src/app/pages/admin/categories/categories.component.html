@@ -37,6 +37,7 @@
                     <tr>
                         <th>Indicador</th>
                         <th>Nombre</th>
+                        <th>Texto de ayuda</th>
                         <th>Criterios asociados</th>
                         <th></th>
                     </tr>
@@ -45,6 +46,7 @@
                     <tr>
                         <td>{{ indicatorIndex }} </td>
                         <td>{{ category.name }}</td>
+                        <td>{{ category.helpText }}</td>
                         <td>
                             <p-tag
                                 *ngFor="let criterion of category.criteria.slice(0, 2)"

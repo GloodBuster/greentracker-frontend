@@ -79,6 +79,7 @@ export class DialogEditComponent {
   @Input() visible: boolean = false;
   @Input() category: CategoriesByIndicator = {
     name: '',
+    helpText: '',
     criteria: [],
   };
   @Output() hideDialog: EventEmitter<void> = new EventEmitter();
@@ -108,6 +109,7 @@ export class DialogEditComponent {
 
   categoryForm = new FormGroup({
     name: new FormControl('', [Validators.required]),
+    helpText: new FormControl('', [Validators.required]),
     criteria: new FormControl<Criterion[]>([], []),
   });
 
@@ -115,6 +117,7 @@ export class DialogEditComponent {
     if (changes['category'] && changes['category'].currentValue) {
       this.categoryForm.setValue({
         name: changes['category'].currentValue.name,
+        helpText: changes['category'].currentValue.helpText,
         criteria:
           CriterionFormToCriterion(
             changes['category'].currentValue.criteria,
@@ -127,23 +130,20 @@ export class DialogEditComponent {
   hide() {
     this.hideDialog.emit();
     this.categoryForm.reset();
-    this.category = { name: '', criteria: [] };
+    this.category = { name: '', helpText: '', criteria: [] };
   }
   updateCategory() {
     if (this.categoryForm.valid) {
       this.loading = true;
       const category: CategoriesForm = {
         name: this.categoryForm.value.name as string,
+        helpText: this.categoryForm.value.helpText as string,
         criteria: CriterionToCriteriaSubIndex(
           this.categoryForm.value.criteria as Criterion[]
         ),
       };
       this.categoriesService
-        .updateCategory(
-          this.indicatorIndex,
-          this.category.name,
-          category
-        )
+        .updateCategory(this.indicatorIndex, this.category.name, category)
         .subscribe({
           next: (response) => {
             this.editCategory.emit({

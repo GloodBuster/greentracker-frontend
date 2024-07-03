@@ -3,6 +3,7 @@ import { Criterion, CriterionForm } from '../criteria/criteria';
 export interface Categories {
   indicatorIndex: number;
   name: string;
+  helpText: string;
 }
 
 export interface CriteriaSubIndex {
@@ -10,11 +11,13 @@ export interface CriteriaSubIndex {
 }
 export interface CategoriesForm {
   name: string;
+  helpText: string;
   criteria: CriteriaSubIndex[];
 }
 
 export const initialCategoriesForm = {
   name: '',
+  helpText: '',
 };
 
 export interface CategorieDetails {
@@ -29,5 +32,6 @@ export interface UnitCategory {
 
 export interface CategoriesByIndicator {
   name: string;
+  helpText: string;
   criteria: CriterionForm[];
 }
