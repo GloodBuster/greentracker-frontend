@@ -29,6 +29,8 @@ export class ActivityComponent {
   toastService = inject(ToastrService);
   activity: Activity = {} as Activity;
   loadingItems = true;
+  evidenceItems: any[] = [];
+
 
   constructor(
     private readonly route: ActivatedRoute,
@@ -43,6 +45,35 @@ export class ActivityComponent {
       next: (response) => {
         this.activity = response.data;
         this.loadingItems = false;
+        console.log(this.activity);
+
+        this.activity.evidence.push(
+          {
+            evidenceNumber: 1,
+            link: "https://example1.com",
+            description: "Descripción de prueba 1",
+            uploadTimestamp: new Date().toISOString(),
+            type: "image",
+            linkToRelatedResource: "https://relatedresource1.com"
+          },
+          {
+            evidenceNumber: 2,
+            link: "https://example2.com",
+            description: "Descripción de prueba 2",
+            uploadTimestamp: new Date().toISOString(),
+            type: "document"
+          },
+          {
+            evidenceNumber: 3,
+            link: "https://example3.com",
+            description: "Descripción de prueba 3",
+            uploadTimestamp: new Date().toISOString(),
+            type: "link"
+          });
+        console.log(this.activity.evidence);
+        this.evidenceItems = this.activity.evidence.map(evidence => {
+          return evidence;
+        });
       },
       error: (error) => {
         this.toastService.error('Ha ocurrido un error inesperado');
@@ -50,5 +81,6 @@ export class ActivityComponent {
       }
     });
   }
+  
 
 }}

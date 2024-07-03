@@ -14,15 +14,13 @@
         <span style="margin-top: -10px">5.59 KB</span>
       </div>
     </div>
-    <div class="container2">
-      <p style="margin-top: -5px; margin-left: 8px">
-        <span class="text">Descripción: </span>Lorem ipsum dolor sit amet
-        consectetur adipisicing elit. Aliquid aut aperiam odit illum. Molestiae
-        consequatur quas illum voluptat
+    <div class="container2" style="margin-left: 8px; width: 100%;">
+      <p style="margin-top: -5px">
+        <span class="text">Descripción: </span>{{ evidence.description }}
       </p>
-      <p class="text" style="margin-bottom: 0px; margin-left: 5px;">Enlace</p>
+      <p class="text" style="margin-bottom: 0px">Enlace</p>
       <p-inputGroup>
-        <input pInputText #inputValue value="www.google.com" [style]="{ width: '100%' }" disabled/>
+        <input pInputText #inputValue value="{{evidence.link}}" [style]="{ width: '100%'}" disabled/>
         <p-inputGroupAddon>
           <i class="pi pi-copy" (click)="copyValue(inputValue)"></i>
         </p-inputGroupAddon>

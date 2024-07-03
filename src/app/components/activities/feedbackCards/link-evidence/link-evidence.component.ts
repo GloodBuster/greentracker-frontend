@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, Input, inject } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { DividerModule } from 'primeng/divider';
 import { InputGroupModule } from 'primeng/inputgroup';
@@ -14,6 +14,7 @@ import { TagModule } from 'primeng/tag';
   styleUrl: './link-evidence.component.scss'
 })
 export class LinkEvidenceComponent {
+  @Input() evidence: any;
   toastService = inject(ToastrService);
 
   async copyValue(inputValue: HTMLInputElement) {

@@ -4,15 +4,14 @@
     <div class="container">
       <p class="title">Enlace</p>
       <p-inputGroup>
-        <input pInputText #inputValue value="www.google.com" [style]="{ width: '100%' }" disabled />
+        <input pInputText #inputValue value="{{evidence.link}}" [style]="{ width: '100%' }" disabled />
         <p-inputGroupAddon>
           <i class="pi pi-copy" (click)="copyValue(inputValue)"></i>
         </p-inputGroupAddon>
       </p-inputGroup>
       <p style="margin-top: 20px">
         <span style="font-weight: 500; font-size: 18px">Descripción: </span
-        >Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid aut
-        aperiam odit illum. Molestiae consequatur quas illum voluptat
+        >{{ evidence.description }}
       </p>
     </div>
     <p-divider />

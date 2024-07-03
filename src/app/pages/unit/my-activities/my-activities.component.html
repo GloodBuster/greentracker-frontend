@@ -21,7 +21,7 @@
                     <p-skeleton width="100%" height="400px"/>
                 </div>
             } @else {
-            <p-card *ngFor="let activity of activities" header="{{ activity.name }}" [style]="{ width: '360px'}">
+            <p-card *ngFor="let activity of activities" header="{{ activity.name }}" [style]="{ width: '360px', height: '420px'}">
                 <ng-template pTemplate="header">
                     <img alt="Card" src="../../../assets/activities/activity-image.png" alt="Actividad" />
                 </ng-template>

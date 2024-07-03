@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { DividerModule } from 'primeng/divider';
 import { InputGroupModule } from 'primeng/inputgroup';
 import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
@@ -13,5 +13,5 @@ import { TagModule } from 'primeng/tag';
   styleUrl: './document-evidence.component.scss'
 })
 export class DocumentEvidenceComponent {
-
+  @Input() evidence: any;
 }

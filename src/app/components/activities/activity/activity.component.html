@@ -49,11 +49,25 @@
           >{{ activity.uploadTimestamp | date : "dd-MM-yyyy HH:mm" }}}
         </p>
       </div>
-      <div class="activity-container2">
+      <div class="activity-container1">
         <h3>Evidencias</h3>
-        <app-image-evidence></app-image-evidence>
-        <app-link-evidence></app-link-evidence>
-        <app-document-evidence></app-document-evidence>
+        <div class="activity-container2">
+          <div *ngIf="loadingItems">
+            <p-skeleton width="100%" height="400px"></p-skeleton>
+          </div>
+          <div *ngIf="!loadingItems">
+            <div *ngIf="evidenceItems.length === 0">
+              <p>No hay evidencias cargadas</p>
+            </div>
+            <div *ngIf="evidenceItems.length > 0">
+              <div *ngFor="let evidence of evidenceItems">
+                <app-image-evidence *ngIf="evidence.type === 'image'" [evidence]="evidence"></app-image-evidence>
+                <app-link-evidence *ngIf="evidence.type === 'link'" [evidence]="evidence"></app-link-evidence>
+                <app-document-evidence *ngIf="evidence.type === 'document'" [evidence]="evidence"></app-document-evidence>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   </article>
