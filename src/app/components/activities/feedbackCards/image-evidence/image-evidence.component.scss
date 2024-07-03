@@ -43,4 +43,10 @@
         display: flex;
         flex-direction: row;
         justify-content: space-around;
+        align-items: center;
+  }
+  .selected {
+    background-color: rgba(0, 0, 255, 0.1);
+    border-radius: 50%;
+    box-sizing: border-box;
   }
