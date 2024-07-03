@@ -16,9 +16,12 @@
     </div>
     <p-divider />
     <div class="feedback-tags">
-      <i class="pi pi-thumbs-up" [class.selected]="selectedFeedback === 'approved'" (click)="selectFeedback('approved')" style="font-size: 30px; color: #3ba13f; cursor: pointer; padding: 8px;"></i>
-      <img src="../../../../../assets/feedback-icons/link.svg" [class.selected]="selectedFeedback === 'broken_link'" (click)="selectFeedback('broken_link')" style="width: 48px; height: 48px; cursor: pointer;  padding: 5px;" />
-      <i class="pi pi-phone" [class.selected]="selectedFeedback === 'contact_admin'" (click)="selectFeedback('contact_admin')" style="font-size: 30px; color: #3b82f6; cursor: pointer; padding: 8px;"></i>
+      <i class="pi pi-thumbs-up" [class.selected]="selectedFeedback === 'approved'" (click)="selectFeedback('approved')" style="font-size: 30px; color: #3ba13f; cursor: pointer; padding: 8px;" pTooltip="Aprobado" 
+      tooltipPosition="bottom" ></i>
+      <img src="../../../../../assets/feedback-icons/link.svg" [class.selected]="selectedFeedback === 'broken_link'" (click)="selectFeedback('broken_link')" style="width: 48px; height: 48px; cursor: pointer;  padding: 5px;" pTooltip="Link dañado" 
+      tooltipPosition="bottom" />
+      <i class="pi pi-phone" [class.selected]="selectedFeedback === 'contact_admin'" (click)="selectFeedback('contact_admin')" style="font-size: 30px; color: #3b82f6; cursor: pointer; padding: 8px;" pTooltip="Contactar a administrador" 
+      tooltipPosition="bottom" ></i>
     </div>
   </div>
 </div>
