@@ -16,6 +16,7 @@ import { TagModule } from 'primeng/tag';
 export class LinkEvidenceComponent {
   @Input() evidence: any;
   toastService = inject(ToastrService);
+  selectedFeedback = '';
 
   async copyValue(inputValue: HTMLInputElement) {
     try {
@@ -25,5 +26,9 @@ export class LinkEvidenceComponent {
       console.error('Error al copiar al portapapeles', err);
     }
   }
+  selectFeedback(icon: string) {
+    this.selectedFeedback = icon;
+  }
+
 
 }
