@@ -11,6 +11,7 @@
           (onChange)="onIndicatorChange($event)"
           [style]="{ minWidth: '400px', outline: 'none', boxShadow: 'none' }"
           styleClass="criteria-dropdown"
+          [loading]="loadingIndicators"
         ></p-dropdown>
       </div>
       <div class="criteria-right-header">
@@ -33,35 +34,74 @@
       @if (!indicatorIndex) {
       <h3>Seleccione un indicador para ver sus criterios</h3>
       } @else {
-      <p-table [value]="criteria">
-        <ng-template pTemplate="header">
-          <tr>
-            <th>Indicador</th>
-            <th>Subíndice</th>
-            <th>Nombre en inglés</th>
-            <th>Alias en español</th>
-            <th></th>
-          </tr>
-        </ng-template>
-        <ng-template pTemplate="body" let-criterion>
-          <tr>
-            <td>{{ criterion.indicatorIndex }}</td>
-            <td>{{ criterion.subindex }}</td>
-            <td>{{ criterion.englishName }}</td>
-            <td>
-              {{ criterion.spanishAlias }}
-            </td>
-            <td>
-              <button
-                class="p-button edit-button"
-                (click)="showEdit(criterion)"
-              >
-                <i class="pi pi-pencil" style="color: #3ba13f"></i>
-              </button>
-            </td>
-          </tr>
-        </ng-template>
-      </p-table>
+        @if (loadingItems){
+          <p-table
+          styleClass="p-datatable-gridlines"
+          [tableStyle]="{ 'max-width': '90rem' }"
+          scrollable="true"
+          [value]="[1,2,3,4,5]"
+          scrollHeight="40rem"
+        >
+          <ng-template pTemplate="header">
+            <tr>
+              <th>Indicador</th>
+              <th>Subíndice</th>
+              <th>Nombre en inglés</th>
+              <th>Alias en español</th>
+              <th></th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-unit>
+            <tr>
+              <td>
+                <p-skeleton />
+              </td>
+              <td>
+                <p-skeleton />
+              </td>
+              <td>
+                <p-skeleton/>
+              </td>
+              <td>
+                <p-skeleton/>
+              </td>
+              <td>
+                <p-skeleton/>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+        } @else {
+          <p-table [value]="criteria">
+            <ng-template pTemplate="header">
+              <tr>
+                <th>Indicador</th>
+                <th>Subíndice</th>
+                <th>Nombre en inglés</th>
+                <th>Alias en español</th>
+                <th></th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-criterion>
+              <tr>
+                <td>{{ criterion.indicatorIndex }}</td>
+                <td>{{ criterion.subindex }}</td>
+                <td>{{ criterion.englishName }}</td>
+                <td>
+                  {{ criterion.spanishAlias }}
+                </td>
+                <td>
+                  <button
+                    class="p-button edit-button"
+                    (click)="showEdit(criterion)"
+                  >
+                    <i class="pi pi-pencil" style="color: #3ba13f"></i>
+                  </button>
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+        }
       <p-paginator
         [first]="first"
         [rows]="paginationRows"

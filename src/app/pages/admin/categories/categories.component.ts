@@ -21,6 +21,7 @@ import { TagModule } from 'primeng/tag';
 import { Criterion } from '../../../interfaces/criteria/criteria';
 import { CriteriaService } from '../../../services/criteria/criteria.service';
 import { TooltipModule } from 'primeng/tooltip';
+import { SkeletonModule } from 'primeng/skeleton';
 
 interface PageEvent {
   first?: number;
@@ -45,7 +46,8 @@ interface DropdownIndicatorChangeEvent extends DropdownChangeEvent {
     DialogEditComponent,
     DropdownModule,
     TagModule,
-    TooltipModule
+    TooltipModule,
+    SkeletonModule
   ],
   templateUrl: './categories.component.html',
   styleUrl: './categories.component.scss',
@@ -63,6 +65,9 @@ export class CategoriesComponent {
   visibleEdit = false;
   categoryToEdit: any;
   criteria: Criterion[] = [];
+  loadingItems = true;
+  loadingIndicators = true;
+  loadingCriteria = true;
 
   constructor(
     private readonly categoriesService: CategoriesService,
@@ -81,6 +86,7 @@ export class CategoriesComponent {
           this.selectedIndicator = this.indicators.find(
             (indicator) => indicator.index === this.indicatorIndex
           );
+          this.loadingIndicators = false;
         },
         error: (error: CustomHttpErrorResponse) => {
           const errorResponse = error.error;
@@ -91,6 +97,7 @@ export class CategoriesComponent {
               'Ha ocurrido un error inesperado al cargar los indicadores'
             );
           }
+          this.loadingIndicators = false;
         },
       });
 
@@ -103,6 +110,7 @@ export class CategoriesComponent {
             this.categories = response.data.items;
             this.totalRecords = response.data.itemCount;
             this.paginationRows = response.data.itemsPerPage;
+            this.loadingItems = false;
           },
           error: (error: CustomHttpErrorResponse) => {
             const errorResponse = error.error;
@@ -111,6 +119,7 @@ export class CategoriesComponent {
             } else {
               this.toastService.error('Ha ocurrido un error inesperado');
             }
+            this.loadingItems = false
           },
         });
 
@@ -118,6 +127,7 @@ export class CategoriesComponent {
         .getCriteriaByIndex(this.indicatorIndex, 1, 9999)
         .subscribe({
           next: (response) => {
+            this.loadingCriteria = false
             this.criteria = response.data.items.map((criterion) => {
               return {
                 subindex: criterion.subindex,
@@ -129,6 +139,7 @@ export class CategoriesComponent {
           },
           error: (error: CustomHttpErrorResponse) => {
             const errorResponse = error.error;
+            this.loadingCriteria = false
             if (errorResponse.statusCode === 401) {
               this.toastService.error('Acceso denegado');
             } else {
@@ -184,6 +195,7 @@ export class CategoriesComponent {
   }
 
   onPageChange(event: PageEvent) {
+    this.loadingItems = true;
     this.categoriesService
       .getCategoriesByIndex(
         this.indicatorIndex,
@@ -195,6 +207,7 @@ export class CategoriesComponent {
           this.totalRecords = response.data.itemCount;
           if (event.rows) this.paginationRows = event.rows;
           if (event.first) this.first = event.first;
+          this.loadingItems = false
 
           this.router.navigate([], {
             relativeTo: this.route,
@@ -211,11 +224,15 @@ export class CategoriesComponent {
           } else {
             this.toastService.error('Ha ocurrido un error inesperado');
           }
+          this.loadingItems = false
         },
       });
   }
 
   onIndicatorChange(event: DropdownIndicatorChangeEvent) {
+    this.loadingIndicators = true;
+    this.loadingCriteria = true;
+    this.loadingItems = true;
     this.router.navigate([], {
       relativeTo: this.route,
       queryParams: { index: event.value.index },
@@ -229,6 +246,8 @@ export class CategoriesComponent {
         this.categories = response.data.items;
         this.totalRecords = response.data.itemCount;
         this.paginationRows = response.data.itemsPerPage;
+        this.loadingIndicators = false;
+        this.loadingItems = false;
       },
       error: (error: CustomHttpErrorResponse) => {
         const errorResponse = error.error;
@@ -239,6 +258,8 @@ export class CategoriesComponent {
             'Ha ocurrido un error inesperado al cargar las categorías'
           );
         }
+        this.loadingIndicators = false;
+        this.loadingItems = false;
       },
     });
 
@@ -247,6 +268,7 @@ export class CategoriesComponent {
       .subscribe({
         next: (response) => {
           this.criteria = response.data.items;
+          this.loadingCriteria = false;
         },
         error: (error: CustomHttpErrorResponse) => {
           const errorResponse = error.error;
@@ -257,6 +279,7 @@ export class CategoriesComponent {
               'Ha ocurrido un error inesperado al cargar los criterios'
             );
           }
+          this.loadingCriteria = false;
         },
       });
   }

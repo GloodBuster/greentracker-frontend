@@ -16,6 +16,7 @@ import { PaginatorModule } from 'primeng/paginator';
 import { Indicator } from '../../../interfaces/indicator/indicator';
 import { DropdownChangeEvent, DropdownModule } from 'primeng/dropdown';
 import { TooltipModule } from 'primeng/tooltip';
+import { SkeletonModule } from 'primeng/skeleton';
 
 interface PageEvent {
   first?: number;
@@ -38,7 +39,8 @@ interface DropdownIndicatorChangeEvent extends DropdownChangeEvent {
     DialogEditComponent,
     PaginatorModule,
     DropdownModule,
-    TooltipModule
+    TooltipModule,
+    SkeletonModule
   ],
   templateUrl: './criteria.component.html',
   styleUrl: './criteria.component.scss',
@@ -55,6 +57,8 @@ export class CriteriaComponent {
   totalRecords = 0;
   paginationRows = 10;
   first = 0;
+  loadingItems = true;
+  loadingIndicators = true;
 
   constructor(
     private readonly criteriaService: CriteriaService,
@@ -72,6 +76,7 @@ export class CriteriaComponent {
           this.selectedIndicator = this.indicators.find(
             (indicator) => indicator.index === this.indicatorIndex
           );
+          this.loadingIndicators = false;
         },
         error: (error: CustomHttpErrorResponse) => {
           const errorResponse = error.error;
@@ -82,6 +87,7 @@ export class CriteriaComponent {
               'Ha ocurrido un error inesperado al cargar los indicadores'
             );
           }
+          this.loadingIndicators = false;
         },
       });
 
@@ -94,6 +100,7 @@ export class CriteriaComponent {
             this.criteria = response.data.items;
             this.totalRecords = response.data.itemCount;
             this.paginationRows = response.data.itemsPerPage;
+            this.loadingItems = false;
           },
           error: (error: CustomHttpErrorResponse) => {
             const errorResponse = error.error;
@@ -104,6 +111,7 @@ export class CriteriaComponent {
                 'Ha ocurrido un error inesperado al cargar los criterios'
               );
             }
+            this.loadingItems = false;
           },
         });
     });
@@ -155,6 +163,7 @@ export class CriteriaComponent {
   }
 
   onPageChange(event: PageEvent) {
+  
     this.criteriaService
       .getCriteriaByIndex(this.indicatorIndex, event.page ? event.page + 1 : 1)
       .subscribe({
@@ -182,6 +191,8 @@ export class CriteriaComponent {
   }
 
   onIndicatorChange(event: DropdownIndicatorChangeEvent) {
+    this.loadingIndicators = true;
+    this.loadingItems = true;
     this.router.navigate([], {
       relativeTo: this.route,
       queryParams: { index: event.value.index },
@@ -195,6 +206,8 @@ export class CriteriaComponent {
         this.criteria = response.data.items;
         this.totalRecords = response.data.itemCount;
         this.paginationRows = response.data.itemsPerPage;
+        this.loadingItems = false;
+        this.loadingItems = false;
       },
       error: (error: CustomHttpErrorResponse) => {
         const errorResponse = error.error;
@@ -205,6 +218,8 @@ export class CriteriaComponent {
             'Ha ocurrido un error inesperado al cargar los criterios'
           );
         }
+        this.loadingItems = false;
+        this.loadingItems = false;
       },
     });
   }

@@ -14,6 +14,7 @@ import { UnitsService } from '../../../services/units/units.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CustomHttpErrorResponse } from '../../../interfaces/responses/error';
 import { PaginatorModule } from 'primeng/paginator';
+import { SkeletonModule } from 'primeng/skeleton';
 
 interface PageEvent {
   first?: number;
@@ -60,6 +61,7 @@ export function FormToCategoriesData(categories: CategoriesForm[]): CategoriesDa
     DialogCreateComponent,
     DialogEditComponent,
     PaginatorModule,
+    SkeletonModule
   ],
   templateUrl: './unidad.component.html',
   styleUrl: './unidad.component.scss',
@@ -74,6 +76,7 @@ export class UnidadComponent implements OnInit {
   first: number = 0;
   totalRecords: number = 0;
   indicators: Indicators[] = [];
+  loadingItems = true;
 
   constructor(
     private readonly unitsService: UnitsService,
@@ -88,9 +91,11 @@ export class UnidadComponent implements OnInit {
           this.unitsData = response.data.items;
           this.totalRecords = response.data.itemCount;
           this.paginationRows = response.data.itemsPerPage;
+          this.loadingItems = false;
         },
         error: (error: CustomHttpErrorResponse) => {
           console.error(error);
+          this.loadingItems = false;
         },
       });
     });

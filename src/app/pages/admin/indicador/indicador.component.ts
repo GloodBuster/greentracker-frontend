@@ -14,6 +14,7 @@ import { Indicator, indicatorForm } from '../../../interfaces/indicator/indicato
 import { CustomHttpErrorResponse } from '../../../interfaces/responses/error';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PaginatorModule } from 'primeng/paginator';
+import { SkeletonModule } from 'primeng/skeleton';
 
 interface PageEvent{
   first?: number;
@@ -25,7 +26,7 @@ interface PageEvent{
 @Component({
   selector: 'app-indicador',
   standalone: true,
-  imports: [ButtonModule, TableModule, CommonModule, TagModule, DialogModule, InputTextModule, FormsModule, FloatLabelModule, DialogCreateComponent, DialogEditComponent, PaginatorModule],
+  imports: [ButtonModule, TableModule, CommonModule, TagModule, DialogModule, InputTextModule, FormsModule, FloatLabelModule, DialogCreateComponent, DialogEditComponent, PaginatorModule, SkeletonModule],
   templateUrl: './indicador.component.html',
   styleUrl: './indicador.component.scss'
 })
@@ -36,6 +37,7 @@ export class IndicadorComponent {
   paginationRows = 10;
   first: number = 0;
   totalRecords: number = 0;
+  loadingItems = true;
 
   constructor(
     private readonly indicatorService: IndicatorService,
@@ -50,9 +52,11 @@ export class IndicadorComponent {
           this.indicatorsData = response.data.items;
           this.totalRecords = response.data.itemCount;
           this.paginationRows = response.data.itemsPerPage;
+          this.loadingItems = false;
         },
         error: (error: CustomHttpErrorResponse) => {
           console.error(error);
+          this.loadingItems = false;
         }
       })
     });

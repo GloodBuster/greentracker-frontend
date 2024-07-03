@@ -10,6 +10,7 @@ import { CardModule } from 'primeng/card';
 import { CommonModule } from '@angular/common';
 import { UnitsService } from '../../services/units/units.service';
 import { UnitDetails } from '../../interfaces/units/units';
+import { SkeletonModule } from 'primeng/skeleton';
 
 interface PageEvent {
   first?: number;
@@ -25,7 +26,7 @@ interface DropdownUnitChangeEvent extends DropdownChangeEvent {
 @Component({
   selector: 'app-activities',
   standalone: true,
-  imports: [PaginatorModule, DropdownModule, CardModule, CommonModule],
+  imports: [PaginatorModule, DropdownModule, CardModule, CommonModule, SkeletonModule],
   templateUrl: './activities.component.html',
   styleUrl: './activities.component.scss',
 })
@@ -39,6 +40,8 @@ export class ActivitiesComponent {
   first = 0;
   unitId: string | undefined = undefined;
   categoryName: string | undefined = undefined;
+  loadingName = true;
+  loadingItems = true;
 
   constructor(
     private readonly activitiesService: ActivitiesService,
@@ -61,6 +64,7 @@ export class ActivitiesComponent {
         this.activities = response.data.items;
         this.totalRecords = response.data.itemCount;
         this.paginationRows = response.data.itemsPerPage;
+        this.loadingItems = false;
       },
       error: (error: CustomHttpErrorResponse) => {
         if (error.error.statusCode === 500) {
@@ -68,6 +72,7 @@ export class ActivitiesComponent {
         } else {
           this.toastService.error(error.error.message);
         }
+        this.loadingItems = false;
       },
     });
 
@@ -75,6 +80,7 @@ export class ActivitiesComponent {
       this.unitService.getUnitById(this.unitId).subscribe({
         next: (response) => {
           this.units = response.data;
+          this.loadingName = false;
         },
         error: (error: CustomHttpErrorResponse) => {
           if (error.error.statusCode === 500) {
@@ -82,6 +88,7 @@ export class ActivitiesComponent {
           } else {
             this.toastService.error(error.error.message);
           }
+          this.loadingName = false;
         },
       });
     }
