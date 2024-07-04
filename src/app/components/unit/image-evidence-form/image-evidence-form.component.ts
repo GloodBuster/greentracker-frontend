@@ -16,6 +16,7 @@ import { formatFileSize } from '../../../utils/files';
 import { animate, style, transition, trigger } from '@angular/animations';
 import { DialogModule } from 'primeng/dialog';
 import { ButtonModule } from 'primeng/button';
+import { ImageModule } from 'primeng/image';
 
 export interface UploadEvent {
   originalEvent: Event;
@@ -33,6 +34,7 @@ export interface UploadEvent {
     FileUploadModule,
     DialogModule,
     ButtonModule,
+    ImageModule
   ],
   templateUrl: './image-evidence-form.component.html',
   styleUrl: './image-evidence-form.component.scss',

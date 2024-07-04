@@ -82,7 +82,13 @@
         @if (file) {
         <div class="file-template-container">
           <div class="image-container">
-            <img [src]="objectURL" alt="image" class="evidence-image" />
+            <p-image
+              [src]="objectURL ?? ''"
+              alt="image"
+              [preview]="true"
+              [imageStyle]="{'object-fit': 'cover', 'max-width': '100%'}"
+              styleClass="evidence-image"
+            />
           </div>
           <div class="file-info-container">
             <div class="text">
