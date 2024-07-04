@@ -175,7 +175,6 @@ export class ActivityDetailsComponent {
       const lastChild = topElement?.lastElementChild;
       if (lastChild) {
         lastChild.scrollIntoView({ behavior: 'smooth' });
-        console.log('Subiendo');
       }
     }, 0);
   }

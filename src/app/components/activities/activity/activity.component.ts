@@ -45,7 +45,6 @@ export class ActivityComponent {
       next: (response) => {
         this.activity = response.data;
         this.loadingItems = false;
-        console.log(this.activity);
 
         this.activity.evidence.push(
           {
@@ -70,7 +69,6 @@ export class ActivityComponent {
             uploadTimestamp: new Date().toISOString(),
             type: "link"
           });
-        console.log(this.activity.evidence);
         this.evidenceItems = this.activity.evidence.map(evidence => {
           return evidence;
         });
