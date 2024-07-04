@@ -1,4 +1,11 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  Output,
+  SimpleChanges,
+} from '@angular/core';
 import {
   DocumentEvidence,
   getDocumentEvidenceForm,
@@ -39,11 +46,19 @@ import { DialogModule } from 'primeng/dialog';
     ]),
   ],
 })
-export class DocumentEvidenceFormComponent {
+export class DocumentEvidenceFormComponent implements OnChanges {
   @Input() documentForm: DocumentEvidence = getDocumentEvidenceForm();
+  @Input() feedback?: any[];
   @Output() removeEvidence: EventEmitter<void> = new EventEmitter<void>();
   visibleDelete = false;
   file: File | null = null;
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['documentForm'] && changes['documentForm'].currentValue) {
+      const file = changes['documentForm'].currentValue.value.file ?? null;
+      this.uploadInput(file);
+    }
+  }
 
   remove() {
     this.removeEvidence.emit();
@@ -52,6 +67,13 @@ export class DocumentEvidenceFormComponent {
   onUpload(event: UploadEvent) {
     if (event.files && event.files[0]) {
       this.file = event.files[0];
+      this.documentForm.controls.file.setValue(this.file);
+    }
+  }
+
+  uploadInput(file?: File) {
+    if (file) {
+      this.file = file;
       this.documentForm.controls.file.setValue(this.file);
     }
   }

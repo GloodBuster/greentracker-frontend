@@ -5,17 +5,17 @@ form {
   flex-direction: column;
   gap: 14px;
 
+  h5 {
+    margin: 0;
+    font-size: 16px;
+    color: #3f3f3f;
+  }
+
   header {
     width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
-
-    h5 {
-      margin: 0;
-      font-size: 16px;
-      color: #3f3f3f;
-    }
 
     .left-header {
       display: flex;
@@ -31,7 +31,76 @@ form {
       border-color: #22c55e;
     }
   }
+  .divider {
+    width: calc(100% - 20px);
+    height: 1px;
+    background-color: #8f8f8f;
+    align-self: center;
+  }
+
+  footer {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    position: relative;
+    padding-bottom: 10px;
+
+    * {
+      flex: 0 0 auto;
+    }
+
+    &::-webkit-scrollbar {
+      height: 10px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: transparent;
+      border-radius: 10px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: #e4e4e4;
+      border-radius: 10px;
+    }
+  }
 }
+
+::ng-deep .feedback {
+  display: flex;
+  flex-direction: row-reverse;
+  gap: 4px;
+  font-weight: 500;
+  box-sizing: border-box;
+  height: 25px;
+
+  img {
+    height: 100%;
+  }
+}
+
+::ng-deep .file-feedback {
+  background-color: #ffecec;
+  color: #ef4444;
+}
+
+::ng-deep .link-feedback {
+  background-color: #ffecec;
+  color: #ef4444;
+}
+
+::ng-deep .contact-feedback {
+  background-color: #eff6ff;
+  color: #3b82f6;
+}
+
+::ng-deep .approved-feedback {
+  background-color: #d9ffe5;
+  color: #22c55e;
+}
+
 ::ng-deep .tag {
   display: flex;
   flex-direction: row-reverse;

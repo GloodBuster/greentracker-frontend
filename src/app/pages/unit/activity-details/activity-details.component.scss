@@ -1,7 +1,177 @@
-.activity-details-page {
-  padding-bottom: 50px;
-  background-color: red;
+.details-activity-page {
   display: flex;
   justify-content: center;
   gap: 15px;
+  padding-bottom: 20px;
+
+  section {
+    flex: 1;
+
+    h1 {
+      margin: 0;
+      margin-bottom: 6px;
+    }
+
+    p {
+      margin: 0;
+      font-size: 14px;
+    }
+  }
+
+  .activity-section {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    .details-activity-form {
+      display: flex;
+      flex-direction: column;
+      background-color: white;
+      border-radius: 8px;
+      padding: 16px;
+      gap: 18px;
+
+      h3 {
+        margin: 0;
+      }
+
+      .detail-activity-input {
+        box-shadow: none;
+        &:hover,
+        &:focus {
+          border: 1px solid #2d7b30;
+        }
+      }
+    }
+    .create {
+      background-color: #3ba13f;
+      border: none;
+      width: 130px;
+      border-radius: 4px;
+      font-weight: 400;
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      outline: none;
+      align-self: center;
+
+      &:hover {
+        background-color: #268729;
+      }
+    }
+
+    .buttons {
+      display: flex;
+      gap: 20px;
+      width: 100%;
+      justify-content: center;
+
+      .delete-button {
+        color: #3ba13f;
+        border: #3ba13f 1px solid;
+        background-color: transparent;
+        box-shadow: none;
+      }
+    }
+  }
+
+  .evidence-section {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+
+    .evidence-header {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      h2 {
+        font-size: 18px;
+        margin: 0;
+        margin-bottom: 6px;
+      }
+
+      .add-button {
+        color: var(--green);
+        display: flex;
+        gap: 6px;
+        background-color: transparent;
+        border: 1px solid var(--green);
+        box-shadow: none;
+      }
+    }
+
+    .evidences-container {
+      display: flex;
+      flex-direction: column-reverse;
+      gap: 14px;
+      overflow-x: hidden;
+      overflow-y: scroll;
+      max-height: 70vh;
+
+      &::-webkit-scrollbar {
+        width: 8px;
+      }
+
+      &::-webkit-scrollbar-track {
+        background: transparent;
+        border-radius: 10px;
+      }
+
+      &::-webkit-scrollbar-thumb {
+        background: #e4e4e4;
+        border-radius: 10px;
+      }
+    }
+  }
+}
+
+::ng-deep .confirm-delete-popup .p-confirm-popup-content {
+  display: none;
+}
+
+::ng-deep .details-activity-category-dropdown {
+  width: 100%;
+  box-shadow: none;
+  &:hover {
+    border: 1px solid #2d7b30;
+  }
+}
+
+::ng-deep .evidence-options-overlay .p-overlaypanel-content {
+  padding: 5px;
+  width: 165px;
+
+  .overlay-item {
+    width: 100%;
+
+    &:nth-child(1),
+    &:nth-child(2) {
+      position: relative;
+
+      &::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 20px;
+        width: calc(100% - 40px);
+        border-bottom: 1px solid #276137;
+      }
+    }
+
+    .overlay-button {
+      height: 50px;
+      width: 100%;
+      color: #276137;
+      display: flex;
+      justify-content: space-between;
+      background-color: transparent;
+      border: none;
+      box-shadow: none;
+
+      span {
+        margin: 0;
+      }
+    }
+  }
 }

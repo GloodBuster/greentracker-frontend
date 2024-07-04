@@ -10,3 +10,16 @@ export function formatFileSize(bytes: number): string {
 
   return `${size.toFixed(2)} ${units[unitIndex]}`;
 }
+
+export function parseFileNameFromUrl(url: string) {
+  return url.split('/').pop() ?? '';
+}
+
+export async function urlToFile(url: string): Promise<File> {
+  const response = await fetch(url);
+  const blob = await response.blob();
+  const fileName = parseFileNameFromUrl(url);
+  const file = new File([blob], fileName, { type: blob.type });
+
+  return file;
+}

@@ -14,7 +14,7 @@ export const routes = {
   unitStatistics: '/unit-statistics',
   unitActivities: '/my-activities',
   unitNewActivity: '/my-activities/new',
-  unitActivity: '/my-activities/:id',
+  unitActivity: '/my-activities/',
   //unlogged
   login: '/login',
 };
