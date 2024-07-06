@@ -13,10 +13,9 @@
         <p-table
         styleClass="p-datatable-gridlines"
         [tableStyle]="{ 'max-width': '90rem' }"
-        scrollable="true"
-        [value]="[1,2,3,4,5]"
-        scrollHeight="40rem"
+        [value]="[1,2,3,4,5,6,7,8,9,10]"
        *ngIf="loadingItems"
+       scrollable="false"
       >
         <ng-template pTemplate="header">
           <tr>
@@ -29,16 +28,16 @@
         <ng-template pTemplate="body" let-unit>
           <tr>
             <td>
-              <p-skeleton />
+              <p-skeleton height="25px"/>
             </td>
             <td>
-              <p-skeleton/>
+              <p-skeleton height="25px"/>
             </td>
             <td>
-              <p-skeleton/>
+              <p-skeleton height="25px"/>
             </td>
             <td>
-              <p-skeleton/>
+              <p-skeleton height="25px"/>
             </td>
           </tr>
         </ng-template>
@@ -48,8 +47,7 @@
         styleClass="p-datatable-gridlines"
         [value]="unitsData"
         [tableStyle]="{ 'max-width': '90rem' }"
-        scrollable="true"
-        scrollHeight="40rem"
+        scrollable="false"
         *ngIf="!loadingItems"
       >
         <ng-template pTemplate="header">
