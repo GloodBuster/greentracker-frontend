@@ -1,4 +1,4 @@
-.admin-sidebar {
+.mask {
   background-color: #276137;
   width: 250px;
   min-height: 100vh;
@@ -9,67 +9,79 @@
   flex-direction: column;
   align-items: center;
   padding-top: 10px;
-  position: fixed;
-  top: 0;
-  left: 0;
-
-  header {
-    display: flex;
-    align-items: center;
-    margin-bottom: 10px;
-
-    h2 {
-      font-weight: 500;
-    }
-  }
-
-  ul {
-    width: 100%;
+  .admin-sidebar {
+    background-color: #276137;
+    width: 250px;
+    min-height: 100vh;
+    height: 100%;
     margin: 0;
-    list-style-type: none;
-    padding-left: 15px;
-    padding-right: 25px;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 10px;
+    position: fixed;
+    top: 0;
+    left: 0;
 
-    li {
-      width: 100%;
+    header {
       display: flex;
       align-items: center;
-      border-radius: 10px;
+      margin-bottom: 10px;
 
-      .sidebar-item {
+      h2 {
+        font-weight: 500;
+      }
+    }
+
+    ul {
+      width: 100%;
+      margin: 0;
+      list-style-type: none;
+      padding-left: 15px;
+      padding-right: 25px;
+
+      li {
         width: 100%;
         display: flex;
         align-items: center;
-        gap: 10px;
-        outline: none;
-        border: none;
-        text-decoration: none;
-        color: white;
         border-radius: 10px;
-        padding-left: 10px;
-        background-color: transparent;
 
-        &:hover {
+        .sidebar-item {
+          width: 100%;
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          outline: none;
+          border: none;
+          text-decoration: none;
+          color: white;
+          border-radius: 10px;
+          padding-left: 10px;
+          background-color: transparent;
+
+          &:hover {
+            background-color: #7ae37e;
+            cursor: pointer;
+            color: #276137;
+          }
+
+          h3 {
+            font-weight: 550;
+            font-size: 14px;
+            font-family: "Inter var", sans-serif;
+          }
+        }
+
+        .active {
           background-color: #7ae37e;
-          cursor: pointer;
           color: #276137;
         }
-
-        h3 {
-          font-weight: 550;
-          font-size: 14px;
-          font-family: "Inter var", sans-serif;
-        }
-      }
-
-      .active {
-        background-color: #7ae37e;
-        color: #276137;
       }
     }
-  }
 
-  .divider {
-    width: 60%;
+    .divider {
+      width: 60%;
+    }
   }
 }
