@@ -17,12 +17,17 @@
     </ng-template>
   </p-table>
   } @else {
-  <p-table [value]="units" styleClass="evidence-matrix real-matrix">
+  <p-table
+    [value]="units"
+    styleClass="evidence-matrix real-matrix"
+    [scrollable]="true"
+    scrollHeight="100vh"
+  >
     <ng-template pTemplate="header">
       <tr>
         @for (indicator of indicators; track indicator.index) { @if ($index ===
         0) {
-        <th [colSpan]="1"></th>
+        <th [colSpan]="1" pFrozenColumn [frozen]="true"></th>
         } @if (indicator.categories.length > 0) {
         <th [colSpan]="indicator.categories.length">
           {{ indicator.spanishAlias }}
@@ -30,7 +35,7 @@
         } }
       </tr>
       <tr>
-        <th [colSpan]="1">Unidades</th>
+        <th [colSpan]="1" pFrozenColumn [frozen]="true">Unidades</th>
         @for (indicator of indicators; track indicator.index) { @for (category
         of indicator.categories; track category.name) {
         <th [colSpan]="1">
@@ -41,7 +46,7 @@
     </ng-template>
     <ng-template pTemplate="body" let-unit>
       <tr>
-        <th pFrozenColumn>
+        <th pFrozenColumn [frozen]="true">
           {{ unit.name }}
         </th>
         @for (indicator of indicators; track indicator.index) { @for (category
@@ -49,13 +54,21 @@
         (isRecommendedCategory(unit, category.name)){
         <th class="recomended-category">
           @if (hasActivity(unit.id, category.name)) {
-          <i class="pi pi-check" style="font-size: 1.5rem" (click)="navigateToActivity(unit.id, category.name)"></i>
+          <i
+            class="pi pi-check"
+            style="font-size: 1.5rem"
+            (click)="navigateToActivity(unit.id, category.name)"
+          ></i>
           }
         </th>
         } @else {
         <th>
           @if (hasActivity(unit.id, category.name)) {
-          <i class="pi pi-check" style="font-size: 1.5rem" (click)="navigateToActivity(unit.id, category.name)"></i>
+          <i
+            class="pi pi-check"
+            style="font-size: 1.5rem"
+            (click)="navigateToActivity(unit.id, category.name)"
+          ></i>
           }
         </th>
         } } }

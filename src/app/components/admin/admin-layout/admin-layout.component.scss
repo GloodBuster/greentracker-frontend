@@ -2,8 +2,8 @@
   width: 100vw;
   display: flex;
   .admin-body {
-    width: 100%;
-    padding-right: 30px;
+    margin-left: 250px;
+    width: calc(100% - 250px);
 
     .routes {
       padding-top: 40px;

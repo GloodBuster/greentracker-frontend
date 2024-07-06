@@ -1,6 +1,5 @@
 ::ng-deep .real-matrix th,
 ::ng-deep .real-matrix td {
-  white-space: nowrap;
   text-align: center;
   border-right: 1px solid #d0d0d0;
   border-bottom: 1px solid #d0d0d0;
@@ -21,8 +20,7 @@
 }
 
 ::ng-deep .evidence-matrix {
-  max-width: 70vw;
-  max-height: 70vh;
+  max-width: 95%;
 }
 
 ::ng-deep .evidence-matrix tr {
