@@ -15,10 +15,9 @@
       styleClass="p-datatable-gridlines"
       [value]="indicatorsData"
       [tableStyle]="{ 'max-width': '90rem' }"
-      scrollable="true"
-      scrollHeight="40rem"
+      scrollable="false"
       *ngIf="loadingItems"
-      [value]="[1,2,3,4,5]"
+      [value]="[1,2,3,4,5,6,7,8,9,10]"
     >
       <ng-template pTemplate="header">
         <tr>
@@ -31,16 +30,16 @@
       <ng-template pTemplate="body" let-indicator>
         <tr>
           <td>
-            <p-skeleton />
+            <p-skeleton height="25px"/>
           </td>
           <td>
-            <p-skeleton />
+            <p-skeleton height="25px"/>
           </td>
           <td>
-            <p-skeleton />
+            <p-skeleton height="25px"/>
           </td>
           <td>
-            <p-skeleton />
+            <p-skeleton height="25px"/>
           </td>
         </tr>
       </ng-template>
@@ -50,8 +49,7 @@
         styleClass="p-datatable-gridlines"
         [value]="indicatorsData"
         [tableStyle]="{ 'max-width': '90rem' }"
-        scrollable="true"
-        scrollHeight="40rem"
+        scrollable="false"
         *ngIf="!loadingItems"
       >
         <ng-template pTemplate="header">
