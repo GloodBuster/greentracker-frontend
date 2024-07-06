@@ -84,6 +84,7 @@ export class UnidadComponent implements OnInit {
     private readonly router: Router
   ) {
     this.route.queryParams.subscribe((params) => {
+      this.loadingItems = true;
       const page = +params['page'] || 1;
       this.first = (page - 1) * this.paginationRows;
       this.unitsService.getUnits(page, this.paginationRows).subscribe({
@@ -140,6 +141,7 @@ export class UnidadComponent implements OnInit {
   }
 
   onPageChange(event: PageEvent) {
+    this.loadingItems = true;
     this.unitsService
       .getUnits(
         event.page ? event.page + 1 : 1,
@@ -149,6 +151,7 @@ export class UnidadComponent implements OnInit {
         next: (response) => {
           this.unitsData = response.data.items;
           this.totalRecords = response.data.itemCount;
+          this.loadingItems = false;
           if (event.rows) this.paginationRows = event.rows;
           if (event.first) this.first = event.first;
 
@@ -160,6 +163,7 @@ export class UnidadComponent implements OnInit {
         },
         error: (error: CustomHttpErrorResponse) => {
           console.error(error);
+          this.loadingItems = false;
         },
       });
   }

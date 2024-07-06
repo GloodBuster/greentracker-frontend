@@ -45,6 +45,7 @@ export class IndicadorComponent {
     private readonly router: Router
   ) { 
     this.route.queryParams.subscribe((params) => {
+      this.loadingItems = true;
       const page = +params['page'] || 1;
       this.first = (page - 1) * this.paginationRows;
       this.indicatorService.getIndicators(page, this.paginationRows).subscribe({
@@ -92,12 +93,14 @@ export class IndicadorComponent {
     this.indicatorsData.splice(indexDelete, 1);
   }
   onPageChange(event: PageEvent) {
+    this.loadingItems = true;
     this.indicatorService
       .getIndicators(event.page ? event.page + 1 : 1, event.rows ? event.rows : this.paginationRows)
       .subscribe({
         next: (response) => {
           this.indicatorsData = response.data.items;
           this.totalRecords = response.data.itemCount;
+          this.loadingItems = false;
           if (event.rows) this.paginationRows = event.rows;
           if (event.first) this.first = event.first;
   
@@ -109,6 +112,7 @@ export class IndicadorComponent {
         },
         error: (error: CustomHttpErrorResponse) => {
           console.error(error);
+          this.loadingItems = false
         },
       });
   }

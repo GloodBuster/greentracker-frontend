@@ -69,6 +69,7 @@ export class CriteriaComponent {
       const page = +params['page'] || 1;
       this.first = (page - 1) * this.paginationRows;
       this.indicatorIndex = +params['index'];
+      this.loadingItems = true;
 
       this.criteriaService.getAllIndicators().subscribe({
         next: (response) => {
@@ -163,11 +164,12 @@ export class CriteriaComponent {
   }
 
   onPageChange(event: PageEvent) {
-  
+  this.loadingItems = true;
     this.criteriaService
       .getCriteriaByIndex(this.indicatorIndex, event.page ? event.page + 1 : 1)
       .subscribe({
         next: (response) => {
+          this.loadingItems = false;
           this.criteria = response.data.items;
           this.totalRecords = response.data.itemCount;
           if (event.rows) this.paginationRows = event.rows;
@@ -186,6 +188,7 @@ export class CriteriaComponent {
           } else {
             this.toastService.error('Ha ocurrido un error inesperado');
           }
+          this.loadingItems = false;
         },
       });
   }

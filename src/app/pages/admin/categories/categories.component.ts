@@ -76,6 +76,7 @@ export class CategoriesComponent {
     private readonly criteriaService: CriteriaService
   ) {
     this.route.queryParams.subscribe((params) => {
+      this.loadingItems = true;
       const page = +params['page'] || 1;
       this.first = (page - 1) * this.paginationRows;
       this.indicatorIndex = +params['index'];
