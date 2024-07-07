@@ -19,6 +19,6 @@ jobs:
             export PATH="$PATH:/root/.nvm/versions/node/v22.2.0/bin/"
             cd /var/www/greentracker-frontend
             git pull
-            npm run install
+            npm install
             npm run build
             pm2 restart tracker-frontend && kill $!
