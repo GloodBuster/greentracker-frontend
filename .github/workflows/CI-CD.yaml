@@ -21,4 +21,4 @@ jobs:
             git pull
             npm install
             npm run build
-            pm2 restart tracker-frontend && kill $!
+            pm2 restart tracker-frontend
