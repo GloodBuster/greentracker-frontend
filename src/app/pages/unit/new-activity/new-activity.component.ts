@@ -29,6 +29,7 @@ import { ActivitiesService } from '../../../services/activities/activities.servi
 import { Router } from '@angular/router';
 import { routes } from '../../../routes';
 import { IndicatorDetails } from '../../../interfaces/indicator/indicator';
+import { TooltipModule } from 'primeng/tooltip';
 
 @Component({
   selector: 'app-new-activity',
@@ -43,6 +44,7 @@ import { IndicatorDetails } from '../../../interfaces/indicator/indicator';
     InputTextModule,
     DropdownModule,
     InputTextareaModule,
+    TooltipModule
   ],
   templateUrl: './new-activity.component.html',
   styleUrl: './new-activity.component.scss',

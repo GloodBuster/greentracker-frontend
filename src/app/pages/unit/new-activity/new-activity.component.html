@@ -23,7 +23,13 @@
         optionGroupLabel="spanishAlias"
         optionGroupChildren="categories"
         styleClass="new-activity-category-dropdown"
-      ></p-dropdown>
+      >
+      <ng-template let-category pTemplate="item">
+        <div pTooltip="{{category.helpText}}" tooltipPosition="right" >
+          {{category.name}}
+        </div>      
+    </ng-template>
+    </p-dropdown>
       <textarea
         pInputTextarea
         formControlName="summary"
