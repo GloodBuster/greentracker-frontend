@@ -2,13 +2,12 @@
   width: 100vw;
   display: flex;
   .admin-body {
-    width: 100%;
-    padding-right: 30px;
+    flex: 1;
+    padding: 0px 30px;
 
     .routes {
+      width: 100%;
       padding-top: 40px;
-      padding-left: 30px;
-      flex-grow: 1;
     }
   }
 }

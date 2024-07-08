@@ -20,7 +20,16 @@
 }
 
 ::ng-deep .evidence-matrix {
+  width: 100%;
   max-width: 100%;
+}
+
+::ng-deep .real-matrix {
+  width: calc(100vw - 320px);
+}
+
+section {
+  width: 100%;
 }
 
 ::ng-deep .evidence-matrix tr {
