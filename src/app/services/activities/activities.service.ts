@@ -87,40 +87,26 @@ export class ActivitiesService {
     );
   }
 
-  getMyActivities(): Observable<PaginatedResponse<Activity>> {
-    return this.http.get<PaginatedResponse<Activity>>(
-      `${this.BASE_URL}/units/me/activities`
-    );
-  }
-
-  getMyActivity(activityId: string): Observable<Response<UnitActivity>> {
-    return this.http.get<Response<UnitActivity>>(
-      `${this.BASE_URL}/units/me/activities/${activityId}`
-    );
-  }
-
-  createUnitActivity(
-    activity: ActivityForm
-  ): Observable<Response<UnitActivity>> {
-    return this.http.post<Response<UnitActivity>>(
-      `${this.BASE_URL}/units/me/activities`,
+  createActivity(activity: ActivityForm): Observable<Response<Activity>> {
+    return this.http.post<Response<Activity>>(
+      `${this.BASE_URL}/activities`,
       activity
     );
   }
 
-  updateMyActivity(
+  updateActivity(
     activityId: string,
     activity: ActivityForm
-  ): Observable<Response<UnitActivity>> {
-    return this.http.put<Response<UnitActivity>>(
-      `${this.BASE_URL}/units/me/activities/${activityId}`,
+  ): Observable<Response<Activity>> {
+    return this.http.put<Response<Activity>>(
+      `${this.BASE_URL}/activities/${activityId}`,
       activity
     );
   }
 
-  deleteMyActivity(activityId: string): Observable<Response<UnitActivity>> {
-    return this.http.delete<Response<UnitActivity>>(
-      `${this.BASE_URL}/units/me/activities/${activityId}`
+  deleteActivity(activityId: string): Observable<Response<Activity>> {
+    return this.http.delete<Response<Activity>>(
+      `${this.BASE_URL}/activities/${activityId}`
     );
   }
 }

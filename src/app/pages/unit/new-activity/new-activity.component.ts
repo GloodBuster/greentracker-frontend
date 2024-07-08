@@ -30,6 +30,7 @@ import { Router } from '@angular/router';
 import { routes } from '../../../routes';
 import { IndicatorDetails } from '../../../interfaces/indicator/indicator';
 import { TooltipModule } from 'primeng/tooltip';
+import { AuthService } from '../../../services/auth/auth.service';
 
 @Component({
   selector: 'app-new-activity',
@@ -44,7 +45,7 @@ import { TooltipModule } from 'primeng/tooltip';
     InputTextModule,
     DropdownModule,
     InputTextareaModule,
-    TooltipModule
+    TooltipModule,
   ],
   templateUrl: './new-activity.component.html',
   styleUrl: './new-activity.component.scss',
@@ -52,6 +53,7 @@ import { TooltipModule } from 'primeng/tooltip';
 export class NewActivityComponent {
   evidences: (ImageEvidence | LinkEvidence | DocumentEvidence)[] = [];
   indicators: IndicatorDetails[] = [];
+  unitId = '';
   activityForm = new FormGroup({
     name: new FormControl<string>('', {
       nonNullable: true,
@@ -74,8 +76,15 @@ export class NewActivityComponent {
     private readonly indicatorService: IndicatorService,
     private readonly toastService: ToastrService,
     private readonly activitiesService: ActivitiesService,
+    private readonly authService: AuthService,
     private readonly router: Router
   ) {
+    this.authService.getMe().subscribe({
+      next: (response) => {
+        this.unitId = response.data.id;
+      },
+      error: (error) => {},
+    });
     this.indicatorService.getAllIndicators().subscribe({
       next: (response) => {
         this.indicators = response.data.filter(
@@ -137,11 +146,12 @@ export class NewActivityComponent {
           )
         )?.index ?? 0;
       this.activitiesService
-        .createUnitActivity({
+        .createActivity({
           name: this.activityForm.value.name ?? '',
           summary: this.activityForm.value.summary ?? '',
           indicatorIndex,
           categoryName: this.activityForm.value.category?.name ?? '',
+          unitId: this.unitId,
         })
         .subscribe({
           next: (response) => {

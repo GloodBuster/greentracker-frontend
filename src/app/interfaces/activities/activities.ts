@@ -28,6 +28,7 @@ export interface ActivityForm {
   summary: string;
   indicatorIndex: number;
   categoryName: string;
+  unitId: string;
 }
 
 export interface UnitActivity {

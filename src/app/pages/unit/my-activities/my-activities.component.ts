@@ -7,13 +7,15 @@ import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { SkeletonModule } from 'primeng/skeleton';
 import { routes } from '../../../routes';
+import { AuthService } from '../../../services/auth/auth.service';
+import { CustomHttpErrorResponse } from '../../../interfaces/responses/error';
 
 @Component({
   selector: 'app-my-activities',
   standalone: true,
   imports: [CardModule, CommonModule, SkeletonModule],
   templateUrl: './my-activities.component.html',
-  styleUrl: './my-activities.component.scss'
+  styleUrl: './my-activities.component.scss',
 })
 export class MyActivitiesComponent {
   activities: Activity[] = [];
@@ -22,17 +24,31 @@ export class MyActivitiesComponent {
 
   constructor(
     private readonly activitiesService: ActivitiesService,
+    private readonly authService: AuthService,
     private readonly router: Router
   ) {
-    this.activitiesService.getMyActivities().subscribe({
+    this.authService.getMe().subscribe({
       next: (response) => {
-        this.loadingItems = false;
-        this.activities = response.data.items;
+        this.activitiesService
+          .getFilteredActivities({ unitId: response.data.id })
+          .subscribe({
+            next: (response) => {
+              this.loadingItems = false;
+              this.activities = response.data.items;
+            },
+            error: (error: CustomHttpErrorResponse) => {
+              this.loadingItems = false;
+              if (error.error.statusCode === 500) {
+                this.toastService.error(
+                  'Ha ocurrido un error al cargar las actividades'
+                );
+              } else {
+                this.toastService.error(error.error.message);
+              }
+            },
+          });
       },
-      error: (error) => {
-        this.loadingItems = false;
-        this.toastService.error('Ha ocurrido un error al cargar las actividades');
-      }
+      error: (error: CustomHttpErrorResponse) => {},
     });
   }
   navigateToTheActivity(activityId: string): void {
