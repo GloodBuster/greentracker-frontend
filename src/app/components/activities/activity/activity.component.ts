@@ -46,30 +46,7 @@ export class ActivityComponent {
         this.activity = response.data;
         this.loadingItems = false;
 
-        this.activity.evidence.push(
-          {
-            evidenceNumber: 1,
-            link: "https://example1.com",
-            description: "Descripción de prueba 1",
-            uploadTimestamp: new Date().toISOString(),
-            type: "image",
-            linkToRelatedResource: "https://relatedresource1.com"
-          },
-          {
-            evidenceNumber: 2,
-            link: "https://example2.com",
-            description: "Descripción de prueba 2",
-            uploadTimestamp: new Date().toISOString(),
-            type: "document"
-          },
-          {
-            evidenceNumber: 3,
-            link: "https://example3.com",
-            description: "Descripción de prueba 3",
-            uploadTimestamp: new Date().toISOString(),
-            type: "link"
-          });
-        this.evidenceItems = this.activity.evidence.map(evidence => {
+        this.evidenceItems = this.activity.evidences.map(evidence => {
           return evidence;
         });
       },

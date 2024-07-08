@@ -8,7 +8,7 @@ export interface Activity {
   categoryName: string;
   unitId: string;
   uploadTimestamp: string;
-  evidence: Evidence[];
+  evidences: Evidence[];
 }
 
 export interface Units {
