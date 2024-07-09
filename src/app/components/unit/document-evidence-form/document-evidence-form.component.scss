@@ -60,6 +60,11 @@ form {
     align-items: center;
     background-color: #f5f5f5;
 
+    &:hover {
+      cursor: pointer;
+      background-color: #e3e3e3;
+    }
+
     i {
       color: #7e7e7e;
       font-size: 3rem;
