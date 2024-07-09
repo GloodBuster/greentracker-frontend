@@ -43,33 +43,33 @@ export class ActivitiesService {
     indicatorIndex,
     categoryName,
   }: ActivitiesFilters): Observable<PaginatedResponse<Activity>> {
-    const params = new HttpParams();
+    let params = new HttpParams();
     if (pageIndex) {
-      params.set('pageIndex', pageIndex.toString());
+      params = params.set('pageIndex', pageIndex.toString());
     }
     if (itemsPerPage) {
-      params.set('itemsPerPage', itemsPerPage.toString());
+      params = params.set('itemsPerPage', itemsPerPage.toString());
     }
     if (id) {
-      params.set('id', id);
+      params = params.set('id', id);
     }
     if (name) {
-      params.set('name', name);
+      params = params.set('name', name);
     }
     if (summary) {
-      params.set('summary', summary);
+      params = params.set('summary', summary);
     }
     if (uploadTimestamp) {
-      params.set('uploadTimestamp', uploadTimestamp);
+      params = params.set('uploadTimestamp', uploadTimestamp);
     }
     if (unitId) {
-      params.set('unitId', unitId);
+      params = params.set('unitId', unitId);
     }
     if (indicatorIndex) {
-      params.set('indicatorIndex', indicatorIndex.toString());
+      params = params.set('indicatorIndex', indicatorIndex.toString());
     }
     if (categoryName) {
-      params.set('categoryName', categoryName);
+      params = params.set('categoryName', categoryName);
     }
     return this.http.get<PaginatedResponse<Activity>>(
       `${this.BASE_URL}/activities`,
