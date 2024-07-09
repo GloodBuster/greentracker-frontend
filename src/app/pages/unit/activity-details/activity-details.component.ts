@@ -97,6 +97,7 @@ export class ActivityDetailsComponent {
   loading = false;
   visibleDelete = false;
   deleteLoading = false;
+  dropdownLoading = false;
 
   constructor(
     private readonly indicatorService: IndicatorService,
@@ -107,6 +108,7 @@ export class ActivityDetailsComponent {
     private readonly route: ActivatedRoute,
     private confirmationService: ConfirmationService
   ) {
+    this.dropdownLoading = true;
     this.authService.getMe().subscribe({
       next: (response) => {
         this.unitId = response.data.id;
@@ -118,8 +120,10 @@ export class ActivityDetailsComponent {
         this.indicators = removeCriteriaFromIndicatorCategories(
           response.data.filter((indicator) => indicator.categories.length > 0)
         );
+        this.dropdownLoading = false;
       },
       error: (error: CustomHttpErrorResponse) => {
+        this.dropdownLoading = false;
         if (error.error.statusCode === 500) {
           this.toastService.error(
             'Ha ocurrido un error el cargar las categorías '
