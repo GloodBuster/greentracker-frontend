@@ -31,6 +31,8 @@ import { routes } from '../../../routes';
 import { IndicatorDetails } from '../../../interfaces/indicator/indicator';
 import { TooltipModule } from 'primeng/tooltip';
 import { AuthService } from '../../../services/auth/auth.service';
+import { EvidencesService } from '../../../services/evidences/evidences.service';
+import { catchError, forkJoin, of, tap } from 'rxjs';
 
 @Component({
   selector: 'app-new-activity',
@@ -78,6 +80,7 @@ export class NewActivityComponent {
     private readonly toastService: ToastrService,
     private readonly activitiesService: ActivitiesService,
     private readonly authService: AuthService,
+    private readonly evidencesService: EvidencesService,
     private readonly router: Router
   ) {
     this.dropdownLoading = true;
@@ -149,6 +152,15 @@ export class NewActivityComponent {
               category.name === this.activityForm.value.category?.name
           )
         )?.index ?? 0;
+      const imageEvidences = this.evidences.filter(
+        (evidence) => evidence.value.type === 'image'
+      ) as ImageEvidence[];
+      const documentEvidences = this.evidences.filter(
+        (evidence) => evidence.value.type === 'document'
+      ) as DocumentEvidence[];
+      const linkEvidences = this.evidences.filter(
+        (evidence) => evidence.value.type === 'link'
+      ) as LinkEvidence[];
       this.activitiesService
         .createActivity({
           name: this.activityForm.value.name ?? '',
@@ -160,7 +172,78 @@ export class NewActivityComponent {
         .subscribe({
           next: (response) => {
             this.toastService.success('Actividad creada con éxito');
-            this.router.navigate([routes.unitActivities]);
+            this.toastService.info('Cargando evidencias');
+
+            const activityId = response.data.id;
+
+            const imageEvidenceObservables = imageEvidences.map(
+              (evidence, index) =>
+                this.evidencesService
+                  .createImageEvidence(activityId, evidence)
+                  .pipe(
+                    tap(() => {
+                      this.toastService.success(
+                        `Imagen ${index + 1} cargada con éxito`
+                      );
+                    }),
+                    catchError((error: CustomHttpErrorResponse) => {
+                      this.toastService.error(
+                        `Ha ocurrida un error al cargar la imágen ${index + 1}`
+                      );
+                      return of(null); // Return a null observable to continue the forkJoin
+                    })
+                  )
+            );
+            const documentEvidenceObservables = documentEvidences.map(
+              (evidence, index) =>
+                this.evidencesService
+                  .createDocumentEvidence(activityId, evidence)
+                  .pipe(
+                    tap(() => {
+                      this.toastService.success(
+                        `Documento ${index + 1} cargado con éxito`
+                      );
+                    }),
+                    catchError((error: CustomHttpErrorResponse) => {
+                      this.toastService.error(
+                        `Ha ocurrida un error al cargar el documento ${
+                          index + 1
+                        }`
+                      );
+                      return of(null); // Return a null observable to continue the forkJoin
+                    })
+                  )
+            );
+            const linkEvidenceObservables = linkEvidences.map(
+              (evidence, index) =>
+                this.evidencesService
+                  .createLinkEvidence(activityId, evidence)
+                  .pipe(
+                    tap(() => {
+                      this.toastService.success(
+                        `Link ${index + 1} cargado con éxito`
+                      );
+                    }),
+                    catchError((error: CustomHttpErrorResponse) => {
+                      this.toastService.error(
+                        `Ha ocurrida un error al cargar el link ${index + 1}`
+                      );
+                      return of(null); // Return a null observable to continue the forkJoin
+                    })
+                  )
+            );
+
+            const allEvidenceObservables = [
+              ...imageEvidenceObservables,
+              ...documentEvidenceObservables,
+              ...linkEvidenceObservables,
+            ];
+
+            forkJoin(allEvidenceObservables).subscribe({
+              next: () => {
+                this.router.navigate([routes.unitActivities]);
+              },
+            });
           },
           error: (error: CustomHttpErrorResponse) => {
             if (error.error.statusCode === 500) {
