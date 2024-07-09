@@ -30,7 +30,7 @@ export class MyActivitiesComponent {
     this.authService.getMe().subscribe({
       next: (response) => {
         this.activitiesService
-          .getFilteredActivities({ unitId: response.data.id })
+          .getFilteredActivities({ unitId: response.data.id, itemsPerPage: 10000 })
           .subscribe({
             next: (response) => {
               this.loadingItems = false;
