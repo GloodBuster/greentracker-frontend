@@ -58,19 +58,17 @@ export class DocumentEvidenceComponent {
   selectFeedback(icon: string) {
     this.selectedFeedback = icon;
     if (this.activityId && this.selectedFeedback !== '') {
-      console.log(this.selectedFeedback)
       this.activitiesService.createEvidenceFeedback(this.activityId, this.evidence.evidenceNumber, this.selectedFeedback).subscribe({
         next: (response) => {
           this.toastService.success('Feedback enviado');
         },
         error: (error) => {
           this.toastService.error('Ha ocurrido un error inesperado');
-          console.log(error)
         }
       });
     }
   }
-  
+
   openFile() {
     window.open('http://149.50.140.48' + this.evidence.link, '_blank');
   }

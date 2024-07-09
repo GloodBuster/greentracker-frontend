@@ -9,6 +9,8 @@ import { TagModule } from 'primeng/tag';
 import { TooltipModule } from 'primeng/tooltip';
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
+import { ActivitiesService } from '../../../../services/activities/activities.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-image-evidence',
@@ -22,12 +24,21 @@ export class ImageEvidenceComponent {
   toastService = inject(ToastrService);
   selectedFeedback = '';
   imageSize: number = 0;
+  activityId: string | undefined = undefined;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private readonly route: ActivatedRoute, private readonly activitiesService: ActivitiesService) {}
 
   ngOnInit() {
     const fullUrl = 'http://149.50.140.48' + this.evidence.link;
     this.getImageSize(fullUrl);
+
+    if (this.evidence && this.evidence.feedbacks.length > 0) {
+      this.selectedFeedback = this.evidence.feedbacks[this.evidence.feedbacks.length - 1].feedback;
+    }
+
+    this.route.queryParams.subscribe((params) => {
+      this.activityId = params['activityId'];
+    });
   }
 
   getImageSize(url: string) {
@@ -45,6 +56,16 @@ export class ImageEvidenceComponent {
   }
   selectFeedback(icon: string) {
     this.selectedFeedback = icon;
+    if (this.activityId && this.selectedFeedback !== '') {
+      this.activitiesService.createEvidenceFeedback(this.activityId, this.evidence.evidenceNumber, this.selectedFeedback).subscribe({
+        next: (response) => {
+          this.toastService.success('Feedback enviado');
+        },
+        error: (error) => {
+          this.toastService.error('Ha ocurrido un error inesperado');
+        }
+      });
+    }
   }
 
 }
