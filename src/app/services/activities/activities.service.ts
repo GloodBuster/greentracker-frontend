@@ -9,6 +9,8 @@ import {
 import {
   Activity,
   ActivityForm,
+  Feedback,
+  FeedbackEnum,
   UnitActivity,
   Units,
 } from '../../interfaces/activities/activities';
@@ -107,6 +109,13 @@ export class ActivitiesService {
   deleteActivity(activityId: string): Observable<Response<Activity>> {
     return this.http.delete<Response<Activity>>(
       `${this.BASE_URL}/activities/${activityId}`
+    );
+  }
+
+  createEvidenceFeedback(activityId: string, evidenceNumber: number, feedback: string): Observable<Response<Feedback>> {
+    return this.http.post<Response<Feedback>>(
+      `${this.BASE_URL}/activity/${activityId}/evidence/${evidenceNumber}/feedback`,
+      { feedback }
     );
   }
 }
