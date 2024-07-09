@@ -70,4 +70,8 @@ export class DocumentEvidenceComponent {
       });
     }
   }
+  
+  openFile() {
+    window.open('http://149.50.140.48' + this.evidence.link, '_blank');
+  }
 }
