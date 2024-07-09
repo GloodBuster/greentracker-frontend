@@ -51,7 +51,11 @@
     <p-fileUpload
       [multiple]="false"
       accept="image/*"
-      maxFileSize="1000000"
+      [maxFileSize]="limitFileSize"
+      invalidFileSizeMessageSummary="Imágen muy pesada"
+      invalidFileSizeMessageDetail="Menos de {{
+        limitFileSize / 1024 / 1024
+      }}MB"
       (onSelect)="onUpload($event)"
       [styleClass]="
         file
@@ -86,7 +90,7 @@
               [src]="objectURL ?? ''"
               alt="image"
               [preview]="true"
-              [imageStyle]="{'object-fit': 'cover', 'max-width': '100%'}"
+              [imageStyle]="{ 'object-fit': 'cover', 'max-width': '100%' }"
               styleClass="evidence-image"
             />
           </div>

@@ -34,7 +34,7 @@ export interface UploadEvent {
     FileUploadModule,
     DialogModule,
     ButtonModule,
-    ImageModule
+    ImageModule,
   ],
   templateUrl: './image-evidence-form.component.html',
   styleUrl: './image-evidence-form.component.scss',
@@ -58,6 +58,7 @@ export class ImageEvidenceFormComponent implements OnChanges {
   visibleDelete = false;
   file: File | null = null;
   objectURL: string | null = null;
+  limitFileSize = 10 * 1024 * 1024;
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['imageForm'] && changes['imageForm'].currentValue) {
@@ -84,7 +85,11 @@ export class ImageEvidenceFormComponent implements OnChanges {
   }
 
   onUpload(event: UploadEvent) {
-    if (event.files && event.files[0]) {
+    if (
+      event.files &&
+      event.files[0] &&
+      event.files[0].size <= this.limitFileSize
+    ) {
       this.revokeObjectURL(); // Clean up any existing object URL
       this.file = event.files[0];
       this.imageForm.controls.file.setValue(this.file);
