@@ -4,17 +4,19 @@
   </div>
   <div class="container">
     <div class="container2">
-      <img
-        src="../../../../../assets/activities/activity-image.png"
-        width="155px"
-        style="border-radius: 10px"
-      />
+      <div class="image-container">
+        <p-image
+  [src]="'http://149.50.140.48' + evidence.link"
+  alt="image"
+  [preview]="true"
+  [imageStyle]="{'object-fit': 'cover', 'max-width': '100%'}"
+/>
+      </div>
       <div class="container3">
-        <p class="text">Hola.jpg</p>
-        <span style="margin-top: -10px">5.59 KB</span>
+        <span style="margin-top: 10px">{{ (imageSize / 1024) | number:'1.2-2' }} KB</span>
       </div>
     </div>
-    <div class="container2" style="margin-left: 8px; width: 100%;">
+    <div class="container4" style="margin-left: 8px; width: 100%;">
       <p style="margin-top: -5px">
         <span class="text">Descripción: </span>{{ evidence.description }}
       </p>
