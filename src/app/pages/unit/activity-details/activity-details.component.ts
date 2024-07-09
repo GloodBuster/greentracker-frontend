@@ -35,6 +35,9 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { DialogModule } from 'primeng/dialog';
 import { urlToFile } from '../../../utils/files';
 import { AuthService } from '../../../services/auth/auth.service';
+import { Evidence } from '../../../interfaces/evidences/evidences';
+import { environment } from '../../../../environments/environment';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 
 const removeCriteriaFromIndicatorCategories = (
   indicators: IndicatorDetails[]
@@ -68,6 +71,7 @@ const removeCriteriaFromIndicatorCategories = (
     ConfirmPopupModule,
     ToastModule,
     DialogModule,
+    ProgressSpinnerModule,
   ],
   templateUrl: './activity-details.component.html',
   styleUrl: './activity-details.component.scss',
@@ -98,6 +102,7 @@ export class ActivityDetailsComponent {
   visibleDelete = false;
   deleteLoading = false;
   dropdownLoading = false;
+  chargingEvidences = false;
 
   constructor(
     private readonly indicatorService: IndicatorService,
@@ -137,6 +142,7 @@ export class ActivityDetailsComponent {
       if (params) {
         const activityId = params['activityId'];
         this.activityId = activityId;
+        this.chargingEvidences = true;
         this.activitiesService.getActivityById(activityId).subscribe({
           next: (response) => {
             this.activityForm.controls.name.setValue(response.data.name);
@@ -144,6 +150,13 @@ export class ActivityDetailsComponent {
             this.activityForm.controls.category.setValue({
               name: response.data.categoryName,
               criteria: [],
+            });
+            if (response.data.evidences.length === 0)
+              this.chargingEvidences = false;
+            this.chargeEvidences(response.data.evidences).then((evidences) => {
+              this.evidences = evidences;
+              this.chargingEvidences = false;
+              this.scrollToTop();
             });
           },
           error: (error: CustomHttpErrorResponse) => {
@@ -158,6 +171,38 @@ export class ActivityDetailsComponent {
         });
       }
     });
+  }
+
+  async chargeEvidences(
+    evidences: Evidence[]
+  ): Promise<(ImageEvidence | LinkEvidence | DocumentEvidence)[]> {
+    const results = await Promise.all(
+      evidences.map(async (evidence) => {
+        if (evidence.type === 'image') {
+          return getImageEvidenceForm(
+            await urlToFile(environment.BASE_URL + evidence.link),
+            evidence.description,
+            evidence.linkToRelatedResource
+          );
+        } else if (evidence.type === 'link') {
+          return getLinkEvidenceForm(
+            environment.BASE_URL + evidence.link,
+            evidence.description
+          );
+        } else if (evidence.type === 'document') {
+          return getDocumentEvidenceForm(
+            await urlToFile(environment.BASE_URL + evidence.link),
+            evidence.description
+          );
+        }
+        return undefined;
+      })
+    );
+    return results.filter((result) => result !== undefined) as (
+      | ImageEvidence
+      | LinkEvidence
+      | DocumentEvidence
+    )[];
   }
 
   addImageEvidence() {

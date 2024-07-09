@@ -118,13 +118,22 @@
       <button
         class="p-button add-button"
         (click)="newActivityEvidenceOptions.toggle($event)"
+        [disabled]="chargingEvidences"
       >
         <i class="pi pi-plus-circle" style="font-size: 1.2rem"></i>
         {{ " Crear" }}
       </button>
     </div>
     <div class="evidences-container" id="topOfPage">
-      @for (evidence of evidences; track $index){ @if (evidence.value.type ===
+      @if (chargingEvidences){
+      <div class="spiner-container">
+        <p-progressSpinner
+          strokeWidth="4"
+          animationDuration="2s"
+          [style]="{ width: '70px', height: '70px' }"
+        />
+      </div>
+      } @for (evidence of evidences; track $index){ @if (evidence.value.type ===
       'link') {
       <link-evidence-form
         [linkForm]="$any(evidence)"
