@@ -38,6 +38,9 @@ import { AuthService } from '../../../services/auth/auth.service';
 import { Evidence } from '../../../interfaces/evidences/evidences';
 import { environment } from '../../../../environments/environment';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { EvidencesService } from '../../../services/evidences/evidences.service';
+import { catchError, forkJoin, of, tap } from 'rxjs';
+import { SkeletonModule } from 'primeng/skeleton';
 
 const removeCriteriaFromIndicatorCategories = (
   indicators: IndicatorDetails[]
@@ -72,6 +75,7 @@ const removeCriteriaFromIndicatorCategories = (
     ToastModule,
     DialogModule,
     ProgressSpinnerModule,
+    SkeletonModule,
   ],
   templateUrl: './activity-details.component.html',
   styleUrl: './activity-details.component.scss',
@@ -79,6 +83,9 @@ const removeCriteriaFromIndicatorCategories = (
 })
 export class ActivityDetailsComponent {
   evidences: (ImageEvidence | LinkEvidence | DocumentEvidence)[] = [];
+  activityEvidences: Evidence[] = [];
+  newEvidences: number[] = [];
+  evidencesToDelete: { number: number; type: string }[] = [];
   indicators: IndicatorDetails[] = [];
   activityId = '';
   unitId = '';
@@ -103,17 +110,20 @@ export class ActivityDetailsComponent {
   deleteLoading = false;
   dropdownLoading = false;
   chargingEvidences = false;
+  chargingActivity = false;
 
   constructor(
     private readonly indicatorService: IndicatorService,
     private readonly toastService: ToastrService,
     private readonly activitiesService: ActivitiesService,
     private readonly authService: AuthService,
+    private readonly evidencesService: EvidencesService,
     private readonly router: Router,
     private readonly route: ActivatedRoute,
     private confirmationService: ConfirmationService
   ) {
     this.dropdownLoading = true;
+    this.chargingActivity = true;
     this.authService.getMe().subscribe({
       next: (response) => {
         this.unitId = response.data.id;
@@ -151,9 +161,12 @@ export class ActivityDetailsComponent {
               name: response.data.categoryName,
               criteria: [],
             });
+            this.chargingActivity = false;
             if (response.data.evidences.length === 0)
               this.chargingEvidences = false;
-            this.chargeEvidences(response.data.evidences).then((evidences) => {
+            const evidences = response.data.evidences;
+            this.activityEvidences = evidences;
+            this.chargeEvidences(evidences).then((evidences) => {
               this.evidences = evidences;
               this.chargingEvidences = false;
               this.scrollToTop();
@@ -185,10 +198,7 @@ export class ActivityDetailsComponent {
             evidence.linkToRelatedResource
           );
         } else if (evidence.type === 'link') {
-          return getLinkEvidenceForm(
-            environment.BASE_URL + evidence.link,
-            evidence.description
-          );
+          return getLinkEvidenceForm(evidence.link, evidence.description);
         } else if (evidence.type === 'document') {
           return getDocumentEvidenceForm(
             await urlToFile(environment.BASE_URL + evidence.link),
@@ -207,20 +217,40 @@ export class ActivityDetailsComponent {
 
   addImageEvidence() {
     this.evidences.push(getImageEvidenceForm());
+    this.newEvidences.push(this.evidences.length - 1);
     this.scrollToTop();
   }
 
   addLinkEvidence() {
     this.evidences.push(getLinkEvidenceForm());
+    this.newEvidences.push(this.evidences.length - 1);
     this.scrollToTop();
   }
 
   addDocumentEvidence() {
     this.evidences.push(getDocumentEvidenceForm());
+    this.newEvidences.push(this.evidences.length - 1);
     this.scrollToTop();
   }
 
   removeEvidence(index: number) {
+    if (this.newEvidences.includes(index)) {
+      this.newEvidences = this.newEvidences.filter((newEvidence) => {
+        return newEvidence !== index;
+      });
+    } else {
+      this.evidencesToDelete.push({
+        number: this.activityEvidences[index].evidenceNumber,
+        type: this.activityEvidences[index].type,
+      });
+      this.newEvidences = this.newEvidences.map((newEvidence) => {
+        return newEvidence - 1;
+      });
+      this.activityEvidences = [
+        ...this.activityEvidences.slice(0, index),
+        ...this.activityEvidences.slice(index + 1),
+      ];
+    }
     this.evidences = [
       ...this.evidences.slice(0, index),
       ...this.evidences.slice(index + 1),
@@ -281,7 +311,7 @@ export class ActivityDetailsComponent {
     });
   }
 
-  createActivity() {
+  saveChanges() {
     if (this.activityForm.valid && this.validEvidences) {
       this.loading = true;
       const indicatorIndex =
@@ -291,6 +321,7 @@ export class ActivityDetailsComponent {
               category.name === this.activityForm.value.category?.name
           )
         )?.index ?? 0;
+      this.toastService.info('Actualizando información de la actividad');
       this.activitiesService
         .updateActivity(this.activityId, {
           name: this.activityForm.value.name ?? '',
@@ -301,8 +332,208 @@ export class ActivityDetailsComponent {
         })
         .subscribe({
           next: (response) => {
-            this.toastService.success('Actividad guardada con éxito');
-            this.router.navigate([routes.unitActivities]);
+            const activityId = response.data.id;
+            this.toastService.info('Guardando los cambios en las evidencias');
+            const newEvidences = this.newEvidences.map((evidence) => {
+              if (this.evidences[evidence].value.type === 'image') {
+                return this.evidencesService
+                  .createImageEvidence(
+                    activityId,
+                    this.evidences[evidence] as ImageEvidence
+                  )
+                  .pipe(
+                    tap(() => {}),
+                    catchError((error: CustomHttpErrorResponse) => {
+                      if (error.error.statusCode === 500) {
+                        this.toastService.error(
+                          `Ha ocurrida un error al agregar una evidencia`
+                        );
+                      } else {
+                        this.toastService.error(error.error.message);
+                      }
+                      return of(null); // Return a null observable to continue the forkJoin
+                    })
+                  );
+              }
+              if (this.evidences[evidence].value.type === 'link') {
+                return this.evidencesService
+                  .createLinkEvidence(
+                    activityId,
+                    this.evidences[evidence] as LinkEvidence
+                  )
+                  .pipe(
+                    tap(() => {}),
+                    catchError((error: CustomHttpErrorResponse) => {
+                      if (error.error.statusCode === 500) {
+                        this.toastService.error(
+                          `Ha ocurrida un error al agregar una evidencia`
+                        );
+                      } else {
+                        this.toastService.error(error.error.message);
+                      }
+                      return of(null); // Return a null observable to continue the forkJoin
+                    })
+                  );
+              }
+              if (this.evidences[evidence].value.type === 'document') {
+                return this.evidencesService
+                  .createDocumentEvidence(
+                    activityId,
+                    this.evidences[evidence] as DocumentEvidence
+                  )
+                  .pipe(
+                    tap(() => {}),
+                    catchError((error: CustomHttpErrorResponse) => {
+                      if (error.error.statusCode === 500) {
+                        this.toastService.error(
+                          `Ha ocurrida un error al agregar una evidencia`
+                        );
+                      } else {
+                        this.toastService.error(error.error.message);
+                      }
+                      return of(null); // Return a null observable to continue the forkJoin
+                    })
+                  );
+              }
+              return of(null);
+            });
+
+            const deletedEvidences = this.evidencesToDelete.map((evidence) => {
+              if (evidence.type === 'image') {
+                return this.evidencesService
+                  .deleteImageEvidence(activityId, evidence.number)
+                  .pipe(
+                    tap(() => {}),
+                    catchError((error: CustomHttpErrorResponse) => {
+                      if (error.error.statusCode === 500) {
+                        this.toastService.error(
+                          `Ha ocurrida un error al eliminar una evidencia`
+                        );
+                      } else {
+                        this.toastService.error(error.error.message);
+                      }
+                      return of(null); // Return a null observable to continue the forkJoin
+                    })
+                  );
+              }
+              if (evidence.type === 'link') {
+                return this.evidencesService
+                  .deleteLinkEvidence(activityId, evidence.number)
+                  .pipe(
+                    tap(() => {}),
+                    catchError((error: CustomHttpErrorResponse) => {
+                      if (error.error.statusCode === 500) {
+                        this.toastService.error(
+                          `Ha ocurrida un error al eliminar una evidencia`
+                        );
+                      } else {
+                        this.toastService.error(error.error.message);
+                      }
+                      return of(null); // Return a null observable to continue the forkJoin
+                    })
+                  );
+              }
+              if (evidence.type === 'document') {
+                return this.evidencesService
+                  .deleteDocumentEvidence(activityId, evidence.number)
+                  .pipe(
+                    tap(() => {}),
+                    catchError((error: CustomHttpErrorResponse) => {
+                      if (error.error.statusCode === 500) {
+                        this.toastService.error(
+                          `Ha ocurrida un error al eliminar una evidencia`
+                        );
+                      } else {
+                        this.toastService.error(error.error.message);
+                      }
+                      return of(null); // Return a null observable to continue the forkJoin
+                    })
+                  );
+              }
+              return of(null);
+            });
+
+            const updateEvidences = this.activityEvidences.map(
+              (evidence, index) => {
+                if (evidence.type === 'image') {
+                  return this.evidencesService
+                    .updateImageEvidence(
+                      activityId,
+                      evidence.evidenceNumber,
+                      this.evidences[index] as ImageEvidence
+                    )
+                    .pipe(
+                      tap(() => {}),
+                      catchError((error: CustomHttpErrorResponse) => {
+                        if (error.error.statusCode === 500) {
+                          this.toastService.error(
+                            `Ha ocurrida un error al actualizar una evidencia`
+                          );
+                        } else {
+                          this.toastService.error(error.error.message);
+                        }
+                        return of(null); // Return a null observable to continue the forkJoin
+                      })
+                    );
+                }
+                if (evidence.type === 'link') {
+                  return this.evidencesService
+                    .updateLinkEvidence(
+                      activityId,
+                      this.activityEvidences[index].evidenceNumber,
+                      this.evidences[index] as LinkEvidence
+                    )
+                    .pipe(
+                      tap(() => {}),
+                      catchError((error: CustomHttpErrorResponse) => {
+                        if (error.error.statusCode === 500) {
+                          this.toastService.error(
+                            `Ha ocurrida un error al actualizar una evidencia`
+                          );
+                        } else {
+                          this.toastService.error(error.error.message);
+                        }
+                        return of(null); // Return a null observable to continue the forkJoin
+                      })
+                    );
+                }
+                if (evidence.type === 'document') {
+                  return this.evidencesService
+                    .updateDocumentEvidence(
+                      activityId,
+                      this.activityEvidences[index].evidenceNumber,
+                      this.evidences[index] as DocumentEvidence
+                    )
+                    .pipe(
+                      tap(() => {}),
+                      catchError((error: CustomHttpErrorResponse) => {
+                        if (error.error.statusCode === 500) {
+                          this.toastService.error(
+                            `Ha ocurrida un error al actualizar una evidencia`
+                          );
+                        } else {
+                          this.toastService.error(error.error.message);
+                        }
+                        return of(null); // Return a null observable to continue the forkJoin
+                      })
+                    );
+                }
+                return of(null);
+              }
+            );
+
+            const allEvidenceObservables = [
+              ...newEvidences,
+              ...updateEvidences,
+              ...deletedEvidences,
+            ];
+
+            forkJoin(allEvidenceObservables).subscribe({
+              next: () => {
+                this.toastService.success('Cambios guardados correctamente');
+                this.router.navigate([routes.unitActivities]);
+              },
+            });
           },
           error: (error: CustomHttpErrorResponse) => {
             if (error.error.statusCode === 500) {

@@ -7,6 +7,9 @@
     </p>
     <form class="details-activity-form" [formGroup]="activityForm">
       <h3>Información</h3>
+      @if (chargingActivity) {
+      <p-skeleton height="3rem" />
+      } @else {
       <input
         type="text"
         pInputText
@@ -14,6 +17,8 @@
         placeholder="Nombre"
         class="detail-activity-input"
       />
+      }
+
       <p-dropdown
         formControlName="category"
         [options]="indicators"
@@ -25,6 +30,10 @@
         styleClass="details-activity-category-dropdown"
         [loading]="dropdownLoading"
       ></p-dropdown>
+
+      @if (chargingActivity) {
+      <p-skeleton height="6rem" />
+      } @else {
       <textarea
         pInputTextarea
         formControlName="summary"
@@ -33,6 +42,7 @@
         [autoResize]="true"
         class="detail-activity-input"
       ></textarea>
+      }
     </form>
     <div class="buttons">
       <p-toast />
@@ -47,7 +57,7 @@
       </button>
       <button
         pButton
-        (click)="createActivity()"
+        (click)="saveChanges()"
         [disabled]="!activityForm.valid || !validEvidences"
         [loading]="loading"
         class="create"
