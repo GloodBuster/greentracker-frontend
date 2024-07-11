@@ -38,6 +38,27 @@ export class EvidencesService {
     );
   }
 
+  updateImageEvidence(
+    activityId: string,
+    evidenceId: number,
+    evidence: ImageEvidence
+  ): Observable<Response<ImageEvidenceI>> {
+    const formData = parseImageEvidence(evidence);
+    return this.http.put<Response<ImageEvidenceI>>(
+      `${this.BASE_URL}/activity/${activityId}/image-evidence/${evidenceId}`,
+      formData
+    );
+  }
+
+  deleteImageEvidence(
+    activityId: string,
+    evidenceId: number
+  ): Observable<Response<ImageEvidenceI>> {
+    return this.http.delete<Response<ImageEvidenceI>>(
+      `${this.BASE_URL}/activity/${activityId}/image-evidence/${evidenceId}`
+    );
+  }
+
   createDocumentEvidence(
     activityId: string,
     evidence: DocumentEvidence
@@ -46,6 +67,27 @@ export class EvidencesService {
     return this.http.post<Response<DocumentEvidenceI>>(
       `${this.BASE_URL}/activity/${activityId}/document-evidence`,
       formData
+    );
+  }
+
+  updateDocumentEvidence(
+    activityId: string,
+    evidenceId: number,
+    evidence: DocumentEvidence
+  ): Observable<Response<DocumentEvidenceI>> {
+    const formData = parseDocumentEvidence(evidence);
+    return this.http.put<Response<DocumentEvidenceI>>(
+      `${this.BASE_URL}/activity/${activityId}/document-evidence/${evidenceId}`,
+      formData
+    );
+  }
+
+  deleteDocumentEvidence(
+    activityId: string,
+    evidenceId: number
+  ): Observable<Response<DocumentEvidenceI>> {
+    return this.http.delete<Response<DocumentEvidenceI>>(
+      `${this.BASE_URL}/activity/${activityId}/document-evidence/${evidenceId}`
     );
   }
 
@@ -60,6 +102,30 @@ export class EvidencesService {
     return this.http.post<Response<DocumentEvidenceI>>(
       `${this.BASE_URL}/activity/${activityId}/link-evidence`,
       linkEvidence
+    );
+  }
+
+  updateLinkEvidence(
+    activityId: string,
+    evidenceId: number,
+    evidence: LinkEvidence
+  ): Observable<Response<DocumentEvidenceI>> {
+    const linkEvidence = {
+      description: evidence.value.description,
+      link: evidence.value.link,
+    };
+    return this.http.put<Response<DocumentEvidenceI>>(
+      `${this.BASE_URL}/activity/${activityId}/link-evidence/${evidenceId}`,
+      linkEvidence
+    );
+  }
+
+  deleteLinkEvidence(
+    activityId: string,
+    evidenceId: number
+  ): Observable<Response<DocumentEvidenceI>> {
+    return this.http.delete<Response<DocumentEvidenceI>>(
+      `${this.BASE_URL}/activity/${activityId}/link-evidence/${evidenceId}`
     );
   }
 }
