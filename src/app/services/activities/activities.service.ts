@@ -9,6 +9,7 @@ import {
 import {
   Activity,
   ActivityForm,
+  ActivityWithFeedback,
   UnitActivity,
   Units,
 } from '../../interfaces/activities/activities';
@@ -81,8 +82,8 @@ export class ActivitiesService {
     return this.http.get<PaginatedResponse<Units>>(`${this.BASE_URL}/units`);
   }
 
-  getActivityById(id: string): Observable<Response<Activity>> {
-    return this.http.get<Response<Activity>>(
+  getActivityById(id: string): Observable<Response<ActivityWithFeedback>> {
+    return this.http.get<Response<ActivityWithFeedback>>(
       `${this.BASE_URL}/activities/${id}`
     );
   }

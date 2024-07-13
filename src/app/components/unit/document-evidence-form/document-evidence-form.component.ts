@@ -19,6 +19,7 @@ import { UploadEvent } from '../image-evidence-form/image-evidence-form.componen
 import { animate, style, transition, trigger } from '@angular/animations';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
+import { EvidenceWithFeedback } from '../../../interfaces/evidences/evidences';
 
 @Component({
   selector: 'document-evidence-form',
@@ -48,7 +49,7 @@ import { DialogModule } from 'primeng/dialog';
 })
 export class DocumentEvidenceFormComponent implements OnChanges {
   @Input() documentForm: DocumentEvidence = getDocumentEvidenceForm();
-  @Input() feedback?: any[];
+  @Input() evidenceWithFeedback?: EvidenceWithFeedback;
   @Output() removeEvidence: EventEmitter<void> = new EventEmitter<void>();
   visibleDelete = false;
   file: File | null = null;
@@ -111,6 +112,14 @@ export class DocumentEvidenceFormComponent implements OnChanges {
 
   hideDelete() {
     this.visibleDelete = false;
+  }
+
+  thereAreFeedbackType(feedbackType: string) {
+    return (
+      this.evidenceWithFeedback?.feedbacks.some(
+        (feedback) => feedback.feedback === feedbackType
+      ) ?? false
+    );
   }
 
   formatFileSize = formatFileSize;

@@ -35,7 +35,7 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { DialogModule } from 'primeng/dialog';
 import { urlToFile } from '../../../utils/files';
 import { AuthService } from '../../../services/auth/auth.service';
-import { Evidence } from '../../../interfaces/evidences/evidences';
+import { Evidence, EvidenceWithFeedback } from '../../../interfaces/evidences/evidences';
 import { environment } from '../../../../environments/environment';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { EvidencesService } from '../../../services/evidences/evidences.service';
@@ -83,7 +83,7 @@ const removeCriteriaFromIndicatorCategories = (
 })
 export class ActivityDetailsComponent {
   evidences: (ImageEvidence | LinkEvidence | DocumentEvidence)[] = [];
-  activityEvidences: Evidence[] = [];
+  activityEvidences: EvidenceWithFeedback[] = [];
   newEvidences: number[] = [];
   evidencesToDelete: { number: number; type: string }[] = [];
   indicators: IndicatorDetails[] = [];

@@ -146,16 +146,19 @@
       } @for (evidence of evidences; track $index){ @if (evidence.value.type ===
       'link') {
       <link-evidence-form
+        [evidenceWithFeedback]="activityEvidences[$index]"
         [linkForm]="$any(evidence)"
         (removeEvidence)="removeEvidence($index)"
       ></link-evidence-form>
       } @if (evidence.value.type === 'image') {
       <image-evidence-form
+        [evidenceWithFeedback]="activityEvidences[$index]"
         [imageForm]="$any(evidence)"
         (removeEvidence)="removeEvidence($index)"
       ></image-evidence-form>
       } @if (evidence.value.type === 'document') {
       <document-evidence-form
+        [evidenceWithFeedback]="activityEvidences[$index]"
         [documentForm]="$any(evidence)"
         (removeEvidence)="removeEvidence($index)"
       ></document-evidence-form>
