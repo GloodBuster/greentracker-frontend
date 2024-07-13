@@ -17,6 +17,7 @@ import { UnitLayoutComponent } from './components/unit/unit-layout/unit-layout.c
 import { MyActivitiesComponent } from './pages/unit/my-activities/my-activities.component';
 import { ActivityDetailsComponent } from './pages/unit/activity-details/activity-details.component';
 import { NewActivityComponent } from './pages/unit/new-activity/new-activity.component';
+import { StatisticsComponent } from './pages/admin/statistics/statistics.component';
 
 export const routes: Routes = [
   {
@@ -47,6 +48,10 @@ export const routes: Routes = [
       {
         path: 'admin-dashboard',
         component: DashboardComponent,
+      },
+      {
+        path: 'statistics',
+        component: StatisticsComponent,
       },
       {
         path: 'units',
