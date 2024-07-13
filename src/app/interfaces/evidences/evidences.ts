@@ -21,3 +21,16 @@ export interface DocumentEvidenceI {
   description: string;
   uploadTimestamp: string;
 }
+
+export interface Feedback{
+  adminId: string;
+  feedback: string;
+}
+export interface EvidenceFeedback {
+  evidenceNumber: number;
+  link: string;
+  description: string;
+  uploadTimestamp: string;
+  type: string;
+  feedbacks: Feedback[];
+}
