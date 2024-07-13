@@ -1,4 +1,4 @@
-import { Evidence } from '../evidences/evidences';
+import { Evidence, EvidenceWithFeedback } from '../evidences/evidences';
 
 export interface Activity {
   id: string;
@@ -9,6 +9,17 @@ export interface Activity {
   unitId: string;
   uploadTimestamp: string;
   evidences: Evidence[];
+}
+
+export interface ActivityWithFeedback {
+  id: string;
+  name: string;
+  summary: string;
+  indicatorIndex: number;
+  categoryName: string;
+  unitId: string;
+  uploadTimestamp: string;
+  evidences: EvidenceWithFeedback[];
 }
 
 export interface Units {
