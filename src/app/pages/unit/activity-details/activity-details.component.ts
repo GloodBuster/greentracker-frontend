@@ -34,6 +34,7 @@ import { ToastModule } from 'primeng/toast';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { DialogModule } from 'primeng/dialog';
 import { urlToFile } from '../../../utils/files';
+import { AuthService } from '../../../services/auth/auth.service';
 
 const removeCriteriaFromIndicatorCategories = (
   indicators: IndicatorDetails[]
@@ -76,6 +77,7 @@ export class ActivityDetailsComponent {
   evidences: (ImageEvidence | LinkEvidence | DocumentEvidence)[] = [];
   indicators: IndicatorDetails[] = [];
   activityId = '';
+  unitId = '';
   activityForm = new FormGroup({
     name: new FormControl<string>('', {
       nonNullable: true,
@@ -95,22 +97,33 @@ export class ActivityDetailsComponent {
   loading = false;
   visibleDelete = false;
   deleteLoading = false;
+  dropdownLoading = false;
 
   constructor(
     private readonly indicatorService: IndicatorService,
     private readonly toastService: ToastrService,
     private readonly activitiesService: ActivitiesService,
+    private readonly authService: AuthService,
     private readonly router: Router,
     private readonly route: ActivatedRoute,
     private confirmationService: ConfirmationService
   ) {
+    this.dropdownLoading = true;
+    this.authService.getMe().subscribe({
+      next: (response) => {
+        this.unitId = response.data.id;
+      },
+      error: (error) => {},
+    });
     this.indicatorService.getAllIndicators().subscribe({
       next: (response) => {
         this.indicators = removeCriteriaFromIndicatorCategories(
           response.data.filter((indicator) => indicator.categories.length > 0)
         );
+        this.dropdownLoading = false;
       },
       error: (error: CustomHttpErrorResponse) => {
+        this.dropdownLoading = false;
         if (error.error.statusCode === 500) {
           this.toastService.error(
             'Ha ocurrido un error el cargar las categorías '
@@ -124,7 +137,7 @@ export class ActivityDetailsComponent {
       if (params) {
         const activityId = params['activityId'];
         this.activityId = activityId;
-        this.activitiesService.getMyActivity(activityId).subscribe({
+        this.activitiesService.getActivityById(activityId).subscribe({
           next: (response) => {
             this.activityForm.controls.name.setValue(response.data.name);
             this.activityForm.controls.summary.setValue(response.data.summary);
@@ -189,7 +202,7 @@ export class ActivityDetailsComponent {
 
   deleteActivity() {
     this.deleteLoading = true;
-    this.activitiesService.deleteMyActivity(this.activityId).subscribe({
+    this.activitiesService.deleteActivity(this.activityId).subscribe({
       next: (response) => {
         this.toastService.success(
           'La actividad ha sido eliminada correctamente'
@@ -234,11 +247,12 @@ export class ActivityDetailsComponent {
           )
         )?.index ?? 0;
       this.activitiesService
-        .updateMyActivity(this.activityId, {
+        .updateActivity(this.activityId, {
           name: this.activityForm.value.name ?? '',
           summary: this.activityForm.value.summary ?? '',
           indicatorIndex,
           categoryName: this.activityForm.value.category?.name ?? '',
+          unitId: this.unitId,
         })
         .subscribe({
           next: (response) => {

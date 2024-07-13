@@ -9,6 +9,8 @@ import {
 import {
   Activity,
   ActivityForm,
+  Feedback,
+  FeedbackEnum,
   UnitActivity,
   Units,
 } from '../../interfaces/activities/activities';
@@ -43,33 +45,33 @@ export class ActivitiesService {
     indicatorIndex,
     categoryName,
   }: ActivitiesFilters): Observable<PaginatedResponse<Activity>> {
-    const params = new HttpParams();
+    let params = new HttpParams();
     if (pageIndex) {
-      params.set('pageIndex', pageIndex.toString());
+      params = params.set('pageIndex', pageIndex.toString());
     }
     if (itemsPerPage) {
-      params.set('itemsPerPage', itemsPerPage.toString());
+      params = params.set('itemsPerPage', itemsPerPage.toString());
     }
     if (id) {
-      params.set('id', id);
+      params = params.set('id', id);
     }
     if (name) {
-      params.set('name', name);
+      params = params.set('name', name);
     }
     if (summary) {
-      params.set('summary', summary);
+      params = params.set('summary', summary);
     }
     if (uploadTimestamp) {
-      params.set('uploadTimestamp', uploadTimestamp);
+      params = params.set('uploadTimestamp', uploadTimestamp);
     }
     if (unitId) {
-      params.set('unitId', unitId);
+      params = params.set('unitId', unitId);
     }
     if (indicatorIndex) {
-      params.set('indicatorIndex', indicatorIndex.toString());
+      params = params.set('indicatorIndex', indicatorIndex.toString());
     }
     if (categoryName) {
-      params.set('categoryName', categoryName);
+      params = params.set('categoryName', categoryName);
     }
     return this.http.get<PaginatedResponse<Activity>>(
       `${this.BASE_URL}/activities`,
@@ -87,40 +89,33 @@ export class ActivitiesService {
     );
   }
 
-  getMyActivities(): Observable<PaginatedResponse<Activity>> {
-    return this.http.get<PaginatedResponse<Activity>>(
-      `${this.BASE_URL}/units/me/activities`
-    );
-  }
-
-  getMyActivity(activityId: string): Observable<Response<UnitActivity>> {
-    return this.http.get<Response<UnitActivity>>(
-      `${this.BASE_URL}/units/me/activities/${activityId}`
-    );
-  }
-
-  createUnitActivity(
-    activity: ActivityForm
-  ): Observable<Response<UnitActivity>> {
-    return this.http.post<Response<UnitActivity>>(
-      `${this.BASE_URL}/units/me/activities`,
+  createActivity(activity: ActivityForm): Observable<Response<Activity>> {
+    return this.http.post<Response<Activity>>(
+      `${this.BASE_URL}/activities`,
       activity
     );
   }
 
-  updateMyActivity(
+  updateActivity(
     activityId: string,
     activity: ActivityForm
-  ): Observable<Response<UnitActivity>> {
-    return this.http.put<Response<UnitActivity>>(
-      `${this.BASE_URL}/units/me/activities/${activityId}`,
+  ): Observable<Response<Activity>> {
+    return this.http.put<Response<Activity>>(
+      `${this.BASE_URL}/activities/${activityId}`,
       activity
     );
   }
 
-  deleteMyActivity(activityId: string): Observable<Response<UnitActivity>> {
-    return this.http.delete<Response<UnitActivity>>(
-      `${this.BASE_URL}/units/me/activities/${activityId}`
+  deleteActivity(activityId: string): Observable<Response<Activity>> {
+    return this.http.delete<Response<Activity>>(
+      `${this.BASE_URL}/activities/${activityId}`
+    );
+  }
+
+  createEvidenceFeedback(activityId: string, evidenceNumber: number, feedback: string): Observable<Response<Feedback>> {
+    return this.http.post<Response<Feedback>>(
+      `${this.BASE_URL}/activity/${activityId}/evidence/${evidenceNumber}/feedback`,
+      { feedback }
     );
   }
 }

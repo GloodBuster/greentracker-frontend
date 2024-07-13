@@ -4,18 +4,24 @@
   </div>
   <div class="container">
     <div class="container2">
-      <div class="document">
+      <div class="document" (click)="openFile()">
         <i class="pi pi-file" style="font-size: 50px; color: #7e7e7e"></i>
       </div>
       <div class="container3">
-        <p class="text">Hola.jpg</p>
-        <span style="margin-top: -10px">5.59 KB</span>
+        <span style="margin-top: 10px">{{ (fileSize / 1024) | number:'1.2-2' }} KB</span>
       </div>
     </div>
-    <div class="container2">
-      <p style="margin-top: 5px; margin-left: 8px">
+    <div class="container4" style="margin-left: 8px; width: 100%;">
+      <p style="margin-top: -5px">
         <span class="text">Descripción: </span>{{ evidence.description }}
       </p>
+      <p class="text" style="margin-bottom: 0px">Enlace</p>
+      <p-inputGroup>
+        <input pInputText #inputValue value="{{evidence.link}}" [style]="{ width: '100%'}" disabled/>
+        <p-inputGroupAddon>
+          <i class="pi pi-copy" (click)="copyValue(inputValue)"></i>
+        </p-inputGroupAddon>
+      </p-inputGroup>
     </div>
   </div>
   <p-divider />

@@ -12,6 +12,7 @@ import {
   UnitsGet,
   Indicators,
 } from '../../interfaces/units/units';
+import { Activity, Activity2 } from '../../interfaces/activities/activities';
 
 @Injectable({
   providedIn: 'root',
@@ -56,5 +57,8 @@ export class UnitsService {
   }
   getUnitById(id: string): Observable<Response<UnitDetails>> {
     return this.http.get<Response<UnitDetails>>(`${this.BASE_URL}/units/${id}`);
+  }
+  getNotifications(): Observable<Response<Activity2[]>> {
+    return this.http.get<Response<Activity2[]>>(`${this.BASE_URL}/units/me/activities-feedbacks`);
   }
 }

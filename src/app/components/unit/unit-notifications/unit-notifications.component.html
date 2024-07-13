@@ -1,0 +1,29 @@
+<div *ngFor="let notification of notifications">
+<ng-container *ngIf="hasFeedbacks(notification)">
+    <div style="width: 100%; display: flex; flex-direction: row; margin-top: 20px;">
+        <div style="width: 20%; display: flex; justify-content: center; align-items: start; padding-top: 20px;">
+            <i class="pi pi-thumbs-up" *ngIf="isLastFeedbackApproved(notification)" style="font-size: 30px; color: #3ba13f; padding: 8px; background-color: rgba(0, 255, 110, 0.208);
+            border-radius: 50%;
+            box-sizing: border-box"></i>        
+            <img src="../../../../../assets/feedback-icons/icons file-off.svg" *ngIf="isLastFeedbackBrokenFile(notification)" style="width: 48px; height: 48px; padding: 8px; background-color: rgba(255, 0, 47, 0.208);
+            border-radius: 50%;
+            box-sizing: border-box"/>
+            <img src="../../../../../assets/feedback-icons/link.svg" *ngIf="isLastFeedbackBrokenLink(notification)" style="width: 48px; height: 48px; padding: 8px; background-color: rgba(255, 0, 47, 0.208);
+            border-radius: 50%;
+            box-sizing: border-box " />
+            <i class="pi pi-phone" *ngIf="isLastFeedbackContactAdmin(notification)" style="font-size: 30px; color: #3b82f6; cursor: pointer; padding: 8px; background-color: rgba(0, 89, 255, 0.208);
+            border-radius: 50%;
+            box-sizing: border-box"></i>
+        </div>
+        <div style="width: 80%; display: flex; flex-direction: column;">
+            <p style="font-weight: 500; margin-bottom: 0px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Actividad - {{notification.name}}</p>
+            <p *ngIf="isLastFeedbackApproved(notification)">Evidencia aprobada</p>
+            <p *ngIf="isLastFeedbackBrokenLink(notification)">Evidencia con enlace dañado</p>
+            <p *ngIf="isLastFeedbackBrokenFile(notification)">Evidencia con archivo dañado</p>
+            <p *ngIf="isLastFeedbackContactAdmin(notification)">Contacte al administrador</p>
+            <p style="font-weight: 500; margin-top: 0px; color: #3BA13F; margin-bottom: 0px; cursor: pointer;" (click)="navigateToActivity(notification.id)">Ver actividad </p>
+        </div>
+    </div>
+    <p-divider type="solid"/>
+</ng-container>
+</div>

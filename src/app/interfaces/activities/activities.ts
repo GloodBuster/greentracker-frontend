@@ -1,4 +1,4 @@
-import { Evidence } from '../evidences/evidences';
+import { Evidence, EvidenceFeedback } from '../evidences/evidences';
 
 export interface Activity {
   id: string;
@@ -9,6 +9,17 @@ export interface Activity {
   unitId: string;
   uploadTimestamp: string;
   evidences: Evidence[];
+}
+
+export enum FeedbackEnum {
+  approved = 'Approved',
+  contact_admin = 'Contact_admin',
+  broken_link = 'Broken_link',
+  broken_file = 'Broken_file',
+}
+
+export interface Feedback {
+  feedback: FeedbackEnum;
 }
 
 export interface Units {
@@ -28,6 +39,7 @@ export interface ActivityForm {
   summary: string;
   indicatorIndex: number;
   categoryName: string;
+  unitId: string;
 }
 
 export interface UnitActivity {
@@ -38,4 +50,15 @@ export interface UnitActivity {
   categoryName: string;
   uploadTimestamp: string;
   evidence: Evidence[];
+}
+
+export interface Activity2 {
+  id: string;
+  name: string;
+  summary: string;
+  indicatorIndex: number;
+  categoryName: string;
+  unitId: string;
+  uploadTimestamp: string;
+  evidences: EvidenceFeedback[];
 }
