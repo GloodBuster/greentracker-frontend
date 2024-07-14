@@ -31,6 +31,7 @@ export class ImageEvidenceComponent {
   constructor(private http: HttpClient, private readonly route: ActivatedRoute, private readonly activitiesService: ActivitiesService) {}
 
   ngOnInit() {
+    console.log('BASE_URL:', this.base_url);
     const fullUrl = this.base_url + this.evidence.link;
     this.getImageSize(fullUrl);
 
