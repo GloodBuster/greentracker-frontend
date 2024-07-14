@@ -26,7 +26,7 @@ export class ImageEvidenceComponent {
   selectedFeedback = '';
   imageSize: number = 0;
   activityId: string | undefined = undefined;
-  readonly BASE_URL = environment.BASE_URL;
+  BASE_URL: string = environment.BASE_URL;
 
   constructor(private http: HttpClient, private readonly route: ActivatedRoute, private readonly activitiesService: ActivitiesService) {}
 
