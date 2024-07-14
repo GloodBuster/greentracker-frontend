@@ -84,17 +84,15 @@
                                 <td>{{ category.name }}</td>
                                 <td>{{ category.helpText }}</td>
                                 <td>
-                                    <div style="display: flex; flex-direction: row;">
-                                        <div class="tag-container">
-                                            <p-tag
-                                              *ngFor="let criterion of category.criteria.slice(0, 2)"
-                                              severity="info">
-                                              {{indicatorIndex}}.{{criterion.subindex}} {{ criterion.spanishAlias }}
-                                            </p-tag>
-                                          </div>
-                                          <span *ngIf="category.criteria.length > 2">+{{ category.criteria.length - 2 }}</span>
-                                          <div *ngIf="allCriteriaEmpty()">No hay criterios asociados</div>
+                                    <div class="tag-container">
+                                      <p-tag
+                                        *ngFor="let criterion of category.criteria.slice(0, 2)"
+                                        severity="info">
+                                        {{indicatorIndex}}.{{criterion.subindex}} {{ criterion.spanishAlias }}
+                                      </p-tag>
                                     </div>
+                                    <span *ngIf="category.criteria.length > 2">+{{ category.criteria.length - 2 }}</span>
+                                    <div *ngIf="allCriteriaEmpty()">No hay criterios asociados</div>
                                   </td>
                                 <td>
                                     <p-button icon="pi pi-pencil" [outlined]="true" severity="success" (click)="showEdit(category)"/>         
