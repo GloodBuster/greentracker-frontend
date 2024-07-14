@@ -4,4 +4,7 @@
       El periodo <strong>{{ period }}</strong> ha comenzado
     </p> </app-notification-card
   >}
+  @if (!period){
+    <p style="margin-top: 20px; text-align: center;">No hay notificaciones</p>
+  }
 </ul>
