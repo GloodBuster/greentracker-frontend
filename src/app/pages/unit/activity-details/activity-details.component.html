@@ -162,6 +162,8 @@
         [documentForm]="$any(evidence)"
         (removeEvidence)="removeEvidence($index)"
       ></document-evidence-form>
+      } } @empty { @if (!chargingEvidences){
+      <p class="empty-evidences">No hay evidencias</p>
       } }
     </div>
   </section>

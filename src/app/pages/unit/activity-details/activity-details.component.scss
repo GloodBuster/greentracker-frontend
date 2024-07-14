@@ -109,6 +109,11 @@
       overflow-y: scroll;
       max-height: 70vh;
 
+      .empty-evidences {
+        align-self: center;
+        font-size: 16px;
+      }
+
       .spiner-container {
         display: flex;
         justify-content: center;
