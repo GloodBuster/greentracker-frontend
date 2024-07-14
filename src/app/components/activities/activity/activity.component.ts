@@ -16,6 +16,7 @@ import { ImageEvidenceComponent } from '../feedbackCards/image-evidence/image-ev
 import { LinkEvidenceComponent } from '../feedbackCards/link-evidence/link-evidence.component';
 import { DocumentEvidenceComponent } from '../feedbackCards/document-evidence/document-evidence.component';
 import { SkeletonModule } from 'primeng/skeleton';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-activity',
@@ -47,6 +48,10 @@ export class ActivityComponent {
         this.loadingItems = false;
 
         this.evidenceItems = this.activity.evidences.map(evidence => {
+          if (evidence.type === 'link'){
+            return evidence;
+          }
+          evidence.link = environment.BASE_URL + evidence.link;
           return evidence;
         });
       },

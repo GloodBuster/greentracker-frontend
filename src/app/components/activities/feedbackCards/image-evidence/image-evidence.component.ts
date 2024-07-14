@@ -11,7 +11,6 @@ import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { ActivitiesService } from '../../../../services/activities/activities.service';
 import { ActivatedRoute } from '@angular/router';
-import { environment } from '../../../../../environments/environment.development';
 
 @Component({
   selector: 'app-image-evidence',
@@ -26,14 +25,11 @@ export class ImageEvidenceComponent {
   selectedFeedback = '';
   imageSize: number = 0;
   activityId: string | undefined = undefined;
-  public base_url: string = environment.BASE_URL;
 
   constructor(private http: HttpClient, private readonly route: ActivatedRoute, private readonly activitiesService: ActivitiesService) {}
 
   ngOnInit() {
-    console.log('BASE_URL:', this.base_url);
-    const fullUrl = this.base_url + this.evidence.link;
-    this.getImageSize(fullUrl);
+    this.getImageSize(this.evidence.link);
 
     if (this.evidence && this.evidence.feedbacks.length > 0) {
       this.selectedFeedback = this.evidence.feedbacks[this.evidence.feedbacks.length - 1].feedback;
