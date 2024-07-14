@@ -62,12 +62,14 @@
             <td>{{ unit.name }}</td>
             <td>{{ unit.email }}</td>
             <td>
+              <div class="tag-container">
               <p-tag
                 *ngFor="let categoria of unit.recommendedCategories.slice(0, 3)"
                 severity="info"
                 class="mr"
                 >{{ categoria.categoryName }}</p-tag
               >
+            </div>
               <span *ngIf="unit.recommendedCategories.length > 3"
                 >+{{ unit.recommendedCategories.length - 3 }}</span
               >
