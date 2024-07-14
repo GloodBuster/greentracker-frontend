@@ -1,9 +1,9 @@
 import { Component, Input } from '@angular/core';
-import { Activity, Activity2 } from '../../../interfaces/activities/activities';
+import { Activity2 } from '../../../interfaces/activities/activities';
 import { CommonModule } from '@angular/common';
 import { ImageModule } from 'primeng/image';
 import { DividerModule } from 'primeng/divider';
-import { Evidence, EvidenceFeedback } from '../../../interfaces/evidences/evidences';
+import { EvidenceFeedback } from '../../../interfaces/evidences/evidences';
 import { Router } from '@angular/router';
 
 @Component({
