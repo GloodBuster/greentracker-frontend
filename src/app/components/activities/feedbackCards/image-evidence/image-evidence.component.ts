@@ -26,12 +26,12 @@ export class ImageEvidenceComponent {
   selectedFeedback = '';
   imageSize: number = 0;
   activityId: string | undefined = undefined;
-  BASE_URL: string = environment.BASE_URL;
+  public base_url: string = environment.BASE_URL;
 
   constructor(private http: HttpClient, private readonly route: ActivatedRoute, private readonly activitiesService: ActivitiesService) {}
 
   ngOnInit() {
-    const fullUrl = this.BASE_URL + this.evidence.link;
+    const fullUrl = this.base_url + this.evidence.link;
     this.getImageSize(fullUrl);
 
     if (this.evidence && this.evidence.feedbacks.length > 0) {
