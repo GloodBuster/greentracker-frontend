@@ -103,6 +103,10 @@ export const routes: Routes = [
         path: 'my-activities/:activityId',
         component: ActivityDetailsComponent,
       },
+      {
+        path: 'unit-statistics',
+        component: StatisticsComponent,
+      },
     ],
   },
   {
