@@ -10,6 +10,7 @@ import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { ActivitiesService } from '../../../../services/activities/activities.service';
+import { environment } from '../../../../../environments/environment.development';
 
 @Component({
   selector: 'app-document-evidence',
@@ -24,12 +25,13 @@ export class DocumentEvidenceComponent {
   toastService = inject(ToastrService);
   fileSize: number = 0;
   activityId: string | undefined = undefined;
+  private readonly BASE_URL = environment.BASE_URL;
 
   constructor(private http: HttpClient, private readonly route: ActivatedRoute, private readonly activitiesService: ActivitiesService) {
    }
 
   ngOnInit() {
-    this.getFileSize('http://149.50.140.48' + this.evidence.link);
+    this.getFileSize(this.BASE_URL + this.evidence.link);
     if (this.evidence && this.evidence.feedbacks.length > 0) {
     this.selectedFeedback = this.evidence.feedbacks[this.evidence.feedbacks.length - 1].feedback;
   }
@@ -70,6 +72,6 @@ export class DocumentEvidenceComponent {
   }
 
   openFile() {
-    window.open('http://149.50.140.48' + this.evidence.link, '_blank');
+    window.open(this.BASE_URL + this.evidence.link, '_blank');
   }
 }
