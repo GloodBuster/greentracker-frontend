@@ -52,15 +52,23 @@
         class="delete-button"
         [text]="true"
         (click)="confirm($event)"
+        [disabled]="chargingActivity || !isChargePeriod"
+        [class.button-disabled]="!isChargePeriod"
       >
         Más opciones
       </button>
       <button
         pButton
         (click)="saveChanges()"
-        [disabled]="!activityForm.valid || !validEvidences"
+        [disabled]="!activityForm.valid || !validEvidences || !isChargePeriod"
         [loading]="loading"
+        [class.button-disabled]="!isChargePeriod"
         class="create"
+        [pTooltip]="
+          isChargePeriod
+            ? undefined
+            : 'El periodo de carga de evidencias ha culminado'
+        "
       >
         <i class="pi pi-save"></i>Guardar
       </button>
@@ -128,7 +136,8 @@
       <button
         class="p-button add-button"
         (click)="newActivityEvidenceOptions.toggle($event)"
-        [disabled]="chargingEvidences"
+        [disabled]="chargingEvidences || !isChargePeriod"
+        [class.button-disabled]="!isChargePeriod"
       >
         <i class="pi pi-plus-circle" style="font-size: 1.2rem"></i>
         {{ " Crear" }}

@@ -44,6 +44,8 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { EvidencesService } from '../../../services/evidences/evidences.service';
 import { catchError, forkJoin, of, tap } from 'rxjs';
 import { SkeletonModule } from 'primeng/skeleton';
+import { ChargePeriodService } from '../../../services/charge-period/charge-period.service';
+import { TooltipModule } from 'primeng/tooltip';
 
 const removeCriteriaFromIndicatorCategories = (
   indicators: IndicatorDetails[]
@@ -79,6 +81,7 @@ const removeCriteriaFromIndicatorCategories = (
     DialogModule,
     ProgressSpinnerModule,
     SkeletonModule,
+    TooltipModule,
   ],
   templateUrl: './activity-details.component.html',
   styleUrl: './activity-details.component.scss',
@@ -114,6 +117,7 @@ export class ActivityDetailsComponent {
   dropdownLoading = false;
   chargingEvidences = false;
   chargingActivity = false;
+  isChargePeriod = true;
 
   constructor(
     private readonly indicatorService: IndicatorService,
@@ -121,6 +125,7 @@ export class ActivityDetailsComponent {
     private readonly activitiesService: ActivitiesService,
     private readonly authService: AuthService,
     private readonly evidencesService: EvidencesService,
+    private readonly chargePeriodService: ChargePeriodService,
     private readonly router: Router,
     private readonly route: ActivatedRoute,
     private confirmationService: ConfirmationService
@@ -186,6 +191,22 @@ export class ActivityDetailsComponent {
           },
         });
       }
+    });
+    this.chargePeriodService.getChargePeriod().subscribe({
+      next: (response) => {
+        const startDate = new Date(response.data.startTimestamp);
+        const endDate = new Date(response.data.endTimestamp);
+        const currentDate = new Date();
+        if (currentDate >= startDate && currentDate <= endDate) {
+          this.isChargePeriod = true;
+        } else {
+          this.isChargePeriod = false;
+          this.toastService.info(
+            'No puedes editar actividades fuera del periodo de carga'
+          );
+        }
+      },
+      error: (error: CustomHttpErrorResponse) => {},
     });
   }
 

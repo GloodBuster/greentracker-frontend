@@ -33,6 +33,7 @@ import { TooltipModule } from 'primeng/tooltip';
 import { AuthService } from '../../../services/auth/auth.service';
 import { EvidencesService } from '../../../services/evidences/evidences.service';
 import { catchError, forkJoin, of, tap } from 'rxjs';
+import { ChargePeriodService } from '../../../services/charge-period/charge-period.service';
 
 @Component({
   selector: 'app-new-activity',
@@ -74,6 +75,7 @@ export class NewActivityComponent {
   }
   loading = false;
   dropdownLoading = false;
+  isChargePeriod = true;
 
   constructor(
     private readonly indicatorService: IndicatorService,
@@ -81,6 +83,7 @@ export class NewActivityComponent {
     private readonly activitiesService: ActivitiesService,
     private readonly authService: AuthService,
     private readonly evidencesService: EvidencesService,
+    private readonly chargePeriodService: ChargePeriodService,
     private readonly router: Router
   ) {
     this.dropdownLoading = true;
@@ -107,6 +110,23 @@ export class NewActivityComponent {
           this.toastService.error(error.error.message);
         }
       },
+    });
+
+    this.chargePeriodService.getChargePeriod().subscribe({
+      next: (response) => {
+        const startDate = new Date(response.data.startTimestamp);
+        const endDate = new Date(response.data.endTimestamp);
+        const currentDate = new Date();
+        if (currentDate >= startDate && currentDate <= endDate) {
+          this.isChargePeriod = true;
+        } else {
+          this.toastService.info(
+            'No se puede crear actividades fuera del periodo de carga'
+          );
+          this.isChargePeriod = false;
+        }
+      },
+      error: (error: CustomHttpErrorResponse) => {},
     });
   }
 

@@ -9,11 +9,13 @@ import { SkeletonModule } from 'primeng/skeleton';
 import { routes } from '../../../routes';
 import { AuthService } from '../../../services/auth/auth.service';
 import { CustomHttpErrorResponse } from '../../../interfaces/responses/error';
+import { TooltipModule } from 'primeng/tooltip';
+import { ChargePeriodService } from '../../../services/charge-period/charge-period.service';
 
 @Component({
   selector: 'app-my-activities',
   standalone: true,
-  imports: [CardModule, CommonModule, SkeletonModule],
+  imports: [CardModule, CommonModule, SkeletonModule, TooltipModule],
   templateUrl: './my-activities.component.html',
   styleUrl: './my-activities.component.scss',
 })
@@ -21,16 +23,21 @@ export class MyActivitiesComponent {
   activities: Activity[] = [];
   toastService = inject(ToastrService);
   loadingItems = true;
+  isChargePeriod = true;
 
   constructor(
     private readonly activitiesService: ActivitiesService,
     private readonly authService: AuthService,
+    private readonly chargePeriodService: ChargePeriodService,
     private readonly router: Router
   ) {
     this.authService.getMe().subscribe({
       next: (response) => {
         this.activitiesService
-          .getFilteredActivities({ unitId: response.data.id, itemsPerPage: 10000 })
+          .getFilteredActivities({
+            unitId: response.data.id,
+            itemsPerPage: 10000,
+          })
           .subscribe({
             next: (response) => {
               this.loadingItems = false;
@@ -47,6 +54,19 @@ export class MyActivitiesComponent {
               }
             },
           });
+      },
+      error: (error: CustomHttpErrorResponse) => {},
+    });
+    this.chargePeriodService.getChargePeriod().subscribe({
+      next: (response) => {
+        const startDate = new Date(response.data.startTimestamp);
+        const endDate = new Date(response.data.endTimestamp);
+        const currentDate = new Date();
+        if (currentDate >= startDate && currentDate <= endDate) {
+          this.isChargePeriod = true;
+        } else {
+          this.isChargePeriod = false;
+        }
       },
       error: (error: CustomHttpErrorResponse) => {},
     });

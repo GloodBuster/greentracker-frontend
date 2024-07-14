@@ -188,23 +188,28 @@
   }
 }
 
-:host ::ng-deep .p-progress-spinner-circle { 
-  animation: geek 8s ease-in-out infinite; 
-} 
+:host ::ng-deep .p-progress-spinner-circle {
+  animation: geek 8s ease-in-out infinite;
+}
 
-@keyframes geek { 
-100%, 
-0% { 
-      stroke: #3ba13f; 
-} 
-40% { 
-      stroke: #3ba13f; 
-} 
-66% { 
-      stroke: #3ba13f; 
-} 
-80%, 
-90% { 
-      stroke: #3ba13f; 
-} 
+@keyframes geek {
+  100%,
+  0% {
+    stroke: #3ba13f;
+  }
+  40% {
+    stroke: #3ba13f;
+  }
+  66% {
+    stroke: #3ba13f;
+  }
+  80%,
+  90% {
+    stroke: #3ba13f;
+  }
+}
+
+.button-disabled {
+  opacity: 0.5;
+  pointer-events: auto;
 }
