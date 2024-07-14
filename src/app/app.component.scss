@@ -1,3 +1,25 @@
 html {
   margin: 0 auto;
 }
+
+$breakpoint: 1000px;
+
+.page {
+  @media (max-width: $breakpoint) {
+    display: none;
+  }
+}
+
+.working-page {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  text-align: center;
+  @media (min-width: $breakpoint) {
+    display: none;
+  }
+}
