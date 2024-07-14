@@ -51,3 +51,10 @@ export interface UnitActivity {
   uploadTimestamp: string;
   evidence: Evidence[];
 }
+
+export interface ActivityFeedback {
+  activityId: string;
+  evidenceNumber: number;
+  adminId: string;
+  feedback: 'approved' | 'contact_admin' | 'broken_link' | 'broken_file';
+}

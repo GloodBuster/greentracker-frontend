@@ -8,6 +8,7 @@ import {
 } from '../../interfaces/responses/response';
 import {
   Activity,
+  ActivityFeedback,
   ActivityForm,
   ActivityWithFeedback,
   UnitActivity,
@@ -108,6 +109,14 @@ export class ActivitiesService {
   deleteActivity(activityId: string): Observable<Response<Activity>> {
     return this.http.delete<Response<Activity>>(
       `${this.BASE_URL}/activities/${activityId}`
+    );
+  }
+
+  deleteAllFeedbacks(
+    activityId: string
+  ): Observable<Response<ActivityFeedback[]>> {
+    return this.http.delete<Response<ActivityFeedback[]>>(
+      `${this.BASE_URL}/activities/${activityId}/feedbacks`
     );
   }
 }

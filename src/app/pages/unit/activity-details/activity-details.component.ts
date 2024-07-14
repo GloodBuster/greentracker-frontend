@@ -35,7 +35,10 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { DialogModule } from 'primeng/dialog';
 import { urlToFile } from '../../../utils/files';
 import { AuthService } from '../../../services/auth/auth.service';
-import { Evidence, EvidenceWithFeedback } from '../../../interfaces/evidences/evidences';
+import {
+  Evidence,
+  EvidenceWithFeedback,
+} from '../../../interfaces/evidences/evidences';
 import { environment } from '../../../../environments/environment';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { EvidencesService } from '../../../services/evidences/evidences.service';
@@ -521,6 +524,11 @@ export class ActivityDetailsComponent {
                 return of(null);
               }
             );
+
+            this.activitiesService.deleteAllFeedbacks(activityId).subscribe({
+              next: (response) => {},
+              error: (error: CustomHttpErrorResponse) => {},
+            });
 
             const allEvidenceObservables = [
               ...newEvidences,
