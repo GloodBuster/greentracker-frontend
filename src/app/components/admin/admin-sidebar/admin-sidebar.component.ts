@@ -4,16 +4,24 @@ import { DividerModule } from 'primeng/divider';
 import { routes } from '../../../routes';
 import { Router, RouterModule } from '@angular/router';
 import { ChangePeriodComponent } from '../change-period/change-period.component';
+import { GenerateReportComponent } from '../generate-report/generate-report.component';
 
 @Component({
   selector: 'app-admin-sidebar',
   standalone: true,
-  imports: [ImageModule, DividerModule, RouterModule, ChangePeriodComponent],
+  imports: [
+    ImageModule,
+    DividerModule,
+    RouterModule,
+    ChangePeriodComponent,
+    GenerateReportComponent,
+  ],
   templateUrl: './admin-sidebar.component.html',
   styleUrl: './admin-sidebar.component.scss',
 })
 export class AdminSidebarComponent {
   visiblePeriodModal = false;
+  visibleReportModal = false;
   router = inject(Router);
 
   showChargePeriod() {
@@ -22,6 +30,14 @@ export class AdminSidebarComponent {
 
   hideChargePeriod() {
     this.visiblePeriodModal = false;
+  }
+
+  showReport() {
+    this.visibleReportModal = true;
+  }
+
+  hideReport() {
+    this.visibleReportModal = false;
   }
 
   signOut() {

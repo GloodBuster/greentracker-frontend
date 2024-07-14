@@ -2,7 +2,7 @@
   height: 100vh;
   width: 100vw;
   overflow: hidden;
-  background-color: #F3F3F3;
+  background-color: #f3f3f3;
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -13,7 +13,7 @@
     display: flex;
 
     .login-form {
-      flex-grow: 1;
+      flex: 1;
       display: flex;
       flex-direction: column;
       justify-content: center;

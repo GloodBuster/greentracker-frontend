@@ -1,0 +1,47 @@
+<p-dialog
+  header="Header"
+  [modal]="true"
+  [(visible)]="visible"
+  [closable]="false"
+  [draggable]="false"
+  styleClass="report-dialog"
+  [autoZIndex]="true"
+>
+  <ng-template pTemplate="header">
+    <header>
+      <h3>Generar Reporte</h3>
+      <p>
+        Generar un reporte con todas las actividades reportadas dentro de un
+        criterio.
+      </p>
+    </header>
+  </ng-template>
+  <form [formGroup]="reportFormGroup">
+    <p-dropdown
+      [options]="indicators"
+      formControlName="criterion"
+      placeholder="Selecciona un criterio"
+      [group]="true"
+      optionLabel="spanishAlias"
+      optionGroupLabel="spanishAlias"
+      optionGroupChildren="criteria"
+      styleClass="criteria-dropdown"
+      [loading]="loadingIndicators"
+    ></p-dropdown>
+    <div class="buttons-container">
+      <button pButton (click)="hide()" [outlined]="true" class="cancel">
+        Cancelar
+      </button>
+      <button
+        pButton
+        (click)="generateReport()"
+        [disabled]="!reportFormGroup.valid"
+        [loading]="loading"
+        class="save"
+        icon="pi pi-download"
+      >
+        Descargar reporte
+      </button>
+    </div>
+  </form>
+</p-dialog>

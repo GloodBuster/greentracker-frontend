@@ -26,15 +26,14 @@
     </div>
     <ul>
       <li>
-        <a
-          [routerLink]="report"
-          routerLinkActive="active"
-          [routerLinkActiveOptions]="{ exact: false }"
-          class="sidebar-item"
-        >
+        <button class="sidebar-item" (click)="showReport()">
           <i class="pi pi-file"></i>
           <h3>Generar Reporte</h3>
-        </a>
+        </button>
+        <app-generate-report
+          [visible]="visibleReportModal"
+          (hideDialog)="hideReport()"
+        />
       </li>
       <li>
         <a
