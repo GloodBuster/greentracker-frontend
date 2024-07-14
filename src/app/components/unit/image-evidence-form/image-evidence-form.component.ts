@@ -17,6 +17,7 @@ import { animate, style, transition, trigger } from '@angular/animations';
 import { DialogModule } from 'primeng/dialog';
 import { ButtonModule } from 'primeng/button';
 import { ImageModule } from 'primeng/image';
+import { EvidenceWithFeedback } from '../../../interfaces/evidences/evidences';
 
 export interface UploadEvent {
   originalEvent: Event;
@@ -34,7 +35,7 @@ export interface UploadEvent {
     FileUploadModule,
     DialogModule,
     ButtonModule,
-    ImageModule
+    ImageModule,
   ],
   templateUrl: './image-evidence-form.component.html',
   styleUrl: './image-evidence-form.component.scss',
@@ -53,11 +54,12 @@ export interface UploadEvent {
 })
 export class ImageEvidenceFormComponent implements OnChanges {
   @Input() imageForm: ImageEvidence = getImageEvidenceForm();
-  @Input() feedback?: any[];
+  @Input() evidenceWithFeedback?: EvidenceWithFeedback;
   @Output() removeEvidence: EventEmitter<void> = new EventEmitter<void>();
   visibleDelete = false;
   file: File | null = null;
   objectURL: string | null = null;
+  limitFileSize = 10 * 1024 * 1024;
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['imageForm'] && changes['imageForm'].currentValue) {
@@ -84,7 +86,11 @@ export class ImageEvidenceFormComponent implements OnChanges {
   }
 
   onUpload(event: UploadEvent) {
-    if (event.files && event.files[0]) {
+    if (
+      event.files &&
+      event.files[0] &&
+      event.files[0].size <= this.limitFileSize
+    ) {
       this.revokeObjectURL(); // Clean up any existing object URL
       this.file = event.files[0];
       this.imageForm.controls.file.setValue(this.file);
@@ -117,6 +123,14 @@ export class ImageEvidenceFormComponent implements OnChanges {
 
   hideDelete() {
     this.visibleDelete = false;
+  }
+
+  thereAreFeedbackType(feedbackType: string) {
+    return (
+      this.evidenceWithFeedback?.feedbacks.some(
+        (feedback) => feedback.feedback === feedbackType
+      ) ?? false
+    );
   }
 
   formatFileSize = formatFileSize;

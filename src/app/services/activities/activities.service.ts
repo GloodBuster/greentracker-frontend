@@ -8,9 +8,11 @@ import {
 } from '../../interfaces/responses/response';
 import {
   Activity,
+  ActivityFeedback,
   ActivityForm,
   Feedback,
   FeedbackEnum,
+  ActivityWithFeedback,
   UnitActivity,
   Units,
 } from '../../interfaces/activities/activities';
@@ -83,8 +85,8 @@ export class ActivitiesService {
     return this.http.get<PaginatedResponse<Units>>(`${this.BASE_URL}/units`);
   }
 
-  getActivityById(id: string): Observable<Response<Activity>> {
-    return this.http.get<Response<Activity>>(
+  getActivityById(id: string): Observable<Response<ActivityWithFeedback>> {
+    return this.http.get<Response<ActivityWithFeedback>>(
       `${this.BASE_URL}/activities/${id}`
     );
   }
@@ -112,10 +114,22 @@ export class ActivitiesService {
     );
   }
 
-  createEvidenceFeedback(activityId: string, evidenceNumber: number, feedback: string): Observable<Response<Feedback>> {
+  createEvidenceFeedback(
+    activityId: string,
+    evidenceNumber: number,
+    feedback: string
+  ): Observable<Response<Feedback>> {
     return this.http.post<Response<Feedback>>(
       `${this.BASE_URL}/activity/${activityId}/evidence/${evidenceNumber}/feedback`,
       { feedback }
+    );
+  }
+
+  deleteAllFeedbacks(
+    activityId: string
+  ): Observable<Response<ActivityFeedback[]>> {
+    return this.http.delete<Response<ActivityFeedback[]>>(
+      `${this.BASE_URL}/activities/${activityId}/feedbacks`
     );
   }
 }

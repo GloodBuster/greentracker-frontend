@@ -7,6 +7,7 @@ import { InputTextareaModule } from 'primeng/inputtextarea';
 import { animate, style, transition, trigger } from '@angular/animations';
 import { DialogModule } from 'primeng/dialog';
 import { ButtonModule } from 'primeng/button';
+import { EvidenceWithFeedback } from '../../../interfaces/evidences/evidences';
 
 @Component({
   selector: 'link-evidence-form',
@@ -36,7 +37,7 @@ import { ButtonModule } from 'primeng/button';
 })
 export class LinkEvidenceFormComponent {
   @Input() linkForm: LinkEvidence = getLinkEvidenceForm();
-  @Input() feedback?: any[];
+  @Input() evidenceWithFeedback?: EvidenceWithFeedback;
   @Output() removeEvidence: EventEmitter<void> = new EventEmitter<void>();
   visibleDelete = false;
 
@@ -50,5 +51,13 @@ export class LinkEvidenceFormComponent {
 
   hideDelete() {
     this.visibleDelete = false;
+  }
+
+  thereAreFeedbackType(feedbackType: string) {
+    return (
+      this.evidenceWithFeedback?.feedbacks.some(
+        (feedback) => feedback.feedback === feedbackType
+      ) ?? false
+    );
   }
 }

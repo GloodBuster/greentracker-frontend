@@ -22,7 +22,7 @@ export interface DocumentEvidenceI {
   uploadTimestamp: string;
 }
 
-export interface Feedback{
+export interface Feedback {
   adminId: string;
   feedback: string;
 }
@@ -32,5 +32,15 @@ export interface EvidenceFeedback {
   description: string;
   uploadTimestamp: string;
   type: string;
+  feedbacks: Feedback[];
+}
+
+export interface EvidenceWithFeedback {
+  evidenceNumber: number;
+  link: string;
+  description: string;
+  uploadTimestamp: string;
+  type: string;
+  linkToRelatedResource?: string;
   feedbacks: Feedback[];
 }

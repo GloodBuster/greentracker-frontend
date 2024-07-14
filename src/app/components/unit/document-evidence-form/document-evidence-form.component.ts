@@ -19,6 +19,7 @@ import { UploadEvent } from '../image-evidence-form/image-evidence-form.componen
 import { animate, style, transition, trigger } from '@angular/animations';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
+import { EvidenceWithFeedback } from '../../../interfaces/evidences/evidences';
 
 @Component({
   selector: 'document-evidence-form',
@@ -48,10 +49,12 @@ import { DialogModule } from 'primeng/dialog';
 })
 export class DocumentEvidenceFormComponent implements OnChanges {
   @Input() documentForm: DocumentEvidence = getDocumentEvidenceForm();
-  @Input() feedback?: any[];
+  @Input() evidenceWithFeedback?: EvidenceWithFeedback;
   @Output() removeEvidence: EventEmitter<void> = new EventEmitter<void>();
   visibleDelete = false;
   file: File | null = null;
+  fileUrl: string | null = null;
+  limitFileSize = 10 * 1024 * 1024;
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['documentForm'] && changes['documentForm'].currentValue) {
@@ -65,9 +68,14 @@ export class DocumentEvidenceFormComponent implements OnChanges {
   }
 
   onUpload(event: UploadEvent) {
-    if (event.files && event.files[0]) {
+    if (
+      event.files &&
+      event.files[0] &&
+      event.files[0].size <= this.limitFileSize
+    ) {
       this.file = event.files[0];
       this.documentForm.controls.file.setValue(this.file);
+      this.fileUrl = URL.createObjectURL(this.file);
     }
   }
 
@@ -75,12 +83,23 @@ export class DocumentEvidenceFormComponent implements OnChanges {
     if (file) {
       this.file = file;
       this.documentForm.controls.file.setValue(this.file);
+      this.fileUrl = URL.createObjectURL(this.file);
     }
   }
 
   removeFile() {
     this.file = null;
     this.documentForm.controls.file.setValue(null);
+    if (this.fileUrl) {
+      URL.revokeObjectURL(this.fileUrl);
+      this.fileUrl = null;
+    }
+  }
+
+  watchDocument() {
+    if (this.fileUrl) {
+      window.open(this.fileUrl, '_blank')?.focus();
+    }
   }
 
   choose(event: Event, callback: any) {
@@ -93,6 +112,14 @@ export class DocumentEvidenceFormComponent implements OnChanges {
 
   hideDelete() {
     this.visibleDelete = false;
+  }
+
+  thereAreFeedbackType(feedbackType: string) {
+    return (
+      this.evidenceWithFeedback?.feedbacks.some(
+        (feedback) => feedback.feedback === feedbackType
+      ) ?? false
+    );
   }
 
   formatFileSize = formatFileSize;

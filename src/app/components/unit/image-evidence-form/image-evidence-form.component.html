@@ -51,7 +51,11 @@
     <p-fileUpload
       [multiple]="false"
       accept="image/*"
-      maxFileSize="1000000"
+      [maxFileSize]="limitFileSize"
+      invalidFileSizeMessageSummary="Imágen muy pesada"
+      invalidFileSizeMessageDetail="Menos de {{
+        limitFileSize / 1024 / 1024
+      }}MB"
       (onSelect)="onUpload($event)"
       [styleClass]="
         file
@@ -86,7 +90,7 @@
               [src]="objectURL ?? ''"
               alt="image"
               [preview]="true"
-              [imageStyle]="{'object-fit': 'cover', 'max-width': '100%'}"
+              [imageStyle]="{ 'object-fit': 'cover', 'max-width': '100%' }"
               styleClass="evidence-image"
             />
           </div>
@@ -123,30 +127,35 @@
       />
     </div>
   </div>
-  @if (feedback && feedback.length > 0) {
+  @if (evidenceWithFeedback && evidenceWithFeedback.feedbacks.length > 0) {
   <div class="divider"></div>
   <footer>
     <h5>Observaciones:</h5>
+    @if (thereAreFeedbackType('broken_file')) {
     <p-tag [rounded]="true" styleClass=" feedback file-feedback"
       ><span>Archivo dañado</span
       ><img src="assets/feedback-icons/icons file-off.svg" alt="icon" />
     </p-tag>
+    } @if (thereAreFeedbackType('broken_link')) {
     <p-tag [rounded]="true" styleClass="feedback link-feedback"
       ><span>Enlace dañado</span
       ><img src="assets/feedback-icons/link.svg" alt="icon"
     /></p-tag>
+    } @if (thereAreFeedbackType('contact_admin')) {
     <p-tag
       icon="pi pi-phone"
       [rounded]="true"
       styleClass="feedback contact-feedback"
       >Contactar al administrador</p-tag
     >
+    } @if (thereAreFeedbackType('approved')) {
     <p-tag
       icon="pi pi-thumbs-up"
       [rounded]="true"
       styleClass="feedback approved-feedback"
       >Evidencia aprobada</p-tag
     >
+    }
   </footer>
   }
 </form>
