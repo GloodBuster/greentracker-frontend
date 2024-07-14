@@ -41,7 +41,7 @@
         [options]="criteria"
         optionLabel="spanishAlias"
         placeholder="Seleccione los criterios"
-        [style]="{ width: '90%' }"
+        styleClass="unit-criteria-dropdown-edit"
       ></p-multiSelect>
     </div>
   </form>
@@ -91,44 +91,3 @@
     </p-footer>
   </p-dialog>
 </p-dialog>
-
-<!-- <div class="buttons-container">
-      <p-button label="Cancelar" severity="secondary" (click)="hide()" />
-      <p-button
-        label="Guardar"
-        (click)="updateCategory()"
-        [disabled]="!categoryForm.valid"
-        [loading]="loading"
-      />
-      <p-button
-        class="delete-button"
-        icon=" pi pi-trash"
-        [raised]="true"
-        severity="danger"
-        [outlined]="true"
-        (click)="showDelete()"
-      />
-    </div>
-</p-dialog>
-<p-dialog
-  header="Confirmar eliminación"
-  [(visible)]="visibleDelete"
-  [modal]="true"
-  [baseZIndex]="10000"
->
-  <p>¿Estás seguro de que quieres eliminar esta categoría?</p>
-  <p-footer>
-    <p-button
-      icon="pi pi-check"
-      label="Eliminar"
-      severity="danger"
-      [outlined]="true"
-      (click)="confirmDelete()"
-      [loading]="deleteLoading"
-    ></p-button>
-    <p-button
-      icon="pi pi-times"
-      label="Cancelar"
-      (click)="hideDelete()"
-    ></p-button>
-  </p-footer>-->

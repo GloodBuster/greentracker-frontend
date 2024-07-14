@@ -1,4 +1,4 @@
-.category-dialog{
+.category-dialog {
   display: flex;
   flex-direction: column;
 }
@@ -19,42 +19,42 @@ h4 {
   color: black;
   font-size: large;
 }
-.modal{
+.modal {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
 }
-.modal-content{
+.modal-content {
   width: 47%;
   display: flex;
   flex-direction: column;
 }
 
-.input-info{
+.input-info {
   display: flex;
   flex-direction: column;
   gap: 10px;
   margin-bottom: 15px;
 
   input {
-      outline: none;
-      box-shadow: none;
+    outline: none;
+    box-shadow: none;
 
-      &:hover,
-      &:focus {
-        border: 1px solid #2d7b30;
-      }
+    &:hover,
+    &:focus {
+      border: 1px solid #2d7b30;
     }
+  }
 
-    textarea {
-      outline: none;
-      box-shadow: none;
-  
-      &:hover,
-      &:focus {
-        border: 1px solid #2d7b30;
-      }
+  textarea {
+    outline: none;
+    box-shadow: none;
+
+    &:hover,
+    &:focus {
+      border: 1px solid #2d7b30;
     }
+  }
 }
 .buttons-container {
   display: flex;
@@ -109,4 +109,13 @@ h4 {
 ::ng-deep .category-dialog .p-dialog-content {
   padding-left: 6%;
   padding-right: 6%;
+}
+
+::ng-deep .unit-criteria-dropdown-edit {
+  width: 360px;
+
+  .p-multiselect-panel {
+    overflow-x: hidden;
+    width: 360px;
+  }
 }

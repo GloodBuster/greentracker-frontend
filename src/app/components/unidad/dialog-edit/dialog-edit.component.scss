@@ -1,107 +1,114 @@
-.unit-dialog{
-    display: flex;
-    flex-direction: column;
+.unit-dialog {
+  display: flex;
+  flex-direction: column;
 }
 header {
-    h3 {
-      color: black;
-      font-size: x-large;
-      margin: 0;
-    }
-  
-    p {
-      color: #3f3f3f;
-      font-weight: 500;
-    }
-  }
-  
-  h4 {
+  h3 {
     color: black;
-    font-size: large;
+    font-size: x-large;
+    margin: 0;
   }
-.modal{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-}
-.modal-content{
-    width: 47%;
-    display: flex;
-    flex-direction: column;
 
-}
-.input-info{
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-    margin-bottom: 15px;
-
-    input {
-        outline: none;
-        box-shadow: none;
-  
-        &:hover,
-        &:focus {
-          border: 1px solid #2d7b30;
-        }
-      }
-}
-.buttons-container {
-    display: flex;
-    justify-content: flex-end;
-    gap: 20px;
-
-    .cancel {
-      color: #515050;
-      width: 130px;
-      border-radius: 4px;
-      font-weight: 400;
-      display: flex;
-      justify-content: center;
-
-      &:hover {
-        color: #000;
-      }
-    }
-
-    .save {
-      background-color: #3ba13f;
-      border: none;
-      width: 130px;
-      border-radius: 4px;
-      font-weight: 400;
-      display: flex;
-      justify-content: center;
-      gap: 10px;
-      outline: none;
-
-      &:hover {
-        background-color: #268729;
-      }
-    }
+  p {
+    color: #3f3f3f;
+    font-weight: 500;
   }
-  
-  ::ng-deep .unit-number-input .p-inputnumber-input {
-    box-shadow: none;
+}
+
+h4 {
+  color: black;
+  font-size: large;
+}
+.modal {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.modal-content {
+  width: 47%;
+  display: flex;
+  flex-direction: column;
+}
+.input-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-bottom: 15px;
+
+  input {
     outline: none;
-  
+    box-shadow: none;
+
     &:hover,
     &:focus {
       border: 1px solid #2d7b30;
     }
   }
-  
-  ::ng-deep .unit-dialog .p-dialog-header {
-    padding-left: 6%;
-    padding-right: 6%;
-  }
-  
-  ::ng-deep .unit-dialog .p-dialog-content {
-    padding-left: 6%;
-    padding-right: 6%;
+}
+.buttons-container {
+  display: flex;
+  justify-content: flex-end;
+  gap: 20px;
+
+  .cancel {
+    color: #515050;
+    width: 130px;
+    border-radius: 4px;
+    font-weight: 400;
+    display: flex;
+    justify-content: center;
+
+    &:hover {
+      color: #000;
+    }
   }
 
-  ::ng-deep .confirm-delete-popup .p-confirm-popup-content {
-    display: none;
+  .save {
+    background-color: #3ba13f;
+    border: none;
+    width: 130px;
+    border-radius: 4px;
+    font-weight: 400;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    outline: none;
+
+    &:hover {
+      background-color: #268729;
+    }
   }
-  
+}
+
+::ng-deep .unit-number-input .p-inputnumber-input {
+  box-shadow: none;
+  outline: none;
+
+  &:hover,
+  &:focus {
+    border: 1px solid #2d7b30;
+  }
+}
+
+::ng-deep .unit-dialog .p-dialog-header {
+  padding-left: 6%;
+  padding-right: 6%;
+}
+
+::ng-deep .unit-dialog .p-dialog-content {
+  padding-left: 6%;
+  padding-right: 6%;
+}
+
+::ng-deep .confirm-delete-popup .p-confirm-popup-content {
+  display: none;
+}
+
+::ng-deep .unit-categories-dropdown-edit {
+  width: 360px;
+
+  .p-multiselect-panel {
+    overflow-x: hidden;
+    width: 360px;
+  }
+}

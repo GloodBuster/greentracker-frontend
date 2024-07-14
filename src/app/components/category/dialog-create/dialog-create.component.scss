@@ -109,3 +109,12 @@ h4 {
   padding-left: 6%;
   padding-right: 6%;
 }
+
+::ng-deep .unit-criteria-dropdown {
+  width: 360px;
+
+  .p-multiselect-panel {
+    overflow-x: hidden;
+    width: 360px;
+  }
+}
