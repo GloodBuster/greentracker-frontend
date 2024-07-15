@@ -44,12 +44,6 @@
         [loading]="loadingCriteria"
         styleClass="unit-criteria-dropdown"
       >
-        <ng-template let-criterion pTemplate="selectedItem">
-          <div>
-            {{ indicatorIndex }}.{{ criterion.subindex }}
-            {{ criterion.spanishAlias }}
-          </div>
-        </ng-template>
         <ng-template let-criterion pTemplate="item">
           <div>
             {{ indicatorIndex }}.{{ criterion.subindex }}
