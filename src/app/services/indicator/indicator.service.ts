@@ -32,9 +32,9 @@ export class IndicatorService {
       indicator
     );
   }
-  editIndicator(indicator: Indicator): Observable<Response<Indicator>> {
+  editIndicator(indicator: Indicator, index: number): Observable<Response<Indicator>> {
     return this.http.put<Response<Indicator>>(
-      `${this.BASE_URL}/indicators/${indicator.index}`,
+      `${this.BASE_URL}/indicators/${index}`,
       indicator
     );
   }

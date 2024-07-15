@@ -1,114 +1,155 @@
-.indicators-dialog{
-    display: flex;
-    flex-direction: column;
+.indicators-dialog {
+  display: flex;
+  flex-direction: column;
 }
 header {
-    h3 {
-      color: black;
-      font-size: x-large;
-      margin: 0;
-    }
-  
-    p {
-      color: #3f3f3f;
-      font-weight: 500;
-    }
-  }
-  
-  h4 {
+  h3 {
     color: black;
-    font-size: large;
+    font-size: x-large;
+    margin: 0;
   }
-.modal{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+
+  p {
+    color: #3f3f3f;
+    font-weight: 500;
+  }
 }
-.modal-content{
-    width: 47%;
-    display: flex;
-    flex-direction: column;
 
+h4 {
+  color: black;
+  font-size: large;
 }
-.input-info{
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-    margin-bottom: 15px;
-
-    input {
-        outline: none;
-        box-shadow: none;
-  
-        &:hover,
-        &:focus {
-          border: 1px solid #2d7b30;
-        }
-      }
+.modal {
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 40px;
 }
-.buttons-container {
+
+.criteria-list-content {
+  gap: 20px;
+  height: 100%;
+}
+
+.modal-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+
+  .empty-criteria {
+    text-align: center;
+    flex: 1;
+    width: 100%;
+  }
+
+  .add-button {
+    color: var(--green);
     display: flex;
-    justify-content: flex-end;
-    gap: 20px;
+    gap: 4px;
+    height: 50px;
+    background-color: transparent;
+    border: 1px solid var(--green);
+  }
 
-    .cancel {
-      color: #515050;
-      width: 130px;
-      border-radius: 4px;
-      font-weight: 400;
-      display: flex;
-      justify-content: center;
+  .criterion-list {
+    overflow-y: scroll;
+    overflow-x: hidden;
+    flex: 1;
 
-      &:hover {
-        color: #000;
-      }
+    &::-webkit-scrollbar {
+      width: 8px;
     }
 
-    .save {
-      background-color: #3ba13f;
-      border: none;
-      width: 130px;
-      border-radius: 4px;
-      font-weight: 400;
-      display: flex;
-      justify-content: center;
-      gap: 10px;
-      outline: none;
+    &::-webkit-scrollbar-track {
+      background: transparent;
+      border-radius: 10px;
+    }
 
-      &:hover {
-        background-color: #268729;
-      }
+    &::-webkit-scrollbar-thumb {
+      background: #e4e4e4;
+      border-radius: 10px;
     }
   }
-  
-  ::ng-deep .unit-indicators-input .p-inputnumber-input {
-    box-shadow: none;
+}
+.input-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-bottom: 15px;
+
+  input {
     outline: none;
-  
+    box-shadow: none;
+
     &:hover,
     &:focus {
       border: 1px solid #2d7b30;
     }
   }
-  
-  ::ng-deep .indicators-dialog .p-dialog-header {
-    padding-left: 6%;
-    padding-right: 6%;
-  }
-  
-  ::ng-deep .indicators-dialog .p-dialog-content {
-    padding-left: 6%;
-    padding-right: 6%;
+}
+.buttons-container {
+  display: flex;
+  justify-content: flex-end;
+  gap: 20px;
+  align-self: flex-end;
+  justify-self: flex-end;
+
+  .cancel {
+    color: #515050;
+    width: 130px;
+    border-radius: 4px;
+    font-weight: 400;
+    display: flex;
+    justify-content: center;
+
+    &:hover {
+      color: #000;
+    }
   }
 
-  ::ng-deep .confirm-delete-popup .p-confirm-popup-content {
-    display: none;
+  .save {
+    background-color: #3ba13f;
+    border: none;
+    width: 130px;
+    border-radius: 4px;
+    font-weight: 400;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    outline: none;
+
+    &:hover {
+      background-color: #268729;
+    }
   }
-  
-  .add-button {
-    color: var(--green);
-  display: flex;
-  gap: 4px;
-  background-color: transparent;
-  border: 1px solid var(--green);
+}
+
+::ng-deep .unit-indicators-input .p-inputnumber-input {
+  box-shadow: none;
+  outline: none;
+
+  &:hover,
+  &:focus {
+    border: 1px solid #2d7b30;
   }
+}
+
+::ng-deep .indicators-dialog {
+  width: 90vw;
+  height: 100%;
+}
+
+::ng-deep .indicators-dialog .p-dialog-header {
+  padding-left: 3%;
+  padding-right: 3%;
+}
+
+::ng-deep .indicators-dialog .p-dialog-content {
+  padding-left: 3%;
+  padding-right: 3%;
+}
+
+::ng-deep .confirm-delete-popup .p-confirm-popup-content {
+  display: none;
+}

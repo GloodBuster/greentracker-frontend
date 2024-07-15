@@ -1,10 +1,9 @@
 <p-dialog
   [modal]="true"
   [(visible)]="visible"
-  [style]="{ width: '60vw' }"
   [closable]="false"
   [draggable]="false"
-  styleClass="inidcators-dialog"
+  styleClass="indicators-dialog"
 >
   <form [formGroup]="indicadorForm" class="modal">
     <div class="modal-content">
@@ -46,12 +45,13 @@
         />
       </div>
     </div>
-    <div class="modal-content">
+    <div class="modal-content criteria-list-content">
       <div
         style="
           display: flex;
           flex-direction: row;
           justify-content: space-between;
+          align-items: center;
         "
       >
         <h4>Criterios asociados</h4>
@@ -60,38 +60,50 @@
           {{ " Editar criterios" }}
         </button>
       </div>
-       <div *ngFor="let category of indicador?.categories; let i = index">
-        <div *ngFor="let criterion of category?.criteria; let j = index">
-          <p>{{indicador.index}}.{{criterion.subindex}} {{criterion.spanishAlias}}</p>
+      <div class="criterion-list" *ngIf="!allCriteriaEmpty()">
+        <div *ngFor="let category of indicador?.categories; let i = index">
+          <div *ngFor="let criterion of category?.criteria; let j = index">
+            <p>
+              {{ indicador.index }}.{{ criterion.subindex }}
+              {{ criterion.spanishAlias }}
+            </p>
+          </div>
         </div>
       </div>
-     <div *ngIf="allCriteriaEmpty()">No hay criterios asociados</div> 
+      <div *ngIf="allCriteriaEmpty()" class="empty-criteria">
+        <p>No hay criterios asociados</p>
+      </div>
+      <div class="buttons-container">
+        <p-toast />
+        <p-confirmPopup styleClass="confirm-delete-popup" />
+        <button
+          pButton
+          class="delete-button"
+          [text]="true"
+          (click)="confirm($event)"
+        >
+          Más opciones
+        </button>
+        <button
+          pButton
+          (click)="hideDialogEdit()"
+          [outlined]="true"
+          class="cancel"
+        >
+          Cancelar
+        </button>
+        <button
+          pButton
+          (click)="submitForm()"
+          [disabled]="!indicadorForm.valid"
+          [loading]="loading"
+          class="save"
+        >
+          Guardar
+        </button>
+      </div>
     </div>
   </form>
-  <div class="buttons-container">
-    <p-toast />
-    <p-confirmPopup styleClass="confirm-delete-popup" />
-    <button
-      pButton
-      class="delete-button"
-      [text]="true"
-      (click)="confirm($event)"
-    >
-      Más opciones
-    </button>
-    <button pButton (click)="hideDialogEdit()" [outlined]="true" class="cancel">
-      Cancelar
-    </button>
-    <button
-      pButton
-      (click)="submitForm()"
-      [disabled]="!indicadorForm.valid"
-      [loading]="loading"
-      class="save"
-    >
-      Guardar
-    </button>
-  </div>
 
   <p-dialog
     header="Confirmar eliminación"
