@@ -43,6 +43,14 @@
         placeholder="Seleccione los criterios"
         styleClass="unit-criteria-dropdown-edit"
       >
+        <ng-template let-criteria pTemplate="selectedItems">
+          @for (criterion of criteria; track $index) {
+          <div>
+            {{ criterion.indicatorIndex }}.{{ criterion.subindex }}
+            {{ criterion.spanishAlias }}
+          </div>
+          } @empty { Seleccione los criterios }
+        </ng-template>
         <ng-template let-criterion pTemplate="item">
           <div>
             {{ indicatorIndex }}.{{ criterion.subindex }}
