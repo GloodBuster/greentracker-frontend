@@ -37,6 +37,12 @@
       outline: none;
       box-shadow: none;
     }
+
+    .animated-button {
+      box-shadow: 0 0 0 0 #3ba13f;
+      transform: scale(1);
+      animation: pulse 1s infinite;
+    }
   }
 }
 
@@ -67,5 +73,17 @@
   h3 {
     margin: 0;
     color: black;
+  }
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(59, 161, 63, 0.7);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(59, 161, 63, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(59, 161, 63, 0);
   }
 }

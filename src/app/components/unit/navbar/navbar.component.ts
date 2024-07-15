@@ -13,7 +13,14 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [ImageModule, ButtonModule, OverlayPanelModule, UnitNotificationsComponent, ProgressSpinnerModule, CommonModule],
+  imports: [
+    ImageModule,
+    ButtonModule,
+    OverlayPanelModule,
+    UnitNotificationsComponent,
+    ProgressSpinnerModule,
+    CommonModule,
+  ],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.scss',
 })
@@ -29,9 +36,17 @@ export class NavbarComponent {
         this.isLoading = false;
       },
       error: (error) => {
-        this.toastService.error('Ha ocurrido un error al cargar las notificaciones');
+        this.toastService.error(
+          'Ha ocurrido un error al cargar las notificaciones'
+        );
         this.isLoading = false;
+      },
+    });
   }
-});
+
+  haveFeedback(): boolean {
+    return this.notifications.some((notification) =>
+      notification.evidences.some((evidence) => evidence.feedbacks.length > 0)
+    );
   }
 }

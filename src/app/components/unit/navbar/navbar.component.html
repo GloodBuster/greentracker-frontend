@@ -5,7 +5,9 @@
   </section>
   <section class="notifications">
     <button
-      class="p-button notifications-button"
+      class="p-button notifications-button {{
+        haveFeedback() ? 'animated-button' : ''
+      }}"
       (click)="adminNotificationsOverlay.toggle($event)"
     >
       <i class="pi pi-bell" style="font-size: 1.5rem"></i>
@@ -15,11 +17,16 @@
       styleClass="notifications-overlay"
     >
       <h3>Notificaciones</h3>
-      <div *ngIf="isLoading" style="margin-top: 20px; display: flex; justify-content: center;">
+      <div
+        *ngIf="isLoading"
+        style="margin-top: 20px; display: flex; justify-content: center"
+      >
         <p-progressSpinner class="green-spinner" ariaLabel="loading" />
       </div>
       <div *ngIf="!isLoading">
-        <app-unit-notifications [notifications]="notifications"></app-unit-notifications>
+        <app-unit-notifications
+          [notifications]="notifications"
+        ></app-unit-notifications>
       </div>
     </p-overlayPanel>
   </section>
