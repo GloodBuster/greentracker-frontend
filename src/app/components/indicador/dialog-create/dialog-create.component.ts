@@ -1,5 +1,6 @@
-import { Component, EventEmitter, Input, Output, inject  } from '@angular/core';
-import {FormControl,
+import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
+import {
+  FormControl,
   FormGroup,
   ReactiveFormsModule,
   Validators,
@@ -19,9 +20,18 @@ import { InputNumberModule } from 'primeng/inputnumber';
 @Component({
   selector: 'app-dialog-create',
   standalone: true,
-  imports: [DialogModule, InputTextModule, FormsModule, FloatLabelModule, ButtonModule, PanelModule, ReactiveFormsModule, InputNumberModule],
+  imports: [
+    DialogModule,
+    InputTextModule,
+    FormsModule,
+    FloatLabelModule,
+    ButtonModule,
+    PanelModule,
+    ReactiveFormsModule,
+    InputNumberModule,
+  ],
   templateUrl: './dialog-create.component.html',
-  styleUrl: './dialog-create.component.scss'
+  styleUrl: './dialog-create.component.scss',
 })
 export class DialogCreateComponent {
   @Input() visible: boolean = false;
@@ -29,14 +39,17 @@ export class DialogCreateComponent {
   @Output() create: EventEmitter<any> = new EventEmitter<any>();
   loading = false;
 
-  constructor(private indicatorService: IndicatorService) { }
+  constructor(private indicatorService: IndicatorService) {}
 
   hideDialog() {
     this.hide.emit();
   }
   toastService = inject(ToastrService);
   indicatorForm = new FormGroup({
-    index: new FormControl(0, [Validators.required]),
+    index: new FormControl<number | null>(null, [
+      Validators.required,
+      Validators.min(1),
+    ]),
     englishName: new FormControl('', [Validators.required]),
     spanishAlias: new FormControl('', [Validators.required]),
   });
@@ -45,24 +58,24 @@ export class DialogCreateComponent {
     if (this.indicatorForm.valid) {
       this.loading = true;
       const indicator: Indicator = {
-        index: this.indicatorForm.value.index ?? 0, 
-        englishName: this.indicatorForm.value.englishName ?? '', 
-        spanishAlias: this.indicatorForm.value.spanishAlias ?? '', 
+        index: this.indicatorForm.value.index ?? 0,
+        englishName: this.indicatorForm.value.englishName ?? '',
+        spanishAlias: this.indicatorForm.value.spanishAlias ?? '',
       };
-  
-      this.indicatorService.createIndicator(indicator).subscribe(
-        (response) => {
+
+      this.indicatorService.createIndicator(indicator).subscribe({
+        next: (response) => {
           this.create.emit(this.indicatorForm.value);
           this.hideDialog();
           this.toastService.success('Indicador creado con éxito');
           this.indicatorForm.reset();
           this.loading = false;
         },
-        (error: ErrorResponse) => {
+        error: (error: ErrorResponse) => {
           this.toastService.error(error.message);
           this.loading = false;
-        }
-      );
+        },
+      });
     } else {
       this.toastService.error('Ha ocurrido un error');
       this.loading = false;
