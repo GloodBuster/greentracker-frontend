@@ -36,7 +36,7 @@ export class DialogEditComponent {
   deleteLoading = false;
 
   allCriteriaEmpty(): boolean {
-    return this.indicador?.categories.every(category => category.criteria.length === 0);
+    return this.indicador?.categories.every(category => category.criteria.length === 0) ?? true;
   }
 
   constructor(private indicatorService: IndicatorService, private confirmationService: ConfirmationService, private router: Router) {

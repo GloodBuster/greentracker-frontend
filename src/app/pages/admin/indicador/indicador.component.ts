@@ -70,7 +70,7 @@ export class IndicadorComponent {
     this.visible = false;
   }
   create(indicator: any) {
-    this.indicatorsData.push(indicator);
+    this.indicatorsData.push({...indicator, categories: []});
   }
   visibleEdit: boolean = false;
 
