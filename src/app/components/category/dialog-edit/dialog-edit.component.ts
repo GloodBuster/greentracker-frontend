@@ -34,6 +34,7 @@ import { ConfirmPopupModule } from 'primeng/confirmpopup';
 import { ToastModule } from 'primeng/toast';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { MultiSelectModule } from 'primeng/multiselect';
+import { InputTextareaModule } from 'primeng/inputtextarea';
 
 export function CriterionFormToCriterion(
   criterion: CriterionForm[],
@@ -70,6 +71,7 @@ export function CriterionToCriteriaSubIndex(
     ConfirmPopupModule,
     ToastModule,
     MultiSelectModule,
+    InputTextareaModule,
   ],
   templateUrl: './dialog-edit.component.html',
   styleUrl: './dialog-edit.component.scss',

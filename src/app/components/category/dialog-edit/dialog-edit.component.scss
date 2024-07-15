@@ -102,13 +102,14 @@ h4 {
 }
 
 ::ng-deep .category-dialog .p-dialog-header {
-  padding-left: 6%;
-  padding-right: 6%;
+  padding-left: 3%;
+  padding-right: 3%;
 }
 
 ::ng-deep .category-dialog .p-dialog-content {
-  padding-left: 6%;
-  padding-right: 6%;
+  padding-left: 3%;
+  padding-right: 3%;
+  overflow: hidden;
 }
 
 ::ng-deep .unit-criteria-dropdown-edit {
