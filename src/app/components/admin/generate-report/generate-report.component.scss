@@ -94,6 +94,18 @@ form {
   box-shadow: none;
   border: 1px solid #268729;
   align-self: center;
+
+  .p-dropdown-panel {
+    width: 80vw;
+
+    .p-dropdown-items {
+      .p-dropdown-item {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+    }
+  }
 }
 
 ::ng-deep .report-dialog .p-dialog-content {
