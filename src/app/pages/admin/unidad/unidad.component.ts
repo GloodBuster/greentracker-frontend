@@ -9,7 +9,12 @@ import { FormsModule } from '@angular/forms';
 import { FloatLabelModule } from 'primeng/floatlabel';
 import { DialogCreateComponent } from '../../../components/unidad/dialog-create/dialog-create.component';
 import { DialogEditComponent } from '../../../components/unidad/dialog-edit/dialog-edit.component';
-import { CategoriesData, CategoriesForm, Indicators, UnitsGet } from '../../../interfaces/units/units';
+import {
+  CategoriesData,
+  CategoriesForm,
+  Indicators,
+  UnitsGet,
+} from '../../../interfaces/units/units';
 import { UnitsService } from '../../../services/units/units.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CustomHttpErrorResponse } from '../../../interfaces/responses/error';
@@ -23,27 +28,31 @@ interface PageEvent {
   pageCount?: number;
 }
 
-export function CategoriesDataToForm(categories: CategoriesData[], indicators: Indicators[]): CategoriesForm[] {
-   return categories?.map(
-    (category) => {
-      const indicatorIndex = indicators.find((indicator) =>
-        indicator.categories.includes(category)
-      );
-      return {
-        categoryName: category.name,
-        indicatorIndex: indicatorIndex?.index ?? 0,
-      };
-    }
-  );
+export function CategoriesDataToForm(
+  categories: CategoriesData[],
+  indicators: Indicators[]
+): CategoriesForm[] {
+  return categories?.map((category) => {
+    const indicatorIndex = indicators.find((indicator) =>
+      indicator.categories.some(
+        (indicatorCategory) => category.name === indicatorCategory.name
+      )
+    );
+    return {
+      categoryName: category.name,
+      indicatorIndex: indicatorIndex?.index ?? 0,
+    };
+  });
 }
-export function FormToCategoriesData(categories: CategoriesForm[]): CategoriesData[] {
+export function FormToCategoriesData(
+  categories: CategoriesForm[]
+): CategoriesData[] {
   return categories?.map((category) => {
     return {
       name: category.categoryName,
       criteria: [],
     };
   });
-
 }
 
 @Component({
@@ -61,7 +70,7 @@ export function FormToCategoriesData(categories: CategoriesForm[]): CategoriesDa
     DialogCreateComponent,
     DialogEditComponent,
     PaginatorModule,
-    SkeletonModule
+    SkeletonModule,
   ],
   templateUrl: './unidad.component.html',
   styleUrl: './unidad.component.scss',
@@ -132,7 +141,12 @@ export class UnidadComponent implements OnInit {
 
   hideDialogEdit() {
     this.visibleEdit = false;
-    this.editingUnit = { id: '', name: '', email: '', recommendedCatgeories: []};
+    this.editingUnit = {
+      id: '',
+      name: '',
+      email: '',
+      recommendedCatgeories: [],
+    };
   }
 
   update({ value, id }: { value: UnitsGet; id: string }) {
