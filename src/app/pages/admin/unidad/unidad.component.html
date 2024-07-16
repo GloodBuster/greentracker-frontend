@@ -61,7 +61,7 @@
           <tr>
             <td>{{ unit.name }}</td>
             <td>{{ unit.email }}</td>
-            <td>
+            <td style="display: flex; flex-direction: row; align-items: center;">
               <div class="tag-container">
               <p-tag
                 *ngFor="let categoria of unit.recommendedCategories.slice(0, 1)"
