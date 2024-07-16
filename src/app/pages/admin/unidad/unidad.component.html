@@ -64,14 +64,14 @@
             <td>
               <div class="tag-container">
               <p-tag
-                *ngFor="let categoria of unit.recommendedCategories.slice(0, 3)"
+                *ngFor="let categoria of unit.recommendedCategories.slice(0, 2)"
                 severity="info"
                 class="mr"
                 >{{ categoria.categoryName }}</p-tag
               >
             </div>
-              <span *ngIf="unit.recommendedCategories.length > 3"
-                >+{{ unit.recommendedCategories.length - 3 }}</span
+              <span *ngIf="unit.recommendedCategories.length > 2"
+                >+{{ unit.recommendedCategories.length - 2 }}</span
               >
             </td>
             <td>
