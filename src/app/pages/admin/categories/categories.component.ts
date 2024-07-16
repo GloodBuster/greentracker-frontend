@@ -153,8 +153,8 @@ export class CategoriesComponent {
     });
   }
 
-  allCriteriaEmpty(): boolean {
-    return this.categories.every((category) => category.criteria.length === 0);
+  allCriteriaEmpty(index: number): boolean {
+    return this.categories[index].criteria.length === 0;
   }
 
   showCreate() {
