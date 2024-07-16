@@ -85,7 +85,7 @@
             <th></th>
           </tr>
         </ng-template>
-        <ng-template pTemplate="body" let-category>
+        <ng-template pTemplate="body" let-category let-i="rowIndex">
           <tr>
             <td>{{ indicatorIndex }}</td>
             <td>{{ category.name }}</td>
@@ -103,7 +103,7 @@
               <span *ngIf="category.criteria.length > 2"
                 >+{{ category.criteria.length - 2 }}</span
               >
-              <div *ngIf="allCriteriaEmpty()">No hay criterios asociados</div>
+              <div *ngIf="allCriteriaEmpty(i)">No hay criterios asociados</div>
             </td>
             <td>
               <p-button
