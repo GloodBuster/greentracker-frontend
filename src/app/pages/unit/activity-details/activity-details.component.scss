@@ -143,8 +143,20 @@
 }
 
 ::ng-deep .details-activity-category-dropdown {
-  width: 100%;
+  width: 36vw;
   box-shadow: none;
+
+  .p-dropdown-panel {
+    width: 36vw;
+    .p-dropdown-items {
+      .p-dropdown-item {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+    }
+  }
+
   &:hover {
     border: 1px solid #2d7b30;
   }
