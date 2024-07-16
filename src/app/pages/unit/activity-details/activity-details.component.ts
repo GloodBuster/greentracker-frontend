@@ -357,6 +357,17 @@ export class ActivityDetailsComponent {
         .subscribe({
           next: (response) => {
             const activityId = response.data.id;
+
+            if (
+              this.newEvidences.length === 0 &&
+              this.evidencesToDelete.length === 0 &&
+              this.activityEvidences.length === 0
+            ) {
+              this.toastService.success('Cambios guardados correctamente');
+              this.router.navigate([routes.unitActivities]);
+              return;
+            }
+
             this.toastService.info('Guardando los cambios en las evidencias');
             const newEvidences = this.newEvidences.map((evidence) => {
               if (this.evidences[evidence].value.type === 'image') {
