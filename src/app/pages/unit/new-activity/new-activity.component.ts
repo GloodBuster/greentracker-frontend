@@ -192,6 +192,14 @@ export class NewActivityComponent {
         .subscribe({
           next: (response) => {
             this.toastService.success('Actividad creada con éxito');
+            if (
+              imageEvidences.length === 0 &&
+              linkEvidences.length === 0 &&
+              documentEvidences.length === 0
+            ) {
+              this.router.navigate([routes.unitActivities]);
+              return;
+            }
             this.toastService.info('Cargando evidencias');
 
             const activityId = response.data.id;
