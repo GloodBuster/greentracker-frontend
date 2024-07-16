@@ -93,15 +93,15 @@
             <td>
               <div class="tag-container">
                 <p-tag
-                  *ngFor="let criterion of category.criteria.slice(0, 2)"
+                  *ngFor="let criterion of category.criteria.slice(0, 1)"
                   severity="info"
                 >
                   {{ indicatorIndex }}.{{ criterion.subindex }}
                   {{ criterion.spanishAlias }}
                 </p-tag>
               </div>
-              <span *ngIf="category.criteria.length > 2"
-                >+{{ category.criteria.length - 2 }}</span
+              <span *ngIf="category.criteria.length > 1"
+                >+{{ category.criteria.length - 1 }}</span
               >
               <div *ngIf="allCriteriaEmpty(i)">No hay criterios asociados</div>
             </td>
