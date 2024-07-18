@@ -31,13 +31,10 @@
   </div>
   <p-divider />
   <div class="feedback-tags">
-    <i class="pi pi-thumbs-up" [class.selected]="selectedFeedback === 'approved'" (click)="selectFeedback('approved')" style="font-size: 30px; color: #3ba13f; cursor: pointer; padding: 8px;" pTooltip="Aprobado" 
-    tooltipPosition="bottom" ></i>
-    <img src="../../../../../assets/feedback-icons/icons file-off.svg" [class.selected]="selectedFeedback === 'broken_file'" (click)="selectFeedback('broken_file')" style="width: 48px; height: 48px; cursor: pointer; padding: 5px;" pTooltip="Archivo dañado" 
+    <i class="pi pi-thumbs-up" [class.selected]="approvedFeedback" (click)="selectFeedback('approved')" style="font-size: 30px; color: #3ba13f; cursor: pointer; padding: 8px;" pTooltip="Aprobado" tooltipPosition="bottom" ></i>
+    <img src="../../../../../assets/feedback-icons/icons file-off.svg" [class.selected]="brokenFileFeedback" (click)="selectFeedback('broken_file')" style="width: 48px; height: 48px; cursor: pointer; padding: 5px;" pTooltip="Archivo dañado" tooltipPosition="bottom" />
+    <img src="../../../../../assets/feedback-icons/link.svg" [class.selected]="brokenLinkFeedback" (click)="selectFeedback('broken_link')" style="width: 48px; height: 48px; cursor: pointer;  padding: 5px;" pTooltip="Link dañado" 
     tooltipPosition="bottom" />
-    <img src="../../../../../assets/feedback-icons/link.svg" [class.selected]="selectedFeedback === 'broken_link'" (click)="selectFeedback('broken_link')" style="width: 48px; height: 48px; cursor: pointer;  padding: 5px;" pTooltip="Link dañado" 
-    tooltipPosition="bottom" />
-    <i class="pi pi-phone" [class.selected]="selectedFeedback === 'contact_admin'" (click)="selectFeedback('contact_admin')" style="font-size: 30px; color: #3b82f6; cursor: pointer; padding: 8px;" pTooltip="Contactar a administrador" 
-    tooltipPosition="bottom" ></i>
+    <i class="pi pi-phone" [class.selected]="contactAdminFeedback" (click)="selectFeedback('contact_admin')" style="font-size: 30px; color: #3b82f6; cursor: pointer; padding: 8px;" pTooltip="Contactar a administrador" tooltipPosition="bottom" ></i>
   </div>
 </div>
