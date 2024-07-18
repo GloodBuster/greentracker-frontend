@@ -61,4 +61,7 @@ export class UnitsService {
   getNotifications(): Observable<Response<Activity2[]>> {
     return this.http.get<Response<Activity2[]>>(`${this.BASE_URL}/units/me/activities-feedbacks`);
   }
+  getMe(): Observable<Response<UnitDetails>> {
+    return this.http.get<Response<UnitDetails>>(`${this.BASE_URL}/units/me`);
+  }
 }
