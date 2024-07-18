@@ -21,26 +21,6 @@ export class UnitNotificationsComponent {
   hasFeedbacks(notification: Activity2): boolean {
     return notification.evidences.some(evidence => evidence.feedbacks && evidence.feedbacks.length > 0);
   }
-  isLastFeedbackApproved(notification: { evidences: EvidenceFeedback[] }): boolean {
-    const lastEvidence = notification.evidences[notification.evidences.length - 1];
-    const lastFeedback = lastEvidence.feedbacks[lastEvidence.feedbacks.length - 1];
-    return lastFeedback.feedback === 'approved';
-  }
-  isLastFeedbackBrokenFile(notification: { evidences: EvidenceFeedback[] }): boolean {
-    const lastEvidence = notification.evidences[notification.evidences.length - 1];
-    const lastFeedback = lastEvidence.feedbacks[lastEvidence.feedbacks.length - 1];
-    return lastFeedback.feedback === 'broken_file';
-  }
-  isLastFeedbackBrokenLink(notification: { evidences: EvidenceFeedback[] }): boolean {
-    const lastEvidence = notification.evidences[notification.evidences.length - 1];
-    const lastFeedback = lastEvidence.feedbacks[lastEvidence.feedbacks.length - 1];
-    return lastFeedback.feedback === 'broken_link';
-  }
-  isLastFeedbackContactAdmin(notification: { evidences: EvidenceFeedback[] }): boolean {
-    const lastEvidence = notification.evidences[notification.evidences.length - 1];
-    const lastFeedback = lastEvidence.feedbacks[lastEvidence.feedbacks.length - 1];
-    return lastFeedback.feedback === 'contact_admin';
-  }
   navigateToActivity(id: string){
     this.router.navigate(['/my-activities/', id]);
   }
