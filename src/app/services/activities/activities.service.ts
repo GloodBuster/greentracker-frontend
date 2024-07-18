@@ -132,4 +132,14 @@ export class ActivitiesService {
       `${this.BASE_URL}/activities/${activityId}/feedbacks`
     );
   }
+
+  deleteEvidenceFeedback(
+    activityId: string,
+    evidenceNumber: number,
+    feedback: string
+  ): Observable<Response<Feedback>> {
+    return this.http.delete<Response<Feedback>>(
+      `${this.BASE_URL}/activity/${activityId}/evidence/${evidenceNumber}/feedback/${feedback}`
+    );
+  }
 }
