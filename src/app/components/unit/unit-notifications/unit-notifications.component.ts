@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Activity2 } from '../../../interfaces/activities/activities';
 import { CommonModule } from '@angular/common';
 import { ImageModule } from 'primeng/image';
@@ -11,17 +11,23 @@ import { Router } from '@angular/router';
   standalone: true,
   imports: [CommonModule, ImageModule, DividerModule],
   templateUrl: './unit-notifications.component.html',
-  styleUrl: './unit-notifications.component.scss'
+  styleUrl: './unit-notifications.component.scss',
 })
 export class UnitNotificationsComponent {
   @Input() notifications!: Activity2[];
+  @Output() removeActivity: EventEmitter<string> = new EventEmitter();
+  @Output() closeOverlay: EventEmitter<Event> = new EventEmitter();
 
   constructor(private readonly router: Router) {}
 
   hasFeedbacks(notification: Activity2): boolean {
-    return notification.evidences.some(evidence => evidence.feedbacks && evidence.feedbacks.length > 0);
+    return notification.evidences.some(
+      (evidence) => evidence.feedbacks && evidence.feedbacks.length > 0
+    );
   }
-  navigateToActivity(id: string){
-    this.router.navigate(['/my-activities/', id]);
+  clickNotification(activityId: string, event: Event) {
+    this.closeOverlay.emit(event);
+    this.removeActivity.emit(activityId);
+    this.router.navigate(['/my-activities/', activityId]);
   }
 }

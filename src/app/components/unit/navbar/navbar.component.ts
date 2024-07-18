@@ -1,7 +1,7 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, ViewChild } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { ImageModule } from 'primeng/image';
-import { OverlayPanelModule } from 'primeng/overlaypanel';
+import { OverlayPanel, OverlayPanelModule } from 'primeng/overlaypanel';
 import { NotificationsListComponent } from '../../admin/notifications-list/notifications-list.component';
 import { UnitsService } from '../../../services/units/units.service';
 import { Activity, Activity2 } from '../../../interfaces/activities/activities';
@@ -25,6 +25,8 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
   styleUrl: './navbar.component.scss',
 })
 export class NavbarComponent {
+  @ViewChild('adminNotificationsOverlay')
+  adminNotificationsOverlay!: OverlayPanel;
   notifications: Activity2[] = [];
   toastService = inject(ToastrService);
   isLoading = true;
@@ -48,5 +50,13 @@ export class NavbarComponent {
     return this.notifications.some((notification) =>
       notification.evidences.some((evidence) => evidence.feedbacks.length > 0)
     );
+  }
+  removeActivity(activityId: string) {
+    this.notifications = this.notifications.filter((activity) => {
+      return activity.id !== activityId;
+    });
+  }
+  handleCloseOverlay(event: Event) {
+    this.adminNotificationsOverlay.toggle(event);
   }
 }

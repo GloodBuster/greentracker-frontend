@@ -9,7 +9,7 @@
         <div style="width: 80%; display: flex; flex-direction: column;">
             <p style="font-weight: 500; margin-bottom: 0px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Actividad - {{notification.name}}</p>
             <p>Has recibido una retroalimentación sobre esta actividad</p>
-            <p style="font-weight: 500; margin-top: 0px; color: #3BA13F; margin-bottom: 0px; cursor: pointer;" (click)="navigateToActivity(notification.id)">Ver actividad </p>
+            <p style="font-weight: 500; margin-top: 0px; color: #3BA13F; margin-bottom: 0px; cursor: pointer;" (click)="clickNotification(notification.id, $event)">Ver actividad </p>
         </div>
     </div>
     <p-divider type="solid"/>

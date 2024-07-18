@@ -26,6 +26,8 @@
       <div *ngIf="!isLoading">
         <app-unit-notifications
           [notifications]="notifications"
+          (removeActivity)="removeActivity($event)"
+          (closeOverlay)="handleCloseOverlay($event)"
         ></app-unit-notifications>
       </div>
     </p-overlayPanel>
