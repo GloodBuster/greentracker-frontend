@@ -29,7 +29,17 @@
         optionGroupChildren="categories"
         styleClass="details-activity-category-dropdown"
         [loading]="dropdownLoading"
-      ></p-dropdown>
+      >
+        <ng-template let-category pTemplate="item">
+          <div
+            [className]="
+              isRecommendedCategory(category.name) ? 'recommended-category' : ''
+            "
+          >
+            {{ category.name }}
+          </div>
+        </ng-template>
+      </p-dropdown>
 
       @if (chargingActivity) {
       <p-skeleton height="6rem" />

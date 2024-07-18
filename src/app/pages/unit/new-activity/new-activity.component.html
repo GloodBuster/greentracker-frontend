@@ -26,7 +26,15 @@
         [loading]="dropdownLoading"
       >
         <ng-template let-category pTemplate="item">
-          <div pTooltip="{{ category.helpText }}" tooltipPosition="right">
+          <div
+            pTooltip="{{ category.helpText }}"
+            tooltipPosition="right"
+            [className]="
+              isRecommendedCategory(category.name)
+                ? 'recommended-category'
+                : ''
+            "
+          >
             {{ category.name }}
           </div>
         </ng-template>

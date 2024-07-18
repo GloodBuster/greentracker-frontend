@@ -24,7 +24,7 @@ import { InputTextareaModule } from 'primeng/inputtextarea';
 import { IndicatorService } from '../../../services/indicator/indicator.service';
 import { CustomHttpErrorResponse } from '../../../interfaces/responses/error';
 import { ToastrService } from 'ngx-toastr';
-import { CategoriesData } from '../../../interfaces/units/units';
+import { CategoriesData, UnitDetails } from '../../../interfaces/units/units';
 import { ActivitiesService } from '../../../services/activities/activities.service';
 import { Router } from '@angular/router';
 import { routes } from '../../../routes';
@@ -34,6 +34,7 @@ import { AuthService } from '../../../services/auth/auth.service';
 import { EvidencesService } from '../../../services/evidences/evidences.service';
 import { catchError, forkJoin, of, tap } from 'rxjs';
 import { ChargePeriodService } from '../../../services/charge-period/charge-period.service';
+import { UnitsService } from '../../../services/units/units.service';
 
 @Component({
   selector: 'app-new-activity',
@@ -76,19 +77,27 @@ export class NewActivityComponent {
   loading = false;
   dropdownLoading = false;
   isChargePeriod = true;
+  unit: UnitDetails = {
+    id: '',
+    name: '',
+    email: '',
+    recommendedCategories: [],
+    contributedCategories: [],
+  };
 
   constructor(
     private readonly indicatorService: IndicatorService,
     private readonly toastService: ToastrService,
     private readonly activitiesService: ActivitiesService,
-    private readonly authService: AuthService,
+    private readonly unitsService: UnitsService,
     private readonly evidencesService: EvidencesService,
     private readonly chargePeriodService: ChargePeriodService,
     private readonly router: Router
   ) {
     this.dropdownLoading = true;
-    this.authService.getMe().subscribe({
+    this.unitsService.getMe().subscribe({
       next: (response) => {
+        this.unit = response.data;
         this.unitId = response.data.id;
       },
       error: (error) => {},
@@ -160,6 +169,12 @@ export class NewActivityComponent {
         lastChild.scrollIntoView({ behavior: 'smooth' });
       }
     }, 0);
+  }
+
+  isRecommendedCategory(categoryName: string): boolean {
+    return this.unit.recommendedCategories.some(
+      (category) => category.categoryName === categoryName
+    );
   }
 
   createActivity() {

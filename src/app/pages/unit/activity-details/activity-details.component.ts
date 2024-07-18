@@ -24,7 +24,7 @@ import { InputTextareaModule } from 'primeng/inputtextarea';
 import { IndicatorService } from '../../../services/indicator/indicator.service';
 import { CustomHttpErrorResponse } from '../../../interfaces/responses/error';
 import { ToastrService } from 'ngx-toastr';
-import { CategoriesData } from '../../../interfaces/units/units';
+import { CategoriesData, UnitDetails } from '../../../interfaces/units/units';
 import { ActivitiesService } from '../../../services/activities/activities.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { routes } from '../../../routes';
@@ -46,6 +46,7 @@ import { catchError, forkJoin, of, tap } from 'rxjs';
 import { SkeletonModule } from 'primeng/skeleton';
 import { ChargePeriodService } from '../../../services/charge-period/charge-period.service';
 import { TooltipModule } from 'primeng/tooltip';
+import { UnitsService } from '../../../services/units/units.service';
 
 const removeCriteriaFromIndicatorCategories = (
   indicators: IndicatorDetails[]
@@ -118,12 +119,19 @@ export class ActivityDetailsComponent {
   chargingEvidences = false;
   chargingActivity = false;
   isChargePeriod = true;
+  unit: UnitDetails = {
+    id: '',
+    name: '',
+    email: '',
+    recommendedCategories: [],
+    contributedCategories: [],
+  };
 
   constructor(
     private readonly indicatorService: IndicatorService,
     private readonly toastService: ToastrService,
     private readonly activitiesService: ActivitiesService,
-    private readonly authService: AuthService,
+    private readonly unitsService: UnitsService,
     private readonly evidencesService: EvidencesService,
     private readonly chargePeriodService: ChargePeriodService,
     private readonly router: Router,
@@ -132,8 +140,9 @@ export class ActivityDetailsComponent {
   ) {
     this.dropdownLoading = true;
     this.chargingActivity = true;
-    this.authService.getMe().subscribe({
+    this.unitsService.getMe().subscribe({
       next: (response) => {
+        this.unit = response.data;
         this.unitId = response.data.id;
       },
       error: (error) => {},
@@ -208,6 +217,12 @@ export class ActivityDetailsComponent {
       },
       error: (error: CustomHttpErrorResponse) => {},
     });
+  }
+
+  isRecommendedCategory(categoryName: string): boolean {
+    return this.unit.recommendedCategories.some(
+      (category) => category.categoryName === categoryName
+    );
   }
 
   async chargeEvidences(
