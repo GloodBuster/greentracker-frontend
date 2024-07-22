@@ -167,8 +167,9 @@ export class DialogEditComponent {
             this.toastService.success('Indicador editado con éxito');
             this.indicadorForm.reset();
           },
-          error: (error: ErrorResponse) => {
-            this.toastService.error(error.message);
+          error: (error: CustomHttpErrorResponse) => {
+            this.toastService.error(error.error.message);
+            this.loading = false;
           },
         });
     } else {

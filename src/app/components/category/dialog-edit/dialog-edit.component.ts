@@ -157,7 +157,11 @@ export class DialogEditComponent {
             this.hide();
           },
           error: (error: CustomHttpErrorResponse) => {
-            this.toastService.error('Ha ocurrido un error inesperado');
+            if (error.error.statusCode === 500) {
+              this.toastService.error('Ha ocurrido un error inesperado');
+            } else {
+              this.toastService.error(error.error.message);
+            }
             this.loading = false;
           },
         });

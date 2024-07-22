@@ -152,8 +152,11 @@ export class DialogEditComponent implements OnChanges {
           this.loading = false;
         },
         error: (error: CustomHttpErrorResponse) => {
-          this.toastService.error('Error al actualizar la unidad');
-          console.error('Error al actualizar la unidad:', error);
+          if (error.error.statusCode === 500) {
+            this.toastService.error('Ha ocurrido un error inesperado');
+          } else {
+            this.toastService.error(error.error.message);
+          }
           this.loading = false;
         },
       });

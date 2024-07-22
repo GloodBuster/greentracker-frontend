@@ -69,7 +69,7 @@ export class DialogEditComponent {
 
   constructor(
     private readonly route: ActivatedRoute,
-    private confirmationService: ConfirmationService,
+    private confirmationService: ConfirmationService
   ) {
     this.route.queryParams.subscribe((params) => {
       this.indicatorIndex = +params['index'];
@@ -123,8 +123,12 @@ export class DialogEditComponent {
             this.hide();
           },
           error: (error: CustomHttpErrorResponse) => {
+            if (error.error.statusCode === 500) {
+              this.toastService.error('Ha ocurrido un error inesperado');
+            } else {
+              this.toastService.error(error.error.message);
+            }
             this.loading = false;
-            this.toastService.error('Ha ocurrido un error inesperado');
           },
         });
     }

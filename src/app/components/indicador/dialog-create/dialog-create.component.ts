@@ -14,7 +14,7 @@ import { PanelModule } from 'primeng/panel';
 import { ToastrService } from 'ngx-toastr';
 import { IndicatorService } from '../../../services/indicator/indicator.service';
 import { Indicator } from '../../../interfaces/indicator/indicator';
-import { ErrorResponse } from '../../../interfaces/responses/error';
+import { CustomHttpErrorResponse, ErrorResponse } from '../../../interfaces/responses/error';
 import { InputNumberModule } from 'primeng/inputnumber';
 
 @Component({
@@ -71,8 +71,8 @@ export class DialogCreateComponent {
           this.indicatorForm.reset();
           this.loading = false;
         },
-        error: (error: ErrorResponse) => {
-          this.toastService.error(error.message);
+        error: (error: CustomHttpErrorResponse) => {
+          this.toastService.error(error.error.message);
           this.loading = false;
         },
       });
