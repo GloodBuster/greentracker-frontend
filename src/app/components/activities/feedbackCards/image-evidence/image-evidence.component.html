@@ -22,7 +22,7 @@
       </p>
       <p class="text" style="margin-bottom: 0px">Enlace</p>
       <p-inputGroup>
-        <input pInputText #inputValue value="{{evidence.link}}" [style]="{ width: '100%'}" disabled/>
+        <input pInputText #inputValue value="{{evidence.linkToRelatedResource ?? evidence.link}}" [style]="{ width: '100%'}" disabled/>
         <p-inputGroupAddon>
           <i class="pi pi-copy" (click)="copyValue(inputValue)"></i>
         </p-inputGroupAddon>
