@@ -43,4 +43,10 @@
     gap: 10px;
     flex-wrap: wrap;
   }
+
+  .categories-column {
+    > * {
+      display: inline;
+    }
+  }
   

@@ -10,12 +10,11 @@
       </button>
     </header>
     <div class="table-container">
-        <p-table
+      <p-table
         styleClass="p-datatable-gridlines"
-        
-        [value]="[1,2,3,4,5,6,7,8,9,10]"
-       *ngIf="loadingItems"
-       scrollable="false"
+        [value]="[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]"
+        *ngIf="loadingItems"
+        scrollable="false"
       >
         <ng-template pTemplate="header">
           <tr>
@@ -28,16 +27,16 @@
         <ng-template pTemplate="body" let-unit>
           <tr>
             <td>
-              <p-skeleton height="25px"/>
+              <p-skeleton height="25px" />
             </td>
             <td>
-              <p-skeleton height="25px"/>
+              <p-skeleton height="25px" />
             </td>
             <td>
-              <p-skeleton height="25px"/>
+              <p-skeleton height="25px" />
             </td>
             <td>
-              <p-skeleton height="25px"/>
+              <p-skeleton height="25px" />
             </td>
           </tr>
         </ng-template>
@@ -61,24 +60,18 @@
           <tr>
             <td>{{ unit.name }}</td>
             <td>{{ unit.email }}</td>
-            <td style="display: flex; flex-direction: row; align-items: center;">
+            <td class="categories-column">
               <div class="tag-container">
-              <p-tag
-                *ngFor="let categoria of unit.recommendedCategories.slice(0, 1)"
-                severity="info"
-                class="mr"
-                >{{ categoria.categoryName }}</p-tag
-              >
-            </div>
+                <p-tag severity="info" class="mr">{{
+                  unit.recommendedCategories[0].categoryName
+                }}</p-tag>
+              </div>
               <span *ngIf="unit.recommendedCategories.length > 1"
                 >+{{ unit.recommendedCategories.length - 1 }}</span
               >
             </td>
             <td>
-              <button
-                class="p-button edit-button"
-                (click)="view(unit)"
-              >
+              <button class="p-button edit-button" (click)="view(unit)">
                 <i class="pi pi-eye" style="color: #1a5fbf"></i>
               </button>
               <button
